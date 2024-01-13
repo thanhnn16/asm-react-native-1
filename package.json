@@ -10,8 +10,10 @@
     "test": "jest"
   },
   "dependencies": {
+    "lottie-react-native": "^6.5.1",
     "react": "18.2.0",
-    "react-native": "0.73.2"
+    "react-native": "0.73.2",
+    "react-native-bootsplash": "^5.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
