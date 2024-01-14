@@ -1,6 +1,7 @@
-import {StyleSheet, Text, TextProps} from 'react-native';
+import { Dimensions, StyleSheet, Text, TextProps } from "react-native";
 import React from 'react';
 
+const screenWidth = Dimensions.get('window').width;
 export const customFonts = StyleSheet.create({
   bold: {
     fontWeight: 'bold',
@@ -167,45 +168,95 @@ export const textStyles = StyleSheet.create({
 });
 
 export const onboardingStyles = StyleSheet.create({
-  container: {
+  onboardingScreen: {
     flex: 1,
     backgroundColor: '#fff',
   },
+  container: {
+    flex: 3,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    width: screenWidth,
+    paddingTop: 50,
+    paddingHorizontal: 10,
+  },
+  containerText: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    width: screenWidth,
+    paddingTop: 50,
+    paddingHorizontal: 10,
+  },
   title: {
-    ...textStyles.regular,
-    fontSize: 24,
-    fontWeight: '700',
-    margin: 20,
-    lineHeight: 30,
-    color: '#333',
+    ...textStyles.bold,
+    fontSize: 18,
+    color: '#374151',
     textAlign: 'center',
-    fontFamily: 'Faustina',
+    marginTop: 30,
   },
   text: {
     ...textStyles.regular,
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '400',
-    margin: 20,
-    lineHeight: 30,
-    color: '#333',
+    color: '#6B7280',
     textAlign: 'center',
-    fontFamily: 'Faustina',
     alignSelf: 'center',
+    marginTop: 8,
+    marginHorizontal: 40,
+    fontFamily: 'Faustina-VariableFont_wght',
   },
   button: {
-    margin: 20,
-    padding: 20,
-    borderRadius: 10,
-    backgroundColor: '#007bff',
+    marginHorizontal: 40,
+    marginTop: 24,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 78,
+    backgroundColor: '#1C2A3A',
+    height: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
+    display: 'flex',
   },
   buttonText: {
-    ...textStyles.regular,
-    fontSize: 18,
-    fontWeight: '700',
-    lineHeight: 30,
+    ...textStyles.medium,
+    fontSize: 16,
     color: '#fff',
     textAlign: 'center',
-    fontFamily: 'Faustina',
+    fontFamily: 'Faustina-VariableFont_wght',
+    alignSelf: 'center',
+  },
+  indicatorContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 30,
+  },
+  indicatorDisabled: {
+    backgroundColor: '#9B9B9B',
+    width: 8,
+    height: 8,
+    borderRadius: 40,
+    marginHorizontal: 3,
+  },
+  indicatorActive: {
+    backgroundColor: '#26232F',
+    width: 30,
+    height: 8,
+    borderRadius: 40,
+    marginHorizontal: 3,
+  },
+  skipText: {
+    ...textStyles.regular,
+    fontSize: 14,
+    fontWeight: '400',
+    lineHeight: 30,
+    color: '#6B7280',
+    textAlign: 'center',
+    alignSelf: 'center',
+    marginTop: 32,
+    marginHorizontal: 40,
+    fontFamily: 'Faustina-VariableFont_wght',
   },
 });
 
@@ -222,7 +273,7 @@ export const styles = StyleSheet.create({
     lineHeight: 30,
     color: '#333',
     textAlign: 'center',
-    fontFamily: 'Faustina',
+    fontFamily: 'Faustina-VariableFont_wght',
   },
 });
 

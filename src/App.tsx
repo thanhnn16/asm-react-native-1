@@ -67,7 +67,7 @@ const App = () => {
           }}
         />
         <Stack.Screen
-          name="Welcome"
+          name="WelcomeScreen"
           component={WelcomeScreen}
           options={{
             headerShown: false,

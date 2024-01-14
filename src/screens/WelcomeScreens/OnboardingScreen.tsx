@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from 'react';
-
+import React, {useCallback, useRef, useState} from 'react';
 import {
   Dimensions,
   Text,
@@ -9,85 +8,95 @@ import {
   Pressable,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {NativeSyntheticEvent, NativeScrollEvent} from 'react-native';
 import LottieView from 'lottie-react-native';
 import {onboardingStyles} from '../../components/MyStyles.tsx';
 
 const {width, height} = Dimensions.get('window');
-const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 export const Onboarding = () => {
   const navigation = useNavigation();
-  const [opacity] = React.useState(() => new Animated.Value(0));
-  const [translateY] = React.useState(() => new Animated.Value(100));
-  const [translateX] = React.useState(() => new Animated.Value(100));
-  const scrollX = React.useRef(new Animated.Value(0)).current;
-
-  const totalPages = onboardingData.length;
+  const scrollX = useRef(new Animated.Value(0)).current;
   let [currentIndex, setCurrentIndex] = useState(0);
-
-  const [buttonText, setButtonText] = useState('Tiếp tục');
-
-  useEffect(() => {
-    Animated.timing(opacity, {
-      useNativeDriver: true,
-      toValue: 1,
-      duration: 1000,
-      delay: 500,
-    }).start();
-  }, [opacity]);
-
-  useEffect(() => {
-    Animated.timing(translateY, {
-      useNativeDriver: true,
-      toValue: 0,
-      duration: 1000,
-      delay: 500,
-    }).start();
-  }, [translateY]);
-
-  useEffect(() => {
-    Animated.timing(translateX, {
-      useNativeDriver: true,
-      toValue: 0,
-      duration: 1000,
-      delay: 500,
-    }).start();
-  }, [translateX]);
+  const totalPages = onboardingData.length;
+  const flatListRef = useRef<FlatList>(null);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const AnimatedFlatList = Animated.createAnimatedComponent(
+    FlatList<OnboardingItemProps>,
+  );
 
   const onScrollHandler = Animated.event(
     [{nativeEvent: {contentOffset: {x: scrollX}}}],
-    {useNativeDriver: true},
+    {
+      useNativeDriver: true,
+      listener: (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+        if (!isScrolling) {
+          let newIndex: number;
+          newIndex = Math.round(event.nativeEvent.contentOffset.x / width);
+          setCurrentIndex(newIndex);
+        }
+      },
+    },
   );
 
-  const onPressHandler = () => {
-    if ((currentIndex = totalPages - 1)) {
-      setButtonText('Bắt đầu');
-      // navigation.navigate('Welcome');
-      console.log('navigate to Welcome');
+  const onPressHandler = useCallback(() => {
+    if (currentIndex === totalPages - 1) {
+      // @ts-ignore
+      navigation.navigate('WelcomeScreen');
     } else {
-      setCurrentIndex(currentIndex + 1);
+      const newIndex = currentIndex + 1;
+      setIsScrolling(true);
+      flatListRef.current?.scrollToOffset({
+        animated: true,
+        offset: newIndex * width,
+      });
+      setCurrentIndex(newIndex);
+      setTimeout(() => setIsScrolling(false), 300);
     }
-  };
+  }, [currentIndex, totalPages, navigation]);
 
   return (
-    <View>
+    <View style={onboardingStyles.onboardingScreen}>
       <AnimatedFlatList
+        ref={flatListRef}
         data={onboardingData}
-        renderItem={onboardingItem}
+        renderItem={({item}: {item: OnboardingItemProps}) =>
+          onboardingItem(item)
+        }
+        showsHorizontalScrollIndicator={false}
         horizontal={true}
-        showsHorizontalScrollIndicator={true}
         keyExtractor={item => {
           return item.id;
         }}
-        bounces={true}
         pagingEnabled={true}
-        bouncesZoom={true}
         scrollEventThrottle={16}
         onScroll={onScrollHandler}
       />
-      <Pressable style={onboardingStyles.button} onPress={onPressHandler}>
-        <Text style={onboardingStyles.buttonText}>{buttonText}</Text>
-      </Pressable>
+      {/* eslint-disable-next-line react-native/no-inline-styles */}
+      <View style={{flex: 1.5}}>
+        <Pressable style={onboardingStyles.button} onPress={onPressHandler}>
+          <Text style={onboardingStyles.buttonText}>
+            {currentIndex === totalPages - 1 ? 'Bắt đầu' : 'Tiếp tục'}
+          </Text>
+        </Pressable>
+        <View style={onboardingStyles.indicatorContainer}>
+          {onboardingData.map((_item, index) => {
+            return (
+              <View
+                key={index}
+                style={
+                  index === currentIndex
+                    ? onboardingStyles.indicatorActive
+                    : onboardingStyles.indicatorDisabled
+                }
+              />
+            );
+          })}
+        </View>
+        <Text style={onboardingStyles.skipText} onPress={onPressHandler}>
+          Bỏ qua
+        </Text>
+      </View>
     </View>
   );
 };
@@ -123,17 +132,29 @@ const onboardingData = [
   },
 ];
 
-const onboardingItem = ({item}: any) => {
+type OnboardingItemProps = {
+  id: string;
+  title: string;
+  description: string;
+  animation: any;
+};
+
+const onboardingItem = (item: OnboardingItemProps) => {
   return (
-    <View>
+    <View style={onboardingStyles.container}>
       <LottieView
         source={item.animation}
         autoPlay
         loop
-        style={{width: width - 20, height: height / 2}}
+        style={{
+          width: width - 20,
+          height: height / 2,
+        }}
       />
-      <Text style={onboardingStyles.text}>{item.title}</Text>
-      <Text style={onboardingStyles.text}>{item.description}</Text>
+      <View style={onboardingStyles.containerText}>
+        <Text style={onboardingStyles.title}>{item.title}</Text>
+        <Text style={onboardingStyles.text}>{item.description}</Text>
+      </View>
     </View>
   );
 };

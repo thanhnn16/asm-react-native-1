@@ -1,0 +1,13 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/Faustina-Italic-VariableFont_wght.ttf",
+      "sha1": "cab47ee4a0c2739a380ab2e6aa02e40ac696e922"
+    },
+    {
+      "path": "src/assets/fonts/Faustina-VariableFont_wght.ttf",
+      "sha1": "0268b228fa203c1126fc4a2b8f37040d192708f6"
+    }
+  ]
+}
