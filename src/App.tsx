@@ -1,6 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import { useNavigation } from '@react-navigation/native';
-
 import {
   Animated,
   Dimensions,
@@ -10,7 +8,20 @@ import {
   Text,
   View,
 } from 'react-native';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import BootSplash from 'react-native-bootsplash';
+import {
+  NavigationContainer,
+  useNavigation,
+  NavigationProp,
+} from '@react-navigation/native';
+
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {WelcomeScreen} from './screens/WelcomeScreens/WelcomeScreen.tsx';
+import {Onboarding} from './screens/WelcomeScreens/OnboardingScreen.tsx';
+import {MyText, textStyles} from './components/MyStyles.tsx';
 
 const styles = StyleSheet.create({
   container: {
@@ -29,33 +40,66 @@ const styles = StyleSheet.create({
   },
 });
 
+const Stack = createNativeStackNavigator();
+
+type RootStackParamList = {
+  SplashScreen: undefined;
+  Welcome: undefined;
+  Onboarding: undefined;
+};
+
 const App = () => {
-  const [visible, setVisible] = useState(true);
-
   useEffect(() => {
-    // set transparent status bar
     StatusBar.setBarStyle('dark-content');
-
     if (Platform.OS === 'android') {
       StatusBar.setBackgroundColor('transparent');
       StatusBar.setTranslucent(true);
     }
   }, []);
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="SplashScreen"
+          component={SplashScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Welcome"
+          component={WelcomeScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Onboarding"
+          component={Onboarding}
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+const SplashScreen = () => {
+  const [visible, setVisible] = useState(true);
 
   return (
-    <>
-      <View style={styles.container}>
-        <Text style={styles.text}>Bông Tuyết Trắng</Text>
-        <Text style={styles.text}>Không ngại nắng mưa</Text>
-        {visible && (
-          <AnimatedBootSplash
-            onAnimationEnd={() => {
-              setVisible(true);
-            }}
-          />
-        )}
-      </View>
-    </>
+    <View style={styles.container}>
+      <Text style={styles.text}>Bông Tuyết Trắng</Text>
+      <Text style={styles.text}>Không ngại nắng mưa</Text>
+      {visible && (
+        <AnimatedBootSplash
+          onAnimationEnd={() => {
+            setVisible(true);
+          }}
+        />
+      )}
+    </View>
   );
 };
 
@@ -64,7 +108,7 @@ type Props = {
 };
 
 const AnimatedBootSplash = ({onAnimationEnd}: Props) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [opacity] = useState(() => new Animated.Value(1));
   const [translateY] = useState(() => new Animated.Value(0));
   const {container, logo /*, brand */} = BootSplash.useHideAnimation({
@@ -80,7 +124,7 @@ const AnimatedBootSplash = ({onAnimationEnd}: Props) => {
     animate: () => {
       const {height} = Dimensions.get('window');
 
-      Animated.stagger(700, [
+      Animated.stagger(850, [
         Animated.spring(translateY, {
           useNativeDriver: true,
           toValue: -50,
@@ -94,11 +138,24 @@ const AnimatedBootSplash = ({onAnimationEnd}: Props) => {
       Animated.timing(opacity, {
         useNativeDriver: true,
         toValue: 0,
-        duration: 1500,
-        delay: 900,
+        duration: 700,
+        delay: 1000,
       }).start(() => {
         onAnimationEnd();
-        navigation.navigate('Welcome');
+        navigation.navigate('Onboarding');
+
+        // const getData = async () => {
+        //   try {
+        //     const value = await AsyncStorage.getItem('onboarding');
+        //     if (value !== null) {
+        //       navigation.navigate('Welcome');
+        //     }
+        //   } catch (e) {
+        //     console.log(e);
+        //     navigation.navigate('Onboarding');
+        //   }
+        // };
+        // getData().then(r => r);
       });
     },
   });
@@ -109,8 +166,6 @@ const AnimatedBootSplash = ({onAnimationEnd}: Props) => {
         {...logo}
         style={[logo.style, {transform: [{translateY}]}]}
       />
-
-      {/* <Animated.Image {...brand} style={[brand.style, { opacity }]} /> */}
     </Animated.View>
   );
 };
