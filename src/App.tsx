@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
   Animated,
-  Dimensions,
   Platform,
   StatusBar,
   StyleSheet,
@@ -30,13 +29,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  text: {
+  textBrand: {
+    ...textStyles.regular,
     fontSize: 24,
     fontWeight: '700',
     margin: 20,
     lineHeight: 30,
     color: '#333',
     textAlign: 'center',
+    fontFamily: 'Faustina-VariableFont_wght',
+  },
+  textSlogan: {
+    ...textStyles.regular,
+    fontSize: 24,
+    fontWeight: '700',
+    margin: 20,
+    lineHeight: 30,
+    color: '#333',
+    textAlign: 'center',
+    fontFamily: 'Faustina-VariableFont_wght',
   },
 });
 
@@ -44,7 +55,7 @@ const Stack = createNativeStackNavigator();
 
 type RootStackParamList = {
   SplashScreen: undefined;
-  Welcome: undefined;
+  WelcomeScreen: undefined;
   Onboarding: undefined;
 };
 
@@ -90,8 +101,8 @@ const SplashScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Bông Tuyết Trắng</Text>
-      <Text style={styles.text}>Không ngại nắng mưa</Text>
+      <Text style={styles.textBrand}>Bông Tuyết Trắng</Text>
+      <Text style={styles.textSlogan}>Không ngại nắng mưa</Text>
       {visible && (
         <AnimatedBootSplash
           onAnimationEnd={() => {
@@ -111,51 +122,55 @@ const AnimatedBootSplash = ({onAnimationEnd}: Props) => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [opacity] = useState(() => new Animated.Value(1));
   const [translateY] = useState(() => new Animated.Value(0));
-  const {container, logo /*, brand */} = BootSplash.useHideAnimation({
+  const {container, logo} = BootSplash.useHideAnimation({
     manifest: require('../src/assets/images/bootsplash/bootsplash_manifest.json'),
     logo: require('../src/assets/images/bootsplash/bootsplash_logo.png'),
-    // darkLogo: require("../assets/bootsplash_dark_logo.png"),
-    // brand: require("../assets/bootsplash_brand.png"),
-    // darkBrand: require("../assets/bootsplash_dark_brand.png"),
 
     statusBarTranslucent: true,
     navigationBarTranslucent: false,
 
     animate: () => {
-      const {height} = Dimensions.get('window');
-
-      Animated.stagger(850, [
+      Animated.stagger(1050, [
         Animated.spring(translateY, {
           useNativeDriver: true,
-          toValue: -50,
+          toValue: 0,
         }),
         Animated.spring(translateY, {
           useNativeDriver: true,
-          toValue: height,
+          toValue: -150,
         }),
       ]).start();
 
       Animated.timing(opacity, {
         useNativeDriver: true,
         toValue: 0,
-        duration: 700,
-        delay: 1000,
+        duration: 1500,
+        delay: 1100,
       }).start(() => {
         onAnimationEnd();
-        navigation.navigate('Onboarding');
-
-        // const getData = async () => {
-        //   try {
-        //     const value = await AsyncStorage.getItem('onboarding');
-        //     if (value !== null) {
-        //       navigation.navigate('Welcome');
-        //     }
-        //   } catch (e) {
-        //     console.log(e);
-        //     navigation.navigate('Onboarding');
-        //   }
-        // };
-        // getData().then(r => r);
+        const getData = async () => {
+          try {
+            const value = await AsyncStorage.getItem('onboarding');
+            if (value !== null) {
+              navigation.reset({
+                index: 0,
+                routes: [{name: 'WelcomeScreen'}],
+              });
+            } else {
+              navigation.reset({
+                index: 0,
+                routes: [{name: 'Onboarding'}],
+              });
+            }
+          } catch (e) {
+            console.log(e);
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'Onboarding'}],
+            });
+          }
+        };
+        getData();
       });
     },
   });

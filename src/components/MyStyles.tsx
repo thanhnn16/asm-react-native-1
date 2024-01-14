@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet, Text, TextProps } from "react-native";
+import {Dimensions, StyleSheet, Text, TextProps} from 'react-native';
 import React from 'react';
 
 const screenWidth = Dimensions.get('window').width;
@@ -165,6 +165,77 @@ export const textStyles = StyleSheet.create({
   h9: {
     ...sizes.h9,
   },
+  center: {
+    textAlign: 'center',
+  },
+  left: {
+    textAlign: 'left',
+  },
+  right: {
+    textAlign: 'right',
+  },
+});
+
+export const inputStyles = StyleSheet.create({
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F9FAFB',
+    borderWidth: 1,
+    borderColor: '#D1D5DB',
+    borderRadius: 8,
+    height: 48,
+    marginHorizontal: 24,
+  },
+  input: {
+    flex: 1,
+    height: 48,
+    fontSize: 16,
+    paddingHorizontal: 8,
+    fontFamily: 'Faustina-VariableFont_wght',
+  },
+  icon: {
+    width: 24,
+    height: 24,
+    marginStart: 14,
+    marginEnd: 8,
+  },
+});
+export const marginStyles = StyleSheet.create({
+  mt32: {
+    marginTop: 32,
+  },
+  mt24: {
+    marginTop: 24,
+  },
+  mt16: {
+    marginTop: 16,
+  },
+  mt8: {
+    marginTop: 8,
+  },
+  mt4: {
+    marginTop: 4,
+  },
+  mh32: {
+    marginHorizontal: 32,
+  },
+  mh24: {
+    marginHorizontal: 24,
+  },
+  mh16: {
+    marginHorizontal: 16,
+  },
+  mh8: {
+    marginHorizontal: 8,
+  },
+});
+
+export const alignStyles = StyleSheet.create({
+  center: {
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
 });
 
 export const onboardingStyles = StyleSheet.create({
@@ -177,7 +248,7 @@ export const onboardingStyles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     width: screenWidth,
-    paddingTop: 50,
+    paddingTop: 20,
     paddingHorizontal: 10,
   },
   containerText: {
@@ -207,7 +278,7 @@ export const onboardingStyles = StyleSheet.create({
     fontFamily: 'Faustina-VariableFont_wght',
   },
   button: {
-    marginHorizontal: 40,
+    marginHorizontal: 24,
     marginTop: 24,
     paddingHorizontal: 20,
     paddingVertical: 12,
@@ -260,6 +331,17 @@ export const onboardingStyles = StyleSheet.create({
   },
 });
 
+export const imageStyles = StyleSheet.create({
+  topLogo: {
+    width: 180,
+    height: 110,
+    marginTop: 64,
+    marginBottom: 32,
+    objectFit: 'contain',
+    alignSelf: 'center',
+  },
+});
+
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -274,6 +356,39 @@ export const styles = StyleSheet.create({
     color: '#333',
     textAlign: 'center',
     fontFamily: 'Faustina-VariableFont_wght',
+  },
+});
+
+export const customWidth = StyleSheet.create({
+  w100: {
+    width: '100%',
+  },
+  w90: {
+    width: '90%',
+  },
+  w80: {
+    width: '80%',
+  },
+  w70: {
+    width: '70%',
+  },
+  w60: {
+    width: '60%',
+  },
+  w50: {
+    width: '50%',
+  },
+  w40: {
+    width: '40%',
+  },
+  w30: {
+    width: '30%',
+  },
+  w20: {
+    width: '20%',
+  },
+  w10: {
+    width: '10%',
   },
 });
 

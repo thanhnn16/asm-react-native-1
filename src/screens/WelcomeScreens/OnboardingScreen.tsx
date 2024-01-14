@@ -8,7 +8,6 @@ import {
   Pressable,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {NativeSyntheticEvent, NativeScrollEvent} from 'react-native';
 import LottieView from 'lottie-react-native';
 import {onboardingStyles} from '../../components/MyStyles.tsx';
 
@@ -29,9 +28,10 @@ export const Onboarding = () => {
     [{nativeEvent: {contentOffset: {x: scrollX}}}],
     {
       useNativeDriver: true,
-      listener: (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      listener: event => {
         if (!isScrolling) {
           let newIndex: number;
+          // @ts-ignore
           newIndex = Math.round(event.nativeEvent.contentOffset.x / width);
           setCurrentIndex(newIndex);
         }
@@ -40,6 +40,7 @@ export const Onboarding = () => {
   );
 
   const onPressHandler = useCallback(() => {
+    console.log(currentIndex, totalPages);
     if (currentIndex === totalPages - 1) {
       // @ts-ignore
       navigation.navigate('WelcomeScreen');
@@ -51,6 +52,7 @@ export const Onboarding = () => {
         offset: newIndex * width,
       });
       setCurrentIndex(newIndex);
+      console.log('currentIndex', currentIndex);
       setTimeout(() => setIsScrolling(false), 300);
     }
   }, [currentIndex, totalPages, navigation]);
@@ -60,9 +62,7 @@ export const Onboarding = () => {
       <AnimatedFlatList
         ref={flatListRef}
         data={onboardingData}
-        renderItem={({item}: {item: OnboardingItemProps}) =>
-          onboardingItem(item)
-        }
+        renderItem={({item}) => onboardingItem(item)}
         showsHorizontalScrollIndicator={false}
         horizontal={true}
         keyExtractor={item => {
@@ -93,7 +93,12 @@ export const Onboarding = () => {
             );
           })}
         </View>
-        <Text style={onboardingStyles.skipText} onPress={onPressHandler}>
+        <Text
+          style={onboardingStyles.skipText}
+          onPress={() => {
+            // @ts-ignore
+            navigation.navigate('WelcomeScreen');
+          }}>
           Bỏ qua
         </Text>
       </View>

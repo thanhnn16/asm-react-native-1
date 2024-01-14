@@ -32,7 +32,12 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Faustina-Italic-VariableFont_wght.ttf</string>
+		<string>Faustina-VariableFont_wght.ttf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>BootSplash.storyboard</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -47,10 +52,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Faustina-Italic-VariableFont_wght.ttf</string>
-		<string>Faustina-VariableFont_wght.ttf</string>
-	</array>
 </dict>
 </plist>
