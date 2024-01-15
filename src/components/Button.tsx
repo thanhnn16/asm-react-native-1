@@ -4,19 +4,21 @@ import {Pressable, PressableProps, Text} from 'react-native';
 
 export const MyButton = ({
   btnText,
+  onPress,
   ...props
 }: {
   btnText: string;
-  props: PressableProps;
-}) => {
+  onPress: () => void;
+} & PressableProps) => {
   return (
     <Pressable
       style={({pressed}) => [
         {
-          backgroundColor: pressed ? '#2a3a4d' : '#3c444b',
+          backgroundColor: pressed ? 'blue' : '#3c444b',
         },
         onboardingStyles.button,
       ]}
+      onPress={onPress}
       {...props}
       android_ripple={{
         color: 'rgba(255,255,255,0.26)',

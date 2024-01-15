@@ -18,9 +18,10 @@ import {
 } from '@react-navigation/native';
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {WelcomeScreen} from './screens/WelcomeScreens/WelcomeScreen.tsx';
+import {RegisterScreen} from './screens/AuthScreens/RegisterScreens/RegisterScreen.tsx';
 import {Onboarding} from './screens/WelcomeScreens/OnboardingScreen.tsx';
 import {MyText, textStyles} from './components/MyStyles.tsx';
+import {OTPSignUpScreen} from './screens/AuthScreens/RegisterScreens/OTPSignUpScreen.tsx';
 
 const styles = StyleSheet.create({
   container: {
@@ -33,18 +34,14 @@ const styles = StyleSheet.create({
     ...textStyles.regular,
     fontSize: 24,
     fontWeight: '700',
-    margin: 20,
-    lineHeight: 30,
+    margin: 12,
     color: '#333',
     textAlign: 'center',
     fontFamily: 'Faustina-VariableFont_wght',
   },
   textSlogan: {
     ...textStyles.regular,
-    fontSize: 24,
-    fontWeight: '700',
-    margin: 20,
-    lineHeight: 30,
+    fontSize: 18,
     color: '#333',
     textAlign: 'center',
     fontFamily: 'Faustina-VariableFont_wght',
@@ -55,8 +52,9 @@ const Stack = createNativeStackNavigator();
 
 type RootStackParamList = {
   SplashScreen: undefined;
-  WelcomeScreen: undefined;
+  RegisterScreen: undefined;
   Onboarding: undefined;
+  OTPSignUpScreen: undefined;
 };
 
 const App = () => {
@@ -79,7 +77,7 @@ const App = () => {
         />
         <Stack.Screen
           name="WelcomeScreen"
-          component={WelcomeScreen}
+          component={RegisterScreen}
           options={{
             headerShown: false,
           }}
@@ -91,6 +89,17 @@ const App = () => {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="OTPSignUpScreen"
+          component={OTPSignUpScreen}
+          options={{
+            headerShown: true,
+            title: '',
+            headerBackTitleVisible: false,
+            headerTransparent: true,
+            // headerBackImageSource: require('../src/assets/images/icons/back-icon.png'),
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -98,7 +107,6 @@ const App = () => {
 
 const SplashScreen = () => {
   const [visible, setVisible] = useState(true);
-
   return (
     <View style={styles.container}>
       <Text style={styles.textBrand}>Bông Tuyết Trắng</Text>
@@ -106,7 +114,7 @@ const SplashScreen = () => {
       {visible && (
         <AnimatedBootSplash
           onAnimationEnd={() => {
-            setVisible(true);
+            setVisible(false);
           }}
         />
       )}
@@ -130,25 +138,26 @@ const AnimatedBootSplash = ({onAnimationEnd}: Props) => {
     navigationBarTranslucent: false,
 
     animate: () => {
-      Animated.stagger(1050, [
+      Animated.stagger(400, [
         Animated.spring(translateY, {
           useNativeDriver: true,
           toValue: 0,
         }),
         Animated.spring(translateY, {
           useNativeDriver: true,
-          toValue: -150,
+          toValue: -100,
         }),
       ]).start();
 
       Animated.timing(opacity, {
         useNativeDriver: true,
-        toValue: 0,
+        toValue: 0.005,
         duration: 1500,
-        delay: 1100,
+        delay: 500,
       }).start(() => {
         onAnimationEnd();
         const getData = async () => {
+          // await AsyncStorage.clear();
           try {
             const value = await AsyncStorage.getItem('onboarding');
             if (value !== null) {
@@ -170,7 +179,7 @@ const AnimatedBootSplash = ({onAnimationEnd}: Props) => {
             });
           }
         };
-        getData();
+        getData().then(r => console.log('Get onboarding status: ', r));
       });
     },
   });

@@ -174,6 +174,12 @@ export const textStyles = StyleSheet.create({
   right: {
     textAlign: 'right',
   },
+  error: {
+    color: '#EF4444',
+  },
+  link: {
+    color: '#3461FD',
+  },
 });
 
 export const inputStyles = StyleSheet.create({
@@ -199,6 +205,19 @@ export const inputStyles = StyleSheet.create({
     height: 24,
     marginStart: 14,
     marginEnd: 8,
+  },
+  otpInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 56,
+    marginHorizontal: 16,
+  },
+  otpInput: {
+    height: 56,
+    width: 56,
+    marginHorizontal: 8,
+    backgroundColor: '#F3F4F6',
+    borderRadius: 12,
   },
 });
 export const marginStyles = StyleSheet.create({
@@ -235,6 +254,8 @@ export const alignStyles = StyleSheet.create({
   center: {
     alignItems: 'center',
     alignSelf: 'center',
+    justifyContent: 'center',
+    margin: 'auto',
   },
 });
 
