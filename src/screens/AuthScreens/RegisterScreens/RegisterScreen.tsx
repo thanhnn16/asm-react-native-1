@@ -1,4 +1,4 @@
-import { Alert, Image, SafeAreaView, Text, TextInput, View } from 'react-native';
+import {Alert, Image, SafeAreaView, Text, TextInput, View} from 'react-native';
 import React from 'react';
 import {
   alignStyles,
@@ -7,10 +7,14 @@ import {
   styles,
   textStyles,
 } from '../../../components/MyStyles.tsx';
-import { TopLogo } from '../../../components/Logo.tsx';
-import { GoogleButton, GuestButton, PrimaryButton } from '../../../components/Button.tsx';
-import { useNavigation } from '@react-navigation/native';
-import { hide } from "react-native-bootsplash";
+import {TopLogo} from '../../../components/Logo.tsx';
+import {
+  GoogleButton,
+  GuestButton,
+  PrimaryButton,
+} from '../../../components/Button.tsx';
+import {useNavigation} from '@react-navigation/native';
+import {hide} from 'react-native-bootsplash';
 
 export const RegisterScreen = () => {
   const [phoneNumber, setPhoneNumber] = React.useState('');
@@ -79,7 +83,7 @@ export const RegisterScreen = () => {
         btnText="Đăng ký"
         onPress={() => {
           if (error !== ' ' || phoneNumber.length === 0) {
-            setError('Vui lòng nhập số điện thoại hợp lệ')
+            setError('Vui lòng nhập số điện thoại hợp lệ');
             return;
           }
           console.log('Clicked');
@@ -93,6 +97,7 @@ export const RegisterScreen = () => {
                 {
                   text: 'Đồng ý',
                   onPress: () => {
+                    // @ts-ignore
                     navigation.navigate('OTPSignUpScreen');
                   },
                 },
@@ -111,7 +116,7 @@ export const RegisterScreen = () => {
           marginStyles.mt24,
           alignStyles.center,
           marginStyles.mh24,
-          { flexDirection: 'row' },
+          {flexDirection: 'row'},
         ]}>
         <View
           style={{
@@ -156,9 +161,9 @@ export const RegisterScreen = () => {
 
       <Text
         style={[
-          textStyles.h6,
+          textStyles.h7,
           textStyles.secondary,
-          marginStyles.mt8,
+          marginStyles.mt4,
           marginStyles.mh24,
           textStyles.center,
         ]}>
@@ -166,11 +171,12 @@ export const RegisterScreen = () => {
       </Text>
       <Text
         style={[
-          textStyles.h6,
+          textStyles.h7,
           textStyles.secondary,
-          marginStyles.mt8,
+          marginStyles.mt4,
           marginStyles.mh24,
           textStyles.center,
+          textStyles.link,
         ]}>
         Điều khoản dịch vụ và Chính sách bảo mật của chúng tôi
       </Text>

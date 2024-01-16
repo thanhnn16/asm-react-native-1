@@ -1,8 +1,7 @@
 import React, {createRef, useState} from 'react';
-import { Alert, Modal, Pressable, SafeAreaView, Text, TextInput, View } from "react-native";
+import {SafeAreaView, Text, TextInput, View} from 'react-native';
 import {
   alignStyles,
-  customWidth,
   inputStyles,
   marginStyles,
   styles,
@@ -10,7 +9,7 @@ import {
 } from '../../../components/MyStyles.tsx';
 import {TopLogo} from '../../../components/Logo.tsx';
 import {PrimaryButton} from '../../../components/Button.tsx';
-import CongratsModal from '../../../components/CongratsModal.js';
+import CongratsModal from '../../../components/CongratsModal.tsx';
 
 export const OTPSignUpScreen = () => {
   const [error, setError] = useState(' ');
@@ -37,7 +36,7 @@ export const OTPSignUpScreen = () => {
           textStyles.h3,
           alignStyles.center,
           textStyles.center,
-          textStyles.bold
+          textStyles.bold,
         ]}>
         Nhập mã xác nhận
       </Text>
@@ -47,7 +46,7 @@ export const OTPSignUpScreen = () => {
           textStyles.secondary,
           marginStyles.mt8,
           marginStyles.mh24,
-          textStyles.center
+          textStyles.center,
         ]}>
         Vui lòng nhập mã mà chúng tôi đã gửi tới Số điện thoại của bạn. Vui lòng
         không cung cấp mà cho bất kỳ ai!
@@ -61,19 +60,19 @@ export const OTPSignUpScreen = () => {
               inputStyles.otpInput,
               textStyles.center,
               textStyles.h3,
-              textStyles.bold
+              textStyles.bold,
             ]}
             maxLength={1}
             keyboardType="number-pad"
             numberOfLines={1}
-            inputMode={"numeric"}
+            inputMode={'numeric'}
             onChangeText={text => {
               if (text) {
                 focusNextField(i);
               }
             }}
-            onKeyPress={({ nativeEvent }) => {
-              if (nativeEvent.key === "Backspace") {
+            onKeyPress={({nativeEvent}) => {
+              if (nativeEvent.key === 'Backspace') {
                 focusPrevField(i);
               }
             }}
@@ -85,28 +84,28 @@ export const OTPSignUpScreen = () => {
           textStyles.h6,
           textStyles.error,
           marginStyles.mt8,
-          marginStyles.mh24
+          marginStyles.mh24,
         ]}>
         {error}
       </Text>
       <PrimaryButton
         btnText="Xác nhận"
         onPress={() => {
-          if (error !== " ") {
-            setError("Vui lòng nhập mã OTP");
+          if (error !== ' ') {
+            setError('Vui lòng nhập mã OTP');
             return;
           }
           setVisible(true);
         }}
       />
       <View
-        style={[{ flexDirection: "row" }, alignStyles.center, marginStyles.mt24]}>
+        style={[{flexDirection: 'row'}, alignStyles.center, marginStyles.mt24]}>
         <Text style={[textStyles.h6, textStyles.secondary]}>
-          Không nhận được mã?{" "}
+          Không nhận được mã?{' '}
         </Text>
         <Text style={[textStyles.h6, textStyles.link]}>Gửi lại</Text>
       </View>
-      <CongratsModal isVisible={visible} onClose={() => return} />
+      <CongratsModal isVisible={visible} text={'Chúc mừng nhé!!'} />
     </SafeAreaView>
   );
 };

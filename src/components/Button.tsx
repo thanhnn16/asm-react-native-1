@@ -1,6 +1,6 @@
 import React from 'react';
-import {onboardingStyles} from './MyStyles.tsx';
-import {Pressable, PressableProps, Text} from 'react-native';
+import {marginStyles, onboardingStyles} from './MyStyles.tsx';
+import {Image, Pressable, PressableProps, Text} from 'react-native';
 
 export const PrimaryButton = ({
   btnText,
@@ -45,7 +45,7 @@ export const GoogleButton = ({
         {
           backgroundColor: pressed ? 'blue' : '#3c444b',
         },
-        onboardingStyles.button,
+        onboardingStyles.loginWithButton,
       ]}
       onPress={onPress}
       {...props}
@@ -55,10 +55,11 @@ export const GoogleButton = ({
       accessibilityRole="button"
       accessibilityLabel={btnText}
       accessibilityHint={btnText}>
-      <Text style={onboardingStyles.buttonText}>{btnText}</Text>
+        <Image source={require('../assets/images/icons/google.png')} style={marginStyles.mh8} />
+      <Text style={onboardingStyles.loginWithText}>{btnText}</Text>
     </Pressable>
   );
-}；
+};
 
 export const GuestButton = ({
   btnText,
@@ -74,7 +75,7 @@ export const GuestButton = ({
         {
           backgroundColor: pressed ? 'blue' : '#3c444b',
         },
-        onboardingStyles.button,
+        onboardingStyles.loginWithButton,
       ]}
       onPress={onPress}
       {...props}
@@ -84,7 +85,8 @@ export const GuestButton = ({
       accessibilityRole="button"
       accessibilityLabel={btnText}
       accessibilityHint={btnText}>
-      <Text style={onboardingStyles.buttonText}>{btnText}</Text>
+        <Image source={require('../assets/images/icons/user-square.png')} style={marginStyles.mh8} />
+      <Text style={onboardingStyles.loginWithText}>{btnText}</Text>
     </Pressable>
   );
 };
