@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import {onboardingStyles} from '../../components/MyStyles.tsx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {MyButton} from '../../components/Button.tsx';
+import {PrimaryButton} from '../../components/Button.tsx';
 
 const {width, height} = Dimensions.get('window');
 
@@ -72,7 +72,7 @@ export const Onboarding = () => {
         }}
       />
       <View style={{flex: 1.5}}>
-        <MyButton
+        <PrimaryButton
           btnText={currentIndex === totalPages - 1 ? 'Bắt đầu' : 'Tiếp tục'}
           onPress={() => {
             onPressHandler();

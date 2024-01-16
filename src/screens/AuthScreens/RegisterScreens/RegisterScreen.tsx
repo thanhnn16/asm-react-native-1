@@ -1,4 +1,4 @@
-import {Alert, Image, SafeAreaView, Text, TextInput, View} from 'react-native';
+import { Alert, Image, SafeAreaView, Text, TextInput, View } from 'react-native';
 import React from 'react';
 import {
   alignStyles,
@@ -7,9 +7,9 @@ import {
   styles,
   textStyles,
 } from '../../../components/MyStyles.tsx';
-import {TopLogo} from '../../../components/Logo.tsx';
-import {MyButton} from '../../../components/Button.tsx';
-import {useNavigation} from '@react-navigation/native';
+import { TopLogo } from '../../../components/Logo.tsx';
+import { GoogleButton, GuestButton, PrimaryButton } from '../../../components/Button.tsx';
+import { useNavigation } from '@react-navigation/native';
 import { hide } from "react-native-bootsplash";
 
 export const RegisterScreen = () => {
@@ -75,7 +75,7 @@ export const RegisterScreen = () => {
         {error}
       </Text>
       <View style={marginStyles.mt8} />
-      <MyButton
+      <PrimaryButton
         btnText="Đăng ký"
         onPress={() => {
           if (error !== ' ' || phoneNumber.length === 0) {
@@ -111,7 +111,7 @@ export const RegisterScreen = () => {
           marginStyles.mt24,
           alignStyles.center,
           marginStyles.mh24,
-          {flexDirection: 'row'},
+          { flexDirection: 'row' },
         ]}>
         <View
           style={{
@@ -133,6 +133,68 @@ export const RegisterScreen = () => {
           }}
         />
       </View>
+
+      <View style={marginStyles.mt8} />
+
+      <GoogleButton
+        btnText="Đăng nhập với Google"
+        onPress={() => {
+          console.log('Clicked');
+        }}
+      />
+
+      <View style={marginStyles.mt8} />
+
+      <GuestButton
+        btnText="Đăng nhập với tư cách khách"
+        onPress={() => {
+          console.log('Clicked');
+        }}
+      />
+
+      <View style={marginStyles.mt8} />
+
+      <Text
+        style={[
+          textStyles.h6,
+          textStyles.secondary,
+          marginStyles.mt8,
+          marginStyles.mh24,
+          textStyles.center,
+        ]}>
+        Bằng cách đăng ký, bạn đã đồng ý với
+      </Text>
+      <Text
+        style={[
+          textStyles.h6,
+          textStyles.secondary,
+          marginStyles.mt8,
+          marginStyles.mh24,
+          textStyles.center,
+        ]}>
+        Điều khoản dịch vụ và Chính sách bảo mật của chúng tôi
+      </Text>
+
+      <View style={marginStyles.mt8} />
+
+      <Text
+        style={[
+          textStyles.h6,
+          textStyles.secondary,
+          marginStyles.mt8,
+          marginStyles.mh24,
+          textStyles.center,
+        ]}>
+        Bạn đã có tài khoản?{' '}
+        <Text
+          style={[textStyles.h6, textStyles.primary]}
+          onPress={() => {
+            console.log('Clicked');
+          }}>
+          Đăng nhập
+        </Text>
+      </Text>
+      <View style={marginStyles.mt8} />
     </SafeAreaView>
   );
 };

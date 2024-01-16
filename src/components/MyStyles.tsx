@@ -350,6 +350,10 @@ export const onboardingStyles = StyleSheet.create({
     marginHorizontal: 40,
     fontFamily: 'Faustina-VariableFont_wght',
   },
+  lottieAnimation: {
+    width: screenWidth - 40,
+    height: 350,
+  },
 });
 
 export const imageStyles = StyleSheet.create({

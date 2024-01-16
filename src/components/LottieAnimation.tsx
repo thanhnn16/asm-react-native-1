@@ -1,6 +1,6 @@
 import React from 'react';
 import LottieView from 'lottie-react-native';
-
+import { onboardingStyles } from './MyStyles';
 // animations.js
 export const animations = {
   hotro: require('../../src/assets/animations/onboarding/hotro.json'),
@@ -9,13 +9,14 @@ export const animations = {
   baoduong: require('../../src/assets/animations/onboarding/baoduong.json'),
 };
 
+
 export function MuaBanAnimation() {
   return (
     <LottieView
       source={animations.muaban}
       autoPlay
       loop
-      style={{width: 400, height: 400}}
+      style={onboardingStyles.lottieAnimation}
     />
   );
 }
@@ -26,7 +27,7 @@ export function SuaChuaAnimation() {
       source={animations.suachua}
       autoPlay
       loop
-      style={{width: 400, height: 400}}
+      style={onboardingStyles.lottieAnimation}
     />
   );
 }
@@ -37,7 +38,7 @@ export function BaoDuongAnimation() {
       source={animations.baoduong}
       autoPlay
       loop
-      style={{width: 400, height: 400}}
+      style={onboardingStyles.lottieAnimation}
     />
   );
 }
@@ -48,7 +49,7 @@ export function HoTroAnimation() {
       source={animations.hotro}
       autoPlay
       loop
-      style={{width: 400, height: 400}}
+      style={onboardingStyles.lottieAnimation}
     />
   );
 }

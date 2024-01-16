@@ -9,7 +9,8 @@ import {
   textStyles,
 } from '../../../components/MyStyles.tsx';
 import {TopLogo} from '../../../components/Logo.tsx';
-import {MyButton} from '../../../components/Button.tsx';
+import {PrimaryButton} from '../../../components/Button.tsx';
+import CongratsModal from '../../../components/CongratsModal.js';
 
 export const OTPSignUpScreen = () => {
   const [error, setError] = useState(' ');
@@ -88,7 +89,7 @@ export const OTPSignUpScreen = () => {
         ]}>
         {error}
       </Text>
-      <MyButton
+      <PrimaryButton
         btnText="Xác nhận"
         onPress={() => {
           if (error !== " ") {
@@ -105,28 +106,7 @@ export const OTPSignUpScreen = () => {
         </Text>
         <Text style={[textStyles.h6, textStyles.link]}>Gửi lại</Text>
       </View>
-      <Modal visible={visible} animated={true}
-      animationType={'fade'}>
-        <View
-          style={[{ backgroundColor: "darkgray" }, { flex: 1 }, customWidth.w100]}>
-          <View
-            style={[
-              alignStyles.center,
-              { width: 300 },
-              { height: 300 },
-              { borderRadius: 26 },
-              { backgroundColor: "gray" }
-            ]}>
-            <Text
-              onPress={() => {
-                setVisible(false);
-              }}
-              style={[alignStyles.center, { justifyContent: "center" }]}>
-              Hello modal
-            </Text>
-          </View>
-        </View>
-      </Modal>
+      <CongratsModal isVisible={visible} onClose={() => return} />
     </SafeAreaView>
   );
 };

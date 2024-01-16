@@ -23,30 +23,6 @@ import {Onboarding} from './screens/WelcomeScreens/OnboardingScreen.tsx';
 import {MyText, textStyles} from './components/MyStyles.tsx';
 import {OTPSignUpScreen} from './screens/AuthScreens/RegisterScreens/OTPSignUpScreen.tsx';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  textBrand: {
-    ...textStyles.regular,
-    fontSize: 24,
-    fontWeight: '700',
-    margin: 12,
-    color: '#333',
-    textAlign: 'center',
-    fontFamily: 'Faustina-VariableFont_wght',
-  },
-  textSlogan: {
-    ...textStyles.regular,
-    fontSize: 18,
-    color: '#333',
-    textAlign: 'center',
-    fontFamily: 'Faustina-VariableFont_wght',
-  },
-});
 
 const Stack = createNativeStackNavigator();
 
@@ -55,6 +31,7 @@ type RootStackParamList = {
   RegisterScreen: undefined;
   Onboarding: undefined;
   OTPSignUpScreen: undefined;
+  LoginScreen: undefined;
 };
 
 const App = () => {
@@ -92,6 +69,17 @@ const App = () => {
         <Stack.Screen
           name="OTPSignUpScreen"
           component={OTPSignUpScreen}
+          options={{
+            headerShown: true,
+            title: '',
+            headerBackTitleVisible: false,
+            headerTransparent: true,
+            // headerBackImageSource: require('../src/assets/images/icons/back-icon.png'),
+          }}
+        />
+        <Stack.Screen
+          name="LoginScreen"
+          component={RegisterScreen}
           options={{
             headerShown: true,
             title: '',
@@ -193,5 +181,31 @@ const AnimatedBootSplash = ({onAnimationEnd}: Props) => {
     </Animated.View>
   );
 };
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  textBrand: {
+    ...textStyles.regular,
+    fontSize: 24,
+    fontWeight: '700',
+    margin: 12,
+    color: '#333',
+    textAlign: 'center',
+    fontFamily: 'Faustina-VariableFont_wght',
+  },
+  textSlogan: {
+    ...textStyles.regular,
+    fontSize: 18,
+    color: '#333',
+    textAlign: 'center',
+    fontFamily: 'Faustina-VariableFont_wght',
+  },
+});
 
 export default App;
