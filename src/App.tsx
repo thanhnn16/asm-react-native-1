@@ -23,16 +23,9 @@ import {Onboarding} from './screens/WelcomeScreens/OnboardingScreen.tsx';
 import {MyText, textStyles} from './components/MyStyles.tsx';
 import {OTPSignUpScreen} from './screens/AuthScreens/RegisterScreens/OTPSignUpScreen.tsx';
 
+import RootStackParamList from './navigation/navigationTypes.tsx';
 
 const Stack = createNativeStackNavigator();
-
-type RootStackParamList = {
-  SplashScreen: undefined;
-  RegisterScreen: undefined;
-  Onboarding: undefined;
-  OTPSignUpScreen: undefined;
-  LoginScreen: undefined;
-};
 
 const App = () => {
   useEffect(() => {

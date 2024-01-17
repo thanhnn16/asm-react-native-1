@@ -9,7 +9,7 @@ import {
 } from '../../../components/MyStyles.tsx';
 import {TopLogo} from '../../../components/Logo.tsx';
 import {PrimaryButton} from '../../../components/Button.tsx';
-import CongratsModal from '../../../components/CongratsModal.tsx';
+import SuccessModal from '../../../components/Modal.tsx';
 
 export const OTPSignUpScreen = () => {
   const [error, setError] = useState(' ');
@@ -105,7 +105,7 @@ export const OTPSignUpScreen = () => {
         </Text>
         <Text style={[textStyles.h6, textStyles.link]}>Gửi lại</Text>
       </View>
-      <CongratsModal isVisible={visible} text={'Chúc mừng nhé!!'} />
+      <SuccessModal isVisible={visible} text={'Chúc mừng nhé!!'} />
     </SafeAreaView>
   );
 };

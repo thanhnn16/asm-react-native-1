@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet, Text, TextProps} from 'react-native';
+import { Dimensions, StyleSheet, Text, TextProps } from 'react-native';
 import React from 'react';
 
 const screenWidth = Dimensions.get('window').width;
@@ -409,6 +409,60 @@ export const styles = StyleSheet.create({
   },
 });
 
+export const modalStyles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    padding: 32,
+    borderRadius: 48,
+    width: screenWidth - 48,
+    alignSelf: 'center',
+
+  },
+  modalImage: {
+    width: 130,
+    height: 130,
+    alignSelf: 'center',
+    marginVertical: 20,
+    objectFit: 'contain',
+  },
+  modalTitle: {
+    ...textStyles.bold,
+    fontSize: 20,
+    color: '#333',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  modalText: {
+    ...textStyles.regular,
+    fontSize: 16,
+    color: '#333',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  modalButton: {
+    backgroundColor: '#1C2A3A',
+    padding: 10,
+    borderRadius: 8,
+    marginTop: 10,
+  },
+  modalButtonText: {
+    ...textStyles.bold,
+    fontSize: 16,
+    color: '#fff',
+    textAlign: 'center',
+  },
+  loadingAnimation: {
+    width: 56,
+    height: 56,
+    alignSelf: 'center',
+  },
+});
+
 export const customWidth = StyleSheet.create({
   w100: {
     width: '100%',
@@ -442,6 +496,83 @@ export const customWidth = StyleSheet.create({
   },
 });
 
-export const MyText: React.FC<TextProps> = ({children, style}: any) => {
+export const profileStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  avatar: {
+    width: 168,
+    height: 168,
+    borderRadius: 60,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginTop: 32,
+    position: 'relative',
+  },
+  avatarImage: {
+    width: 168,
+    height: 168,
+    borderRadius: 168 / 2,
+  },
+  iconEditAvatar: {
+    width: 32,
+    height: 32,
+    position: 'absolute',
+    top: 3,
+    left: 3,
+    zIndex: 1,
+  },
+  userName: {
+    ...textStyles.bold,
+    fontSize: 24,
+    color: '#1F2A37',
+    textAlign: 'center',
+    marginTop: 16,
+  },
+  phoneNumber: {
+    ...textStyles.regular,
+    fontSize: 14,
+    color: '#6B7280',
+    textAlign: 'center',
+    marginTop: 4,
+  },
+  itemsContainer: {
+    marginTop: 16,
+  },
+  item: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E5E7EB',
+  },
+  itemTitle: {
+    ...textStyles.regular,
+    fontSize: 18,
+    color: '#6B7280',
+    lineHeight: 27,
+  },
+  itemIcon: {
+    width: 24,
+    height: 24,
+    alignSelf: 'flex-start',
+  },
+  itemIconArrow: {
+    width: 14,
+    height: 14,
+    alignSelf: 'flex-end',
+  },
+  itemDivider: {
+    height: 1,
+    backgroundColor: '#E5E7EB',
+  },
+});
+
+export const MyText: React.FC<TextProps> = ({ children, style }: any) => {
   return <Text style={[styles.text, style]}>{children}</Text>;
 };
