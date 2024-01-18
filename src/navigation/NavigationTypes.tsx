@@ -3,7 +3,6 @@ type RootStackParamList = {
   RegisterScreen: undefined;
   Onboarding: undefined;
   OTPSignUpScreen: undefined;
-  WelcomeScreen: undefined;
   LoginScreen: undefined;
   HomeScreen: undefined;
   ProfileScreen: undefined;

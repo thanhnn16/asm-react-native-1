@@ -2,6 +2,7 @@ import {Dimensions, StyleSheet, Text, TextProps} from 'react-native';
 import React from 'react';
 
 const screenWidth = Dimensions.get('window').width;
+
 export const customFonts = StyleSheet.create({
   bold: {
     fontWeight: 'bold',
@@ -460,6 +461,15 @@ export const modalStyles = StyleSheet.create({
     height: 56,
     alignSelf: 'center',
   },
+  bottomModal: {
+    justifyContent: 'flex-end',
+    margin: 0,
+  },
+  modalButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
 });
 
 export const customWidth = StyleSheet.create({
@@ -572,6 +582,27 @@ export const profileStyles = StyleSheet.create({
   },
 });
 
-export const MyText: React.FC<TextProps> = ({children, style}: any) => {
-  return <Text style={[styles.text, style]}>{children}</Text>;
-};
+export const splashStyles = StyleSheet.create({
+  container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#F5FCFF',
+  },
+  textBrand: {
+      ...textStyles.regular,
+      fontSize: 24,
+      fontWeight: '700',
+      margin: 12,
+      color: '#333',
+      textAlign: 'center',
+      fontFamily: 'Faustina-VariableFont_wght',
+  },
+  textSlogan: {
+      ...textStyles.regular,
+      fontSize: 18,
+      color: '#333',
+      textAlign: 'center',
+      fontFamily: 'Faustina-VariableFont_wght',
+  },
+});

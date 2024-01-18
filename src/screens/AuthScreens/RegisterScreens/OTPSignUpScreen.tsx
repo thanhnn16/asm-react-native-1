@@ -1,22 +1,23 @@
-import React, {createRef, useState} from 'react';
-import {SafeAreaView, Text, TextInput, View} from 'react-native';
+import React, { createRef, useState } from 'react';
+import { SafeAreaView, Text, TextInput, View } from 'react-native';
 import {
   alignStyles,
   inputStyles,
   marginStyles,
   styles,
   textStyles,
-} from '../../../components/MyStyles.tsx';
-import {TopLogo} from '../../../components/Logo.tsx';
-import {PrimaryButton} from '../../../components/Button.tsx';
-import SuccessModal from '../../../components/Modal.tsx';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import RootStackParamList from '../../../navigation/navigationTypes.tsx';
+} from '../../../assets/styles/MyStyles.tsx';
+import { TopLogo } from '../../../components/Logo.tsx';
+import { PrimaryButton } from '../../../components/Button.tsx';
+import {SuccessModal} from '../../../components/Modal.tsx';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import RootStackParamList from '../../../navigation/NavigationTypes.tsx';
 
 export const OTPSignUpScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [error, setError] = useState(' ');
   const [visible, setVisible] = useState(false);
+  const [otp, setOtp] = useState('');
   const otpInputs = Array(6)
     .fill(0)
     .map(() => createRef<TextInput>());
@@ -30,6 +31,14 @@ export const OTPSignUpScreen = () => {
       otpInputs[id - 1].current?.focus();
     }
   };
+
+  function validateOtp() {
+    if (otp.length < 6) {
+      setError('Vui lòng nhập mã OTP');
+      return;
+    }
+    setError(' ');
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -72,11 +81,13 @@ export const OTPSignUpScreen = () => {
             onChangeText={text => {
               if (text) {
                 focusNextField(i);
+                setOtp(otp + text);
               }
             }}
-            onKeyPress={({nativeEvent}) => {
+            onKeyPress={({ nativeEvent }) => {
               if (nativeEvent.key === 'Backspace') {
                 focusPrevField(i);
+                setOtp(otp.slice(0, -1));
               }
             }}
           />
@@ -94,20 +105,18 @@ export const OTPSignUpScreen = () => {
       <PrimaryButton
         btnText="Xác nhận"
         onPress={() => {
-          if (error !== ' ') {
-            setError('Vui lòng nhập mã OTP');
-            return;
+          validateOtp();
+          if (error === ' ') {
+            setVisible(true);
+            setTimeout(() => {
+              setVisible(false);
+              navigation.navigate('HomeScreen');
+            }, 3000);
           }
-          setVisible(true);
-          setTimeout(() => {
-            setVisible(false);
-            // navigation.navigate('HomeScreen');
-            navigation.navigate('ProfileScreen');
-          }, 3000);
         }}
       />
       <View
-        style={[{flexDirection: 'row'}, alignStyles.center, marginStyles.mt24]}>
+        style={[{ flexDirection: 'row' }, alignStyles.center, marginStyles.mt24]}>
         <Text style={[textStyles.h6, textStyles.secondary]}>
           Không nhận được mã?{' '}
         </Text>
@@ -115,10 +124,7 @@ export const OTPSignUpScreen = () => {
       </View>
       <SuccessModal
         isVisible={visible}
-        text={
-          'Bạn đã tạo tài khoản thành công. Hãy tận hưởng những ưu đãi và dịch vụ mà Bông Tuyết Trắng mang tới cho bạn...'
-        }
-      />
+        message={'Bạn đã tạo tài khoản thành công. Hãy tận hưởng những ưu đãi và dịch vụ mà Bông Tuyết Trắng mang tới cho bạn...'} title={'Đăng ký thành công'}      />
     </SafeAreaView>
   );
 };

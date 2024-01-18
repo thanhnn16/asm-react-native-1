@@ -15,23 +15,24 @@ import {
   marginStyles,
   styles,
   textStyles,
-} from '../../../components/MyStyles';
+} from '../../../assets/styles/MyStyles.tsx';
 import {TopLogo} from '../../../components/Logo';
-import {useNavigation} from '@react-navigation/native';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {hide} from 'react-native-bootsplash';
 import {
   PrimaryButton,
   GoogleButton,
   GuestButton,
 } from '../../../components/Button';
-import SuccessModal from '../../../components/Modal.tsx';
+import {SuccessModal} from '../../../components/Modal.tsx';
+import RootStackParamList from '../../../navigation/NavigationTypes.tsx';
 
 const LoginScreen: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(' ');
   let [modalVisible, setModalVisible] = useState(false);
-  const navigation = useNavigation();
+  const navigation: NavigationProp<RootStackParamList> = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <TopLogo />
@@ -137,7 +138,8 @@ const LoginScreen: React.FC = () => {
       />
       <SuccessModal
         isVisible={modalVisible}
-        text={'Đăng nhập thành công, chuyển hướng sau 3s...'}
+        title={'Đăng nhập thành công'}
+        message={'Vui lòng chờ giay lát, hệ thống sẽ chuyển hướng sau 3s...'}
       />
       <View
         style={[
@@ -215,7 +217,7 @@ const LoginScreen: React.FC = () => {
         <Text
           style={[textStyles.h6, textStyles.primary]}
           onPress={() => {
-            navigation.navigate('WelcomeScreen');
+            navigation.navigate('RegisterScreen');
           }}>
           Đăng ký
         </Text>

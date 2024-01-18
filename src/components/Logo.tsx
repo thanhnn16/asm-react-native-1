@@ -1,5 +1,5 @@
 import React from 'react';
-import {imageStyles} from './MyStyles.tsx';
+import {imageStyles} from '../assets/styles/MyStyles.tsx';
 import {Image, View} from 'react-native';
 
 export const TopLogo = () => {

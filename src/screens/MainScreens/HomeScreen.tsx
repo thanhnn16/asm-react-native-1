@@ -10,7 +10,7 @@ import {
   onboardingStyles,
   styles
 
-} from "../../components/MyStyles.tsx";
+} from "../../assets/styles/MyStyles.tsx";
 
 const Tab = createBottomTabNavigator();
 

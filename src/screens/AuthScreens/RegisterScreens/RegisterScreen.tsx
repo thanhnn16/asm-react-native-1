@@ -6,7 +6,7 @@ import {
   marginStyles,
   styles,
   textStyles,
-} from '../../../components/MyStyles.tsx';
+} from '../../../assets/styles/MyStyles.tsx';
 import {TopLogo} from '../../../components/Logo.tsx';
 import {
   GoogleButton,

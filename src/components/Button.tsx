@@ -1,5 +1,5 @@
 import React from 'react';
-import {marginStyles, onboardingStyles} from './MyStyles.tsx';
+import {marginStyles, onboardingStyles} from '../assets/styles/MyStyles.tsx';
 import {Image, Pressable, PressableProps, Text} from 'react-native';
 
 export const PrimaryButton = ({

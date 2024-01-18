@@ -1,6 +1,6 @@
 import React from 'react';
 import LottieView from 'lottie-react-native';
-import { onboardingStyles } from './MyStyles';
+import { onboardingStyles } from '../assets/styles/MyStyles';
 // animations.js
 export const animations = {
   hotro: require('../../src/assets/animations/onboarding/hotro.json'),
