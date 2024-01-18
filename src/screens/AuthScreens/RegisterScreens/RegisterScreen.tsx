@@ -78,7 +78,6 @@ export const RegisterScreen = () => {
         ]}>
         {error}
       </Text>
-      <View style={marginStyles.mt8} />
       <PrimaryButton
         btnText="Đăng ký"
         onPress={() => {
@@ -195,7 +194,7 @@ export const RegisterScreen = () => {
         <Text
           style={[textStyles.h6, textStyles.primary]}
           onPress={() => {
-            console.log('Clicked');
+            navigation.navigate('LoginScreen');
           }}>
           Đăng nhập
         </Text>

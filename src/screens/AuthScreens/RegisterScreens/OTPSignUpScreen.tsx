@@ -10,8 +10,11 @@ import {
 import {TopLogo} from '../../../components/Logo.tsx';
 import {PrimaryButton} from '../../../components/Button.tsx';
 import SuccessModal from '../../../components/Modal.tsx';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import RootStackParamList from '../../../navigation/navigationTypes.tsx';
 
 export const OTPSignUpScreen = () => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [error, setError] = useState(' ');
   const [visible, setVisible] = useState(false);
   const otpInputs = Array(6)
@@ -65,7 +68,7 @@ export const OTPSignUpScreen = () => {
             maxLength={1}
             keyboardType="number-pad"
             numberOfLines={1}
-            inputMode={'numeric'}
+            inputMode={"numeric"}
             onChangeText={text => {
               if (text) {
                 focusNextField(i);
@@ -96,6 +99,11 @@ export const OTPSignUpScreen = () => {
             return;
           }
           setVisible(true);
+          setTimeout(() => {
+            setVisible(false);
+            // navigation.navigate('HomeScreen');
+            navigation.navigate('ProfileScreen');
+          }, 3000);
         }}
       />
       <View
@@ -105,7 +113,12 @@ export const OTPSignUpScreen = () => {
         </Text>
         <Text style={[textStyles.h6, textStyles.link]}>Gửi lại</Text>
       </View>
-      <SuccessModal isVisible={visible} text={'Chúc mừng nhé!!'} />
+      <SuccessModal
+        isVisible={visible}
+        text={
+          'Bạn đã tạo tài khoản thành công. Hãy tận hưởng những ưu đãi và dịch vụ mà Bông Tuyết Trắng mang tới cho bạn...'
+        }
+      />
     </SafeAreaView>
   );
 };

@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet, Text, TextProps } from 'react-native';
+import {Dimensions, StyleSheet, Text, TextProps} from 'react-native';
 import React from 'react';
 
 const screenWidth = Dimensions.get('window').width;
@@ -385,7 +385,7 @@ export const imageStyles = StyleSheet.create({
   topLogo: {
     width: 180,
     height: 110,
-    marginTop: 64,
+    marginTop: 32,
     marginBottom: 32,
     objectFit: 'contain',
     alignSelf: 'center',
@@ -421,7 +421,6 @@ export const modalStyles = StyleSheet.create({
     borderRadius: 48,
     width: screenWidth - 48,
     alignSelf: 'center',
-
   },
   modalImage: {
     width: 130,
@@ -504,10 +503,7 @@ export const profileStyles = StyleSheet.create({
   avatar: {
     width: 168,
     height: 168,
-    borderRadius: 60,
     backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center',
     alignSelf: 'center',
     marginTop: 32,
     position: 'relative',
@@ -521,8 +517,8 @@ export const profileStyles = StyleSheet.create({
     width: 32,
     height: 32,
     position: 'absolute',
-    top: 3,
-    left: 3,
+    bottom: 2,
+    right: 0,
     zIndex: 1,
   },
   userName: {
@@ -540,39 +536,42 @@ export const profileStyles = StyleSheet.create({
     marginTop: 4,
   },
   itemsContainer: {
-    marginTop: 16,
+    marginVertical: 16,
   },
   item: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    alignContent: 'center',
     paddingHorizontal: 24,
     paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E7EB',
   },
   itemTitle: {
     ...textStyles.regular,
     fontSize: 18,
     color: '#6B7280',
     lineHeight: 27,
+    marginHorizontal: 16,
+    textAlign: 'left',
   },
   itemIcon: {
     width: 24,
     height: 24,
-    alignSelf: 'flex-start',
+    alignSelf: 'center',
+    tintColor: '#1C2A3A',
   },
   itemIconArrow: {
     width: 14,
     height: 14,
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
+    marginLeft: 'auto',
   },
   itemDivider: {
     height: 1,
     backgroundColor: '#E5E7EB',
+    marginHorizontal: 24,
   },
 });
 
-export const MyText: React.FC<TextProps> = ({ children, style }: any) => {
+export const MyText: React.FC<TextProps> = ({children, style}: any) => {
   return <Text style={[styles.text, style]}>{children}</Text>;
 };

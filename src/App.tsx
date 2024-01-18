@@ -24,6 +24,9 @@ import {MyText, textStyles} from './components/MyStyles.tsx';
 import {OTPSignUpScreen} from './screens/AuthScreens/RegisterScreens/OTPSignUpScreen.tsx';
 
 import RootStackParamList from './navigation/navigationTypes.tsx';
+import HomeScreen from './screens/MainScreens/HomeScreen.tsx';
+import ProfileScreen from "./screens/MainScreens/ProfileScreen.tsx";
+import LoginScreen from "./screens/AuthScreens/LoginScreens/LoginScreen.tsx";
 
 const Stack = createNativeStackNavigator();
 
@@ -72,13 +75,27 @@ const App = () => {
         />
         <Stack.Screen
           name="LoginScreen"
-          component={RegisterScreen}
+          component={LoginScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="ProfileScreen"
+          component={ProfileScreen}
           options={{
             headerShown: true,
-            title: '',
-            headerBackTitleVisible: false,
-            headerTransparent: true,
-            // headerBackImageSource: require('../src/assets/images/icons/back-icon.png'),
+            headerBackVisible: false,
+            headerTitleAlign: 'center',
+            title: 'Hồ sơ',
+            headerShadowVisible: false,
           }}
         />
       </Stack.Navigator>
@@ -174,7 +191,6 @@ const AnimatedBootSplash = ({onAnimationEnd}: Props) => {
     </Animated.View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
