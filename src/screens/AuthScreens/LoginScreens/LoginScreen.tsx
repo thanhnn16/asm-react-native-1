@@ -1,33 +1,20 @@
-import React, {useState} from 'react';
-import {
-  View,
-  TextInput,
-  Button,
-  Text,
-  SafeAreaView,
-  Alert,
-  Image,
-} from 'react-native';
+import React, { useState } from "react";
+import { Image, SafeAreaView, Text, TextInput, View } from "react-native";
 import {
   alignStyles,
   customFonts,
   inputStyles,
   marginStyles,
   styles,
-  textStyles,
-} from '../../../assets/styles/MyStyles.tsx';
-import {TopLogo} from '../../../components/Logo';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {hide} from 'react-native-bootsplash';
-import {
-  PrimaryButton,
-  GoogleButton,
-  GuestButton,
-} from '../../../components/Button';
-import {SuccessModal} from '../../../components/Modal.tsx';
-import RootStackParamList from '../../../navigation/NavigationTypes.tsx';
+  textStyles
+} from "../../../assets/styles/MyStyles.tsx";
+import { TopLogo } from "../../../components/Logo";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { GoogleButton, GuestButton, PrimaryButton } from "../../../components/Button";
+import { SuccessModal } from "../../../components/Modal.tsx";
+import RootStackParamList from "../../../navigation/NavigationTypes.tsx";
 
-const LoginScreen: React.FC = () => {
+export const LoginScreen: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(' ');
@@ -183,7 +170,11 @@ const LoginScreen: React.FC = () => {
       <GuestButton
         btnText="Đăng nhập với tư cách khách"
         onPress={() => {
-          console.log('Clicked');
+          // navigation.reset({
+          //   index: 0,
+          //   routes: [{name: 'BottomTabNavigator'}],
+          // });
+          navigation.navigate("BottomTabNavigator");
         }}
       />
 

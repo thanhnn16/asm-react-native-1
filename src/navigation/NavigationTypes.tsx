@@ -13,6 +13,7 @@ type RootStackParamList = {
   Setting: undefined;
   Support: undefined;
   Terms: undefined;
+  BottomTabNavigator: undefined;
 };
 
 export default RootStackParamList;

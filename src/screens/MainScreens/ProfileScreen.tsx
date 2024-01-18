@@ -1,17 +1,14 @@
-import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  Pressable,
-  ScrollView,
-} from 'react-native';
-import {profileStyles} from '../../assets/styles/MyStyles';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import { menuItems, MenuItem } from '../../components/item_layouts/ProfileItem';
-import RootStackParamList from '../../navigation/NavigationTypes';
+import React, { useState } from "react";
+import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import { profileStyles } from "../../assets/styles/MyStyles";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { MenuItem, menuItems } from "../../components/item_layouts/ProfileItem";
+import RootStackParamList from "../../navigation/NavigationTypes";
+import { MyLogoutModal } from "../../components/Modal.tsx";
+
 const ProfileScreen = () => {
   const navigation: NavigationProp<RootStackParamList> = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <ScrollView style={profileStyles.container}>
       <View style={profileStyles.avatar}>
@@ -43,10 +40,7 @@ const ProfileScreen = () => {
         ))}
         <Pressable
           onPress={() => {
-            navigation.reset({
-              index: 0,
-                routes: [{name: 'LoginScreen'}],
-            });
+            setModalVisible(true);
           }}
           style={profileStyles.item}>
           <Image
@@ -60,6 +54,19 @@ const ProfileScreen = () => {
           />
         </Pressable>
       </View>
+      <MyLogoutModal
+        isVisible={modalVisible}
+        onOkPress={() => {
+          setModalVisible(false);
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "LoginScreen" }]
+          });
+        }}
+        onCancelPress={() => {
+          setModalVisible(false);
+        }}
+      />
     </ScrollView>
   );
 };

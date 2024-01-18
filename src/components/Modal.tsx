@@ -1,9 +1,7 @@
-import React, { useEffect } from 'react';
-import { Modal, View, Text, ActivityIndicator, Image } from 'react-native';
-import { modalStyles } from '../assets/styles/MyStyles.tsx';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
-import navigationTypes from '../navigation/NavigationTypes.tsx';
-import { PrimaryButton } from './Button.tsx';
+import React, { useEffect } from "react";
+import { ActivityIndicator, Image, Modal, Text, View } from "react-native";
+import { marginStyles, modalStyles, profileStyles } from "../assets/styles/MyStyles.tsx";
+import { ModalCancelButton, ModalOkButton } from "./Button.tsx";
 
 type SuccessModalProps = {
   isVisible: boolean;
@@ -24,7 +22,8 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
   });
 
   return (
-    <Modal animationType='fade' visible={isVisible} onRequestClose={() => { }}>
+    <Modal animationType="fade" visible={isVisible} onRequestClose={() => {
+    }}>
       <View style={modalStyles.modalContainer}>
         <View style={modalStyles.modalContent}>
           <Image
@@ -40,42 +39,45 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
   );
 };
 
-export const LogoutModal = () => {
-  const navigation = useNavigation<NavigationProp<navigationTypes>>();
+type LogoutModalProps = {
+  isVisible: boolean;
+  onOkPress: () => void;
+  onCancelPress: () => void;
+};
+export const MyLogoutModal: React.FC<LogoutModalProps> = ({
+                                                            isVisible,
+                                                            onOkPress,
+                                                            onCancelPress
+                                                          }) => {
   return (
-    <Modal animationType="fade" visible={true} onRequestClose={() => { }}>
-      <View style={modalStyles.modalContainer}>
-        <View style={modalStyles.modalContent}>
+    <Modal animationType="fade" transparent={true} visible={isVisible} onRequestClose={() => {
+    }}>
+      <View style={modalStyles.bottomModalContainer}>
+        <View style={modalStyles.bottomModal}>
           <Text style={modalStyles.modalTitle}>Đăng xuất</Text>
           <Text style={modalStyles.modalText}>
             Bạn có chắc chắn muốn đăng xuất?
           </Text>
+          <View style={[profileStyles.itemDivider, marginStyles.mt16]} />
           <View style={modalStyles.modalButtonContainer}>
-            <PrimaryButton
-              btnText="Đăng xuất"
-              onPress={() => {
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: 'LoginScreen' }],
-                });
-              }}
-            />
-            <PrimaryButton
+            <ModalCancelButton
+              style={modalStyles.bottomModalSecondaryButton}
               btnText="Hủy"
               onPress={() => {
-                navigation.goBack();
+                onCancelPress();
               }}
             />
+            <ModalOkButton btnText="Đăng xuất" onPress={onOkPress} />
           </View>
         </View>
       </View>
     </Modal>
   );
 };
-
-export const LoadingModal = () => {
+export const MyLoadingModal = () => {
   return (
-    <Modal animationType="fade" visible={true} onRequestClose={() => { }}>
+    <Modal animationType="fade" visible={true} onRequestClose={() => {
+    }}>
       <View style={modalStyles.modalContainer}>
         <View style={modalStyles.modalContent}>
           <ActivityIndicator size="large" />
@@ -83,4 +85,4 @@ export const LoadingModal = () => {
       </View>
     </Modal>
   );
-}
+};

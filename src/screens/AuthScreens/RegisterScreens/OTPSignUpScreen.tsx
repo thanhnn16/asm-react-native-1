@@ -1,17 +1,11 @@
-import React, { createRef, useState } from 'react';
-import { SafeAreaView, Text, TextInput, View } from 'react-native';
-import {
-  alignStyles,
-  inputStyles,
-  marginStyles,
-  styles,
-  textStyles,
-} from '../../../assets/styles/MyStyles.tsx';
-import { TopLogo } from '../../../components/Logo.tsx';
-import { PrimaryButton } from '../../../components/Button.tsx';
-import {SuccessModal} from '../../../components/Modal.tsx';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
-import RootStackParamList from '../../../navigation/NavigationTypes.tsx';
+import React, { createRef, useState } from "react";
+import { SafeAreaView, Text, TextInput, View } from "react-native";
+import { alignStyles, inputStyles, marginStyles, styles, textStyles } from "../../../assets/styles/MyStyles.tsx";
+import { TopLogo } from "../../../components/Logo.tsx";
+import { PrimaryButton } from "../../../components/Button.tsx";
+import { SuccessModal } from "../../../components/Modal.tsx";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import RootStackParamList from "../../../navigation/NavigationTypes.tsx";
 
 export const OTPSignUpScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -110,7 +104,7 @@ export const OTPSignUpScreen = () => {
             setVisible(true);
             setTimeout(() => {
               setVisible(false);
-              navigation.navigate('HomeScreen');
+              navigation.navigate("BottomTabNavigator");
             }, 3000);
           }
         }}

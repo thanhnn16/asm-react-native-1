@@ -1,25 +1,16 @@
-import {Alert, Image, SafeAreaView, Text, TextInput, View} from 'react-native';
-import React from 'react';
-import {
-  alignStyles,
-  inputStyles,
-  marginStyles,
-  styles,
-  textStyles,
-} from '../../../assets/styles/MyStyles.tsx';
-import {TopLogo} from '../../../components/Logo.tsx';
-import {
-  GoogleButton,
-  GuestButton,
-  PrimaryButton,
-} from '../../../components/Button.tsx';
-import {useNavigation} from '@react-navigation/native';
-import {hide} from 'react-native-bootsplash';
+import { Alert, Image, SafeAreaView, Text, TextInput, View } from "react-native";
+import React from "react";
+import { alignStyles, inputStyles, marginStyles, styles, textStyles } from "../../../assets/styles/MyStyles.tsx";
+import { TopLogo } from "../../../components/Logo.tsx";
+import { GoogleButton, GuestButton, PrimaryButton } from "../../../components/Button.tsx";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { hide } from "react-native-bootsplash";
+import RootStackParamList from "../../../navigation/NavigationTypes.tsx";
 
 export const RegisterScreen = () => {
   const [phoneNumber, setPhoneNumber] = React.useState('');
   const [error, setError] = React.useState(' ');
-  const navigation = useNavigation();
+  const navigation: NavigationProp<RootStackParamList> = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <TopLogo />

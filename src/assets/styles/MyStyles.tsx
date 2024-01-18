@@ -1,5 +1,4 @@
-import {Dimensions, StyleSheet, Text, TextProps} from 'react-native';
-import React from 'react';
+import { Dimensions, StyleSheet } from "react-native";
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -250,6 +249,21 @@ export const marginStyles = StyleSheet.create({
   mh8: {
     marginHorizontal: 8,
   },
+  mv32: {
+    marginVertical: 32
+  },
+  mv24: {
+    marginVertical: 24
+  },
+  mv16: {
+    marginVertical: 16
+  },
+  mv8: {
+    marginVertical: 8
+  },
+  mv4: {
+    marginVertical: 4
+  }
 });
 
 export const alignStyles = StyleSheet.create({
@@ -415,6 +429,8 @@ export const modalStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
     justifyContent: 'center',
+    paddingHorizontal: 24,
+    paddingTop: 24
   },
   modalContent: {
     backgroundColor: '#fff',
@@ -442,13 +458,11 @@ export const modalStyles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
     textAlign: 'center',
-    marginBottom: 10,
   },
   modalButton: {
     backgroundColor: '#1C2A3A',
     padding: 10,
     borderRadius: 8,
-    marginTop: 10,
   },
   modalButtonText: {
     ...textStyles.bold,
@@ -461,14 +475,66 @@ export const modalStyles = StyleSheet.create({
     height: 56,
     alignSelf: 'center',
   },
-  bottomModal: {
+  bottomModalContainer: {
+    flex: 1,
     justifyContent: 'flex-end',
     margin: 0,
+    backgroundColor: "rgba(0,0,0,0.4)"
+  },
+  bottomModal: {
+    position: "absolute",
+    bottom: 0,
+    padding: 24,
+    width: screenWidth,
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 34,
+    borderTopRightRadius: 34,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: -4
+    },
+    shadowOpacity: 0.25
   },
   modalButtonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20,
+  },
+  bottomModalPrimaryButton: {
+    marginTop: 8,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 78,
+    backgroundColor: "#1C2A3A",
+    height: 48,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "48%",
+    display: "flex"
+  },
+  bottomModalPrimaryButtonText: {
+    ...textStyles.bold,
+    fontSize: 16,
+    color: "#fff",
+    textAlign: "center"
+  },
+  bottomModalSecondaryButton: {
+    marginTop: 8,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 78,
+    backgroundColor: "#E5E7EB",
+    height: 48,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "48%",
+    display: "flex"
+  },
+  bottomModalSecondaryButtonText: {
+    ...textStyles.bold,
+    fontSize: 16,
+    color: "#1C2A3A",
+    textAlign: "center"
   },
 });
 
@@ -584,25 +650,49 @@ export const profileStyles = StyleSheet.create({
 
 export const splashStyles = StyleSheet.create({
   container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#F5FCFF',
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F5FCFF"
   },
   textBrand: {
-      ...textStyles.regular,
-      fontSize: 24,
-      fontWeight: '700',
-      margin: 12,
-      color: '#333',
-      textAlign: 'center',
-      fontFamily: 'Faustina-VariableFont_wght',
+    ...textStyles.regular,
+    fontSize: 24,
+    fontWeight: "700",
+    margin: 12,
+    color: "#333",
+    textAlign: "center",
+    fontFamily: "Faustina-VariableFont_wght"
   },
   textSlogan: {
-      ...textStyles.regular,
-      fontSize: 18,
-      color: '#333',
-      textAlign: 'center',
-      fontFamily: 'Faustina-VariableFont_wght',
+    ...textStyles.regular,
+    fontSize: 18,
+    color: "#333",
+    textAlign: "center",
+    fontFamily: "Faustina-VariableFont_wght"
   },
+});
+
+export const bottomTabBarStyles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    borderTopWidth: 1,
+    borderTopColor: "#E5E7EB",
+    height: 64,
+    paddingHorizontal: 24
+  },
+  tabButton: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  tabButtonIcon: {
+    width: 48,
+    height: 48,
+    borderRadius: 38,
+    justifyContent: "center"
+  }
 });

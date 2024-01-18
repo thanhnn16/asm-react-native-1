@@ -1,6 +1,6 @@
-import React from 'react';
-import {marginStyles, onboardingStyles} from '../assets/styles/MyStyles.tsx';
-import {Image, Pressable, PressableProps, Text} from 'react-native';
+import React from "react";
+import { marginStyles, modalStyles, onboardingStyles } from "../assets/styles/MyStyles.tsx";
+import { Image, Pressable, PressableProps, Text } from "react-native";
 
 export const PrimaryButton = ({
   btnText,
@@ -27,6 +27,64 @@ export const PrimaryButton = ({
       accessibilityLabel={btnText}
       accessibilityHint={btnText}>
       <Text style={onboardingStyles.buttonText}>{btnText}</Text>
+    </Pressable>
+  );
+};
+
+export const ModalCancelButton = ({
+                                    btnText,
+                                    onPress,
+                                    ...props
+                                  }: {
+  btnText: string;
+  onPress: () => void;
+} & PressableProps) => {
+  return (
+    <Pressable
+      style={({ pressed }) => [
+        {
+          backgroundColor: pressed ? "blue" : "#3c444b"
+        },
+        modalStyles.bottomModalSecondaryButton
+      ]}
+      onPress={onPress}
+      {...props}
+      android_ripple={{
+        color: "rgba(255,255,255,0.26)"
+      }}
+      accessibilityRole="button"
+      accessibilityLabel={btnText}
+      accessibilityHint={btnText}>
+      <Text style={modalStyles.bottomModalSecondaryButtonText}>{btnText}</Text>
+    </Pressable>
+  );
+};
+
+export const ModalOkButton = ({
+                                btnText,
+                                onPress,
+                                ...props
+                              }: {
+  btnText: string;
+  onPress: () => void;
+} & PressableProps) => {
+  return (
+    <Pressable
+      style={({ pressed }) => [
+        {
+          backgroundColor: pressed ? "blue" : "#3c444b"
+        },
+        modalStyles.bottomModalPrimaryButton
+      ]}
+      onPress={onPress}
+      {...props}
+      android_ripple={{
+        color: "rgba(255,255,255,0.26)"
+      }}
+      accessibilityRole="button"
+      accessibilityLabel={btnText}
+      accessibilityHint={btnText}>
+      <Text style={modalStyles.bottomModalPrimaryButtonText}>{btnText}</Text>
     </Pressable>
   );
 };

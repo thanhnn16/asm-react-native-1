@@ -1,10 +1,10 @@
-import React, {useCallback, useRef, useState} from 'react';
-import {Dimensions, Text, View, FlatList} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import LottieView from 'lottie-react-native';
-import {onboardingStyles} from '../../assets/styles/MyStyles.tsx';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {PrimaryButton} from '../../components/Button.tsx';
+import React, { useCallback, useRef, useState } from "react";
+import { Dimensions, FlatList, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import LottieView from "lottie-react-native";
+import { onboardingStyles } from "../../assets/styles/MyStyles.tsx";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { PrimaryButton } from "../../components/Button.tsx";
 
 const {width, height} = Dimensions.get('window');
 
@@ -35,7 +35,7 @@ export const Onboarding = () => {
       saveOnboardingStatus();
       navigation.reset({
         index: 0,
-        routes: [{name: 'WelcomeScreen'}],
+        routes: [{ name: "RegisterScreen" }]
       });
     } else {
       setIsScrolling(true);
