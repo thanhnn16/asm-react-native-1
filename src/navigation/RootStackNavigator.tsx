@@ -8,6 +8,7 @@ import { Onboarding } from "../screens/WelcomeScreens/OnboardingScreen";
 import SplashScreen from "../screens/WelcomeScreens/SplashScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import BottomTabNavigator from "./BottomTabNavigator";
+import ForgotPasswordScreen from "../screens/AuthScreens/ForgotPasswordScreens/ForgotPasswordScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -55,7 +56,7 @@ const RootStackNavigator = () => {
             />
             <Stack.Screen
                 name="ForgotPasswordScreen"
-                component={HomeScreen}
+                component={ForgotPasswordScreen}
                 options={{
                     headerShown: false,
                 }}
