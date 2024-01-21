@@ -1,5 +1,5 @@
 import { NavigationProp, useNavigation, useRoute, RouteProp } from "@react-navigation/native";
-import React from "react";
+import React, { useState } from "react";
 import { SafeAreaView, Text, View, Image, TextInput, Button, Alert } from "react-native";
 import { styles, textStyles, alignStyles, marginStyles, inputStyles } from "../../../assets/styles/MyStyles";
 import { TopLogo } from "../../../components/Logo";
@@ -10,12 +10,10 @@ import { PrimaryButton } from "../../../components/Button";
 
 
 export const CreatePassword = () => {
-    const [password, setPassword] = React.useState('');
-    const [error, setError] = React.useState(' ');
-    const [confirmPassword, setConfirmPassword] = React.useState('');
-    const [confirmError, setConfirmError] = React.useState(' ');
-    const [showPassword, setShowPassword] = React.useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [error, setError] = useState(' ');
+    const [confirmError, setConfirmError] = useState(' ');
 
     const navigation: NavigationProp<RootStackParamList> = useNavigation();
     // const route = useRoute<RouteProp<RootStackParamList, 'CreatePassword'>>();
@@ -51,14 +49,18 @@ export const CreatePassword = () => {
                     textStyles.secondary,
                     marginStyles.mt8,
                     textStyles.center,
+                    marginStyles.mh24,
                 ]}>
                 Bạn cần tạo mật khẩu để hoàn thành việc đăng ký. Vui lòng nhập một mật khẩu mạnh.
-                <Text>Mật khẩu phải có ít nhất 6 ký tự</Text>
             </Text>
+          <Text style={
+            [textStyles.center,
+            textStyles.secondary]
+          }>Mật khẩu phải có ít nhất 6 ký tự</Text>
 
-            <PasswordInputField password={password} setPassword={setPassword} setError={setError} placeholder={""} visible={false} setVisible={function (visible: boolean): void {
-                throw new Error("Function not implemented.");
-            }} />
+          <View style={marginStyles.mv8} />
+
+            <PasswordInputField password={password} setPassword={setPassword} setError={setError} placeholder={"Nhập mật khẩu"} />
             <Text
                 style={[
                     textStyles.h6,
@@ -69,9 +71,7 @@ export const CreatePassword = () => {
                 {error}
             </Text>
 
-            <PasswordInputField password={confirmPassword} setPassword={setConfirmPassword} setError={setConfirmError} placeholder={""} visible={false} setVisible={function (visible: boolean): void {
-                throw new Error("Function not implemented.");
-            }} />
+            <PasswordInputField password={confirmPassword} setPassword={setConfirmPassword} setError={setConfirmError} placeholder={"Nhập lại mật khẩu"}/>
 
             <Text
                 style={[
@@ -90,19 +90,15 @@ export const CreatePassword = () => {
                     console.log('Clicked');
                     if (error === ' ' && confirmError === ' ') {
                         Alert.alert(
-                            'Đã gửi OTP',
-                            'Mã OTP đã được gửi tới số điện thoại của quý khách, vui lòng nhập mã để tiếp tục',
+                            'Thành công',
+                            'Đăng ký thành công. Bạn sẽ được chuyển đến trang chủ',
                             [
                                 {
                                     text: 'Đồng ý',
                                     onPress: () => {
                                         // @ts-ignore
-                                        navigation.navigate('OTPSignUpScreen');
+                                        navigation.navigate('BottomTabNavigator');
                                     },
-                                },
-                                {
-                                    text: 'Hủy',
-                                    onPress: () => hide(),
                                 },
                             ],
                         );

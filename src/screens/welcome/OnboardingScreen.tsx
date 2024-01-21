@@ -1,15 +1,16 @@
 import React, { useCallback, useRef, useState } from "react";
 import { Dimensions, FlatList, Text, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import LottieView from "lottie-react-native";
 import { onboardingStyles } from "../../assets/styles/MyStyles.tsx";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PrimaryButton } from "../../components/Button.tsx";
+import RootStackParamList from "../../navigation/NavigationTypes.tsx";
 
 const {width, height} = Dimensions.get('window');
 
 export const Onboarding = () => {
-  const navigation = useNavigation();
+  const navigation: NavigationProp<RootStackParamList> = useNavigation();
   const totalPages = onboardingData.length;
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
@@ -22,8 +23,6 @@ export const Onboarding = () => {
       }
       const newIndex = Math.round(event.nativeEvent.contentOffset.x / width);
       if (currentIndex !== newIndex) {
-        console.log('currentIndex', currentIndex);
-        console.log('newIndex', newIndex);
         setCurrentIndex(newIndex);
       }
     },
@@ -35,7 +34,7 @@ export const Onboarding = () => {
       saveOnboardingStatus();
       navigation.reset({
         index: 0,
-        routes: [{ name: "RegisterScreen" }]
+        routes: [{ name: "RegisterScreen" }],
       });
     } else {
       setIsScrolling(true);
@@ -76,7 +75,6 @@ export const Onboarding = () => {
           btnText={currentIndex === totalPages - 1 ? 'Bắt đầu' : 'Tiếp tục'}
           onPress={() => {
             onPressHandler();
-            console.log('Clicked');
           }} />
         <View style={onboardingStyles.indicatorContainer}>
           {onboardingData.map((_item, index) => {
@@ -105,7 +103,7 @@ export const Onboarding = () => {
               setIsScrolling(false);
             }, 500);
           }}>
-          Bỏ qua
+          {currentIndex === totalPages - 1 ? '' : 'Bỏ qua'}
         </Text>
       </View>
     </View>

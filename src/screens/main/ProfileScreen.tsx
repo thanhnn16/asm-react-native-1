@@ -39,6 +39,7 @@ const ProfileScreen = () => {
           </>
         ))}
         <Pressable
+          key={'logout'}
           onPress={() => {
             setModalVisible(true);
           }}
@@ -58,10 +59,18 @@ const ProfileScreen = () => {
         isVisible={modalVisible}
         onOkPress={() => {
           setModalVisible(false);
-          navigation.reset({
-            index: 0,
-            routes: [{ name: "LoginScreen" }]
-          });
+          try {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "RegisterScreen" }]
+            });
+            // navigation.navigate('LoginScreen');
+            console.log('Logged out');
+          } catch (e) {
+            console.error(e);
+            console.log('Error logging out');
+          }
+          // navigation.navigate('LoginScreen');
         }}
         onCancelPress={() => {
           setModalVisible(false);

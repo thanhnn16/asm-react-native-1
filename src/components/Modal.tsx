@@ -22,7 +22,7 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
   });
 
   return (
-    <Modal animationType="fade" visible={isVisible} onRequestClose={() => {
+    <Modal animationType="fade" visible={isVisible} transparent={true} onRequestClose={() => {
     }}>
       <View style={modalStyles.modalContainer}>
         <View style={modalStyles.modalContent}>

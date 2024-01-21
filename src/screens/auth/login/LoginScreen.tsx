@@ -13,6 +13,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { GoogleButton, GuestButton, PrimaryButton } from "../../../components/Button";
 import { SuccessModal } from "../../../components/Modal.tsx";
 import RootStackParamList from "../../../navigation/NavigationTypes.tsx";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const LoginScreen: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -117,8 +118,9 @@ export const LoginScreen: React.FC = () => {
               setModalVisible(false);
               navigation.reset({
                 index: 0,
-                routes: [{name: 'HomeScreen'}],
+                routes: [{name: 'BottomTabNavigator'}],
               });
+              AsyncStorage.setItem('isLoggedIn', 'true');
             }, 3000);
           }
         }}
@@ -161,7 +163,7 @@ export const LoginScreen: React.FC = () => {
       <GoogleButton
         btnText="Đăng nhập với Google"
         onPress={() => {
-          console.log('Clicked');
+          console.log('Google clicked');
         }}
       />
 
@@ -189,7 +191,7 @@ export const LoginScreen: React.FC = () => {
           customFonts.medium,
         ]}
         onPress={() => {
-          console.log('Clicked');
+          console.log('Forgot password clicked');
         }}>
         Quên mật khẩu?
       </Text>

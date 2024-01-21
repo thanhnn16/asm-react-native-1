@@ -1,8 +1,8 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "../screens/MainScreens/HomeScreen";
-import ProfileScreen from "../screens/MainScreens/ProfileScreen";
-import AppointmentScreen from "../screens/MainScreens/AppointmentScreen";
-import ShopScreen from "../screens/MainScreens/ShopScreen";
+import HomeScreen from "../screens/main/HomeScreen";
+import ProfileScreen from "../screens/main/ProfileScreen";
+import AppointmentScreen from "../screens/main/AppointmentScreen";
+import ShopScreen from "../screens/main/ShopScreen";
 import BottomTabBar from "../components/BottomTabBar";
 import { View } from "react-native";
 
@@ -25,6 +25,7 @@ const BottomTabNavigator = () => {
       backBehavior="none"
       tabBar={props => <BottomTabBar {...props} />}>
       <Tab.Screen
+        key="HomeScreen"
         name="HomeScreen"
         component={HomeScreen}
         options={{
@@ -43,6 +44,7 @@ const BottomTabNavigator = () => {
         }}
       />
       <Tab.Screen
+        key="ShopScreen"
         name="ShopScreen"
         component={ShopScreen}
         options={{
@@ -62,6 +64,7 @@ const BottomTabNavigator = () => {
         }}
       />
       <Tab.Screen
+        key="AppointmentScreen"
         name="AppointmentScreen"
         component={AppointmentScreen}
         options={{
@@ -81,6 +84,7 @@ const BottomTabNavigator = () => {
         }}
       />
       <Tab.Screen
+        key="ProfileScreen"
         name="ProfileScreen"
         component={ProfileScreen}
         options={{

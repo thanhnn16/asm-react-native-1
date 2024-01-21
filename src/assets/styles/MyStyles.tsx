@@ -206,6 +206,11 @@ export const inputStyles = StyleSheet.create({
     marginStart: 14,
     marginEnd: 8,
   },
+  endIcon: {
+    width: 24,
+    height: 24,
+    marginEnd: 24,
+  },
   otpInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -272,6 +277,20 @@ export const alignStyles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     margin: 'auto',
+  },
+  left: {
+    alignItems: 'flex-start',
+    alignSelf: 'flex-start',
+    justifyContent: 'flex-start',
+  },
+  right: {
+    alignItems: 'flex-end',
+    alignSelf: 'flex-end',
+    justifyContent: 'flex-end',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });
 

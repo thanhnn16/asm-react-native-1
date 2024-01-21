@@ -104,7 +104,8 @@ export const OTPSignUpScreen = () => {
             setVisible(true);
             setTimeout(() => {
               setVisible(false);
-              navigation.navigate("BottomTabNavigator");
+              // navigation.navigate("BottomTabNavigator");
+              navigation.navigate('CreatePassword');
             }, 3000);
           }
         }}

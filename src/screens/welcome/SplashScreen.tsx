@@ -58,9 +58,16 @@ const AnimatedBootSplash = ({ onAnimationEnd }: Props) => {
       }).start(() => {
         onAnimationEnd();
         const getData = async () => {
-          await AsyncStorage.clear();
+          // await AsyncStorage.clear();
           try {
             const value = await AsyncStorage.getItem("onboarding");
+            const  isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
+            if (isLoggedIn) {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "BottomTabNavigator" }]
+              });
+            }
             if (value !== null) {
               navigation.reset({
                 index: 0,
