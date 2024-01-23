@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { FlatList, Image, Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { alignStyles, customWidth, marginStyles, styles, textStyles } from "../../assets/styles/MyStyles.tsx";
+import { SearchField } from "../../components/InputField.tsx";
 
 const HomeScreen: React.FC = () => {
+  const [search, setSearch] = useState('');
   return (
     <SafeAreaView
       style={[styles.container, customWidth.w100]}>
@@ -35,6 +37,7 @@ const HomeScreen: React.FC = () => {
           source={require("../../assets/images/icons/homepage/has_notification.png")}
         />
       </View>
+      <SearchField search={search} setSearch={setSearch} />
     </SafeAreaView>
   );
 };

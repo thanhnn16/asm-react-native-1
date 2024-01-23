@@ -61,14 +61,15 @@ const AnimatedBootSplash = ({ onAnimationEnd }: Props) => {
           // await AsyncStorage.clear();
           try {
             const value = await AsyncStorage.getItem("onboarding");
-            const  isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
+            const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
+            console.log(isLoggedIn);
+            console.log(value);
             if (isLoggedIn) {
               navigation.reset({
                 index: 0,
                 routes: [{ name: "BottomTabNavigator" }]
               });
-            }
-            if (value !== null) {
+            } else if (value !== null) {
               navigation.reset({
                 index: 0,
                 routes: [{ name: "RegisterScreen" }]
@@ -89,9 +90,9 @@ const AnimatedBootSplash = ({ onAnimationEnd }: Props) => {
             });
           }
         };
-        getData().then(r => console.log("Get onboarding status: ", r));
+        getData().then(r => console.log("Done"));
       });
-    },
+    }
   });
 
   return (

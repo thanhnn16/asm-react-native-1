@@ -5,6 +5,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { MenuItem, menuItems } from "../../components/item_layouts/ProfileItem";
 import RootStackParamList from "../../navigation/NavigationTypes";
 import { MyLogoutModal } from "../../components/Modal.tsx";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ProfileScreen = () => {
   const navigation: NavigationProp<RootStackParamList> = useNavigation();
@@ -60,17 +61,16 @@ const ProfileScreen = () => {
         onOkPress={() => {
           setModalVisible(false);
           try {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "RegisterScreen" }]
+            AsyncStorage.removeItem('isLoggedIn').then(() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "LoginScreen" }]
+              });
+              console.log('Logged out');
             });
-            // navigation.navigate('LoginScreen');
-            console.log('Logged out');
           } catch (e) {
-            console.error(e);
-            console.log('Error logging out');
+            console.error('Error: ', e);
           }
-          // navigation.navigate('LoginScreen');
         }}
         onCancelPress={() => {
           setModalVisible(false);

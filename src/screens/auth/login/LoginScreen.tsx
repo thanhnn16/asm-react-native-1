@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Image, SafeAreaView, Text, TextInput, View } from "react-native";
 import {
   alignStyles,
@@ -21,6 +21,16 @@ export const LoginScreen: React.FC = () => {
   const [error, setError] = useState(' ');
   let [modalVisible, setModalVisible] = useState(false);
   const navigation: NavigationProp<RootStackParamList> = useNavigation();
+
+  const timeoutId = useRef<NodeJS.Timeout | null>(null);
+  useEffect(() => {
+    return () => {
+      if (timeoutId.current) {
+        clearTimeout(timeoutId.current);
+      }
+    }
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <TopLogo />
@@ -114,13 +124,13 @@ export const LoginScreen: React.FC = () => {
           console.log('Original phone number: ', originalPhoneNum);
           if (originalPhoneNum === '0346542636' && password === '123456') {
             setModalVisible(true);
-            setTimeout(() => {
+            timeoutId.current = setTimeout(() => {
               setModalVisible(false);
               navigation.reset({
                 index: 0,
                 routes: [{name: 'BottomTabNavigator'}],
               });
-              AsyncStorage.setItem('isLoggedIn', 'true');
+              AsyncStorage.setItem('isLoggedIn', 'true').then(r => console.log('Logged in'));
             }, 3000);
           }
         }}
@@ -172,11 +182,11 @@ export const LoginScreen: React.FC = () => {
       <GuestButton
         btnText="Đăng nhập với tư cách khách"
         onPress={() => {
-          // navigation.reset({
-          //   index: 0,
-          //   routes: [{name: 'BottomTabNavigator'}],
-          // });
-          navigation.navigate("BottomTabNavigator");
+          AsyncStorage.setItem('isLoggedIn', 'true').then(() => {
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'BottomTabNavigator'}],
+          })});
         }}
       />
 

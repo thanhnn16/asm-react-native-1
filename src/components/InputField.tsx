@@ -40,6 +40,37 @@ export const PasswordInputField = (props: PasswordInputFieldProps) => {
     );
 }
 
+export const SearchField = (props: SearchFieldProps) => {
+    return (
+        <View style={[inputStyles.inputContainer, marginStyles.mt8]}>
+            <Image
+                source={require('../../src/assets/images/icons/input_field_icons/search-normal.png')}
+                style={inputStyles.icon}
+            />
+            <TextInput
+                style={inputStyles.input}
+                placeholder="Tìm kiếm"
+                placeholderTextColor="#9CA3AF"
+                value={props.search}
+                onChangeText={text => {
+                    props.setSearch(text);
+                }}
+                onSubmitEditing={() => {
+                    console.log('Submit');
+                }}
+                inputMode={'search'}
+                maxLength={255}
+                multiline={false}
+            />
+        </View>
+    );
+}
+
+type SearchFieldProps = {
+    search: string,
+    setSearch: (search: string) => void,
+}
+
 type PasswordInputFieldProps = {
     password: string,
     placeholder: string,
