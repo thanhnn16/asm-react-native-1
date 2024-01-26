@@ -6,10 +6,13 @@ import { GoogleButton, GuestButton, PrimaryButton } from "../../../components/Bu
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { hide } from "react-native-bootsplash";
 import RootStackParamList from "../../../navigation/NavigationTypes.tsx";
+import { LoadingModal } from "../../../components/Modal.tsx";
+import { checkPhoneNum } from "../../../api/services/authService.ts";
 
 export const RegisterScreen = () => {
-  const [phoneNumber, setPhoneNumber] = React.useState('');
-  const [error, setError] = React.useState(' ');
+  const [phoneNumber, setPhoneNumber] = React.useState("");
+  const [error, setError] = React.useState(" ");
+  const [modalVisible, setModalVisible] = React.useState(false);
   const navigation: NavigationProp<RootStackParamList> = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
@@ -19,7 +22,7 @@ export const RegisterScreen = () => {
           textStyles.h3,
           alignStyles.center,
           textStyles.center,
-          textStyles.bold,
+          textStyles.bold
         ]}>
         Đăng ký tài khoản
       </Text>
@@ -28,14 +31,14 @@ export const RegisterScreen = () => {
           textStyles.h6,
           textStyles.secondary,
           marginStyles.mt8,
-          textStyles.center,
+          textStyles.center
         ]}>
         Đăng ký ngay nhận ưu đãi khách hàng mới
       </Text>
 
       <View style={[inputStyles.inputContainer, marginStyles.mt32]}>
         <Image
-          source={require('../../../assets/images/icons/call.png')}
+          source={require("../../../assets/images/icons/call.png")}
           style={inputStyles.icon}
         />
         <TextInput
@@ -43,16 +46,16 @@ export const RegisterScreen = () => {
           placeholder="0123 456 789"
           keyboardType="phone-pad"
           placeholderTextColor="#9CA3AF"
-          inputMode={'numeric'}
+          inputMode={"numeric"}
           value={phoneNumber}
           onChangeText={text => {
             let formattedText: string;
             if (text != null) {
-              const digitsOnly = text.replace(/\D/g, '');
+              const digitsOnly = text.replace(/\D/g, "");
               const firstPart =
                 digitsOnly.substring(0, 6).match(/.{1,3}/g) || [];
               const secondPart = digitsOnly.substring(6).match(/.{1,4}/g) || [];
-              formattedText = [...firstPart, ...secondPart].join(' ').trim();
+              formattedText = [...firstPart, ...secondPart].join(" ").trim();
               setPhoneNumber(formattedText);
               setError(phoneValidator(text));
             }
@@ -64,39 +67,38 @@ export const RegisterScreen = () => {
         style={[
           textStyles.h6,
           textStyles.error,
-          marginStyles.mt8,
-          marginStyles.mh24,
+          marginStyles.mt4,
+          marginStyles.mh24
         ]}>
         {error}
       </Text>
       <PrimaryButton
         btnText="Đăng ký"
-        onPress={() => {
-          if (error !== ' ' || phoneNumber.length === 0) {
-            setError('Vui lòng nhập số điện thoại hợp lệ');
+        onPress={async () => {
+          if (error !== " " || phoneNumber.length === 0) {
+            setError("Vui lòng nhập số điện thoại hợp lệ");
             return;
           }
-          console.log('Clicked');
-          const originalPhoneNum: string = phoneNumber.replace(/\s/g, '');
-          console.log('Original phone number: ', originalPhoneNum);
-          if (originalPhoneNum === '0346542636') {
-            Alert.alert(
-              'Đã gửi OTP',
-              'Mã OTP đã được gửi tới số điện thoại của quý khách, vui lòng nhập mã để tiếp tục',
-              [
-                {
-                  text: 'Đồng ý',
-                  onPress: () => {
-                    // @ts-ignore
-                    navigation.navigate('OTPSignUpScreen');
-                  },
-                },
-                {
-                  text: 'Hủy',
-                  onPress: () => hide(),
-                },
-              ],
-            );
+          const originalPhoneNum: string = phoneNumber.replace(/\s/g, "");
+          try {
+            const data = {
+              phone_number: originalPhoneNum
+            };
+            setModalVisible(true);
+            const response = await checkPhoneNum(data);
+            if (response.message === "Phone number already exists") {
+              setModalVisible(false);
+              setError("Số điện thoại đã được đăng ký");
+              return;
+            }
+            setModalVisible(false);
+            navigation.navigate("OTPSignUpScreen", {
+              phoneNumber: originalPhoneNum
+            });
+          } catch (e: any) {
+            setModalVisible(false);
+            setError("Đã xảy ra lỗi");
+            return;
           }
         }}
       />
@@ -106,13 +108,13 @@ export const RegisterScreen = () => {
           marginStyles.mt24,
           alignStyles.center,
           marginStyles.mh24,
-          {flexDirection: 'row'},
+          { flexDirection: "row" }
         ]}>
         <View
           style={{
             flex: 1,
             height: 1,
-            backgroundColor: '#979797',
+            backgroundColor: "#979797"
           }}
         />
 
@@ -124,7 +126,7 @@ export const RegisterScreen = () => {
           style={{
             flex: 1,
             height: 1,
-            backgroundColor: '#979797',
+            backgroundColor: "#979797"
           }}
         />
       </View>
@@ -134,16 +136,19 @@ export const RegisterScreen = () => {
       <GoogleButton
         btnText="Đăng nhập với Google"
         onPress={() => {
-          console.log('Clicked');
+          console.log("Clicked");
         }}
       />
 
-      <View style={marginStyles.mt8} />
+      <View style={marginStyles.mt4} />
 
       <GuestButton
         btnText="Đăng nhập với tư cách khách"
         onPress={() => {
-          console.log('Clicked');
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "BottomTabNavigator" }]
+          });
         }}
       />
 
@@ -155,7 +160,7 @@ export const RegisterScreen = () => {
           textStyles.secondary,
           marginStyles.mt4,
           marginStyles.mh24,
-          textStyles.center,
+          textStyles.center
         ]}>
         Bằng cách đăng ký, bạn đã đồng ý với
       </Text>
@@ -166,7 +171,7 @@ export const RegisterScreen = () => {
           marginStyles.mt4,
           marginStyles.mh24,
           textStyles.center,
-          textStyles.link,
+          textStyles.link
         ]}>
         Điều khoản dịch vụ và Chính sách bảo mật của chúng tôi
       </Text>
@@ -179,31 +184,32 @@ export const RegisterScreen = () => {
           textStyles.secondary,
           marginStyles.mt8,
           marginStyles.mh24,
-          textStyles.center,
+          textStyles.center
         ]}>
-        Bạn đã có tài khoản?{' '}
+        Bạn đã có tài khoản?{" "}
         <Text
           style={[textStyles.h6, textStyles.primary]}
           onPress={() => {
-            navigation.navigate('LoginScreen');
+            navigation.navigate("LoginScreen");
           }}>
           Đăng nhập
         </Text>
       </Text>
       <View style={marginStyles.mt8} />
+      <LoadingModal isVisible={modalVisible} title={"Đang kiểm tra số điện thoại..."} />
     </SafeAreaView>
   );
 };
 
 function phoneValidator(phoneNumber: string) {
   if (!phoneNumber) {
-    return 'Số điện thoại không được để trống';
+    return "Số điện thoại không được để trống";
   }
-  if (phoneNumber.substring(0, 1) !== '0') {
-    return 'Số điện thoại phải bắt đầu bằng 0';
+  if (phoneNumber.substring(0, 1) !== "0") {
+    return "Số điện thoại phải bắt đầu bằng 0";
   }
   if (phoneNumber.length < 12) {
-    return 'Số điện thoại không được nhỏ hơn 10 số';
+    return "Số điện thoại không được nhỏ hơn 10 số";
   }
-  return ' ';
+  return " ";
 }

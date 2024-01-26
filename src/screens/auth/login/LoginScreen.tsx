@@ -11,16 +11,43 @@ import {
 import { TopLogo } from "../../../components/Logo";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { GoogleButton, GuestButton, PrimaryButton } from "../../../components/Button";
-import { SuccessModal } from "../../../components/Modal.tsx";
+import { LoadingModal, SuccessModal } from "../../../components/Modal.tsx";
 import RootStackParamList from "../../../navigation/NavigationTypes.tsx";
+import { login } from "../../../api/services/authService";
+import { setAuthToken } from "../../../api/apiConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const LoginScreen: React.FC = () => {
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState(' ');
-  let [modalVisible, setModalVisible] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(" ");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigation: NavigationProp<RootStackParamList> = useNavigation();
+
+
+  const handleLogin = async (phone_number: string, password: string) => {
+    try {
+      const data = {
+        phone_number: phone_number,
+        password: password
+      };
+
+      const response = await login(data);
+      console.log("Login response: ", response);
+
+      await AsyncStorage.multiSet([['token', response.token], ['isLoggedIn', 'true'], ['uid', response.userId.toString()]]);
+
+      setAuthToken(response.token);
+
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "BottomTabNavigator" }]
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
   useEffect(() => {
@@ -28,7 +55,7 @@ export const LoginScreen: React.FC = () => {
       if (timeoutId.current) {
         clearTimeout(timeoutId.current);
       }
-    }
+    };
   }, []);
 
   return (
@@ -39,7 +66,7 @@ export const LoginScreen: React.FC = () => {
           textStyles.h3,
           alignStyles.center,
           textStyles.center,
-          textStyles.bold,
+          textStyles.bold
         ]}>
         Chào mừng trở lại!
       </Text>
@@ -48,14 +75,14 @@ export const LoginScreen: React.FC = () => {
           textStyles.h6,
           textStyles.secondary,
           marginStyles.mt8,
-          textStyles.center,
+          textStyles.center
         ]}>
         Cảm ơn bạn đã tin tưởng chúng tôi
       </Text>
 
       <View style={[inputStyles.inputContainer, marginStyles.mt32]}>
         <Image
-          source={require('../../../assets/images/icons/call.png')}
+          source={require("../../../assets/images/icons/call.png")}
           style={inputStyles.icon}
         />
         <TextInput
@@ -63,16 +90,16 @@ export const LoginScreen: React.FC = () => {
           placeholder="0123 456 789"
           keyboardType="phone-pad"
           placeholderTextColor="#9CA3AF"
-          inputMode={'numeric'}
+          inputMode={"numeric"}
           value={phoneNumber}
           onChangeText={text => {
             let formattedText: string;
             if (text != null) {
-              const digitsOnly = text.replace(/\D/g, '');
+              const digitsOnly = text.replace(/\D/g, "");
               const firstPart =
                 digitsOnly.substring(0, 6).match(/.{1,3}/g) || [];
               const secondPart = digitsOnly.substring(6).match(/.{1,4}/g) || [];
-              formattedText = [...firstPart, ...secondPart].join(' ').trim();
+              formattedText = [...firstPart, ...secondPart].join(" ").trim();
               setPhoneNumber(formattedText);
               setError(phoneValidator(text));
             }
@@ -80,9 +107,9 @@ export const LoginScreen: React.FC = () => {
           maxLength={12}
         />
       </View>
-      <View style={[inputStyles.inputContainer, marginStyles.mt16]}>
+      <View style={[inputStyles.inputContainer, marginStyles.mt24]}>
         <Image
-          source={require('../../../assets/images/icons/lock.png')}
+          source={require("../../../assets/images/icons/lock.png")}
           style={inputStyles.icon}
         />
         <TextInput
@@ -93,10 +120,8 @@ export const LoginScreen: React.FC = () => {
           secureTextEntry={true}
           value={password}
           onChangeText={text => {
+            setError(passwordValidator(text));
             setPassword(text);
-            if (text != null) {
-              console.log('Password: ', text);
-            }
           }}
           maxLength={50}
         />
@@ -105,8 +130,8 @@ export const LoginScreen: React.FC = () => {
         style={[
           textStyles.h6,
           textStyles.error,
-          marginStyles.mt8,
-          marginStyles.mh24,
+          marginStyles.mt4,
+          marginStyles.mh24
         ]}>
         {error}
       </Text>
@@ -114,44 +139,39 @@ export const LoginScreen: React.FC = () => {
       <PrimaryButton
         btnText="Đăng nhập"
         onPress={() => {
-          passwordValidator(password);
-          if (error !== ' ' || phoneNumber.length === 0) {
-            setError('Sai số điện thoại hoặc mật khẩu');
+          if (phoneNumber === "" || password === "") {
+            setError("Vui lòng nhập đầy đủ thông tin");
             return;
           }
-          console.log('Clicked');
-          const originalPhoneNum: string = phoneNumber.replace(/\s/g, '');
-          console.log('Original phone number: ', originalPhoneNum);
-          if (originalPhoneNum === '0346542636' && password === '123456') {
-            setModalVisible(true);
+          const originalPhoneNum: string = phoneNumber.replace(/\s/g, "");
+          handleLogin(originalPhoneNum, password).then(() => {
+            setLoading(true);
             timeoutId.current = setTimeout(() => {
-              setModalVisible(false);
-              navigation.reset({
-                index: 0,
-                routes: [{name: 'BottomTabNavigator'}],
-              });
-              AsyncStorage.setItem('isLoggedIn', 'true').then(r => console.log('Logged in'));
+              setLoading(false);
             }, 3000);
-          }
+          }).catch((error) => {
+            console.log(error);
+          });
         }}
       />
       <SuccessModal
         isVisible={modalVisible}
-        title={'Đăng nhập thành công'}
-        message={'Vui lòng chờ giay lát, hệ thống sẽ chuyển hướng sau 3s...'}
+        title={"Đăng nhập thành công"}
+        message={"Vui lòng chờ giay lát, hệ thống sẽ chuyển hướng sau 3s..."}
       />
+      <LoadingModal isVisible={loading} title={"Đang đăng nhập..."} />
       <View
         style={[
           marginStyles.mt24,
           alignStyles.center,
           marginStyles.mh24,
-          {flexDirection: 'row'},
+          { flexDirection: "row" }
         ]}>
         <View
           style={{
             flex: 1,
             height: 1,
-            backgroundColor: '#979797',
+            backgroundColor: "#979797"
           }}
         />
 
@@ -163,7 +183,7 @@ export const LoginScreen: React.FC = () => {
           style={{
             flex: 1,
             height: 1,
-            backgroundColor: '#979797',
+            backgroundColor: "#979797"
           }}
         />
       </View>
@@ -173,7 +193,10 @@ export const LoginScreen: React.FC = () => {
       <GoogleButton
         btnText="Đăng nhập với Google"
         onPress={() => {
-          console.log('Google clicked');
+          setLoading(true);
+          timeoutId.current = setTimeout(() => {
+            setLoading(false);
+          }, 3000);
         }}
       />
 
@@ -182,11 +205,12 @@ export const LoginScreen: React.FC = () => {
       <GuestButton
         btnText="Đăng nhập với tư cách khách"
         onPress={() => {
-          AsyncStorage.setItem('isLoggedIn', 'true').then(() => {
-          navigation.reset({
-            index: 0,
-            routes: [{name: 'BottomTabNavigator'}],
-          })});
+          AsyncStorage.setItem("isLoggedIn", "true").then(() => {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "BottomTabNavigator" }]
+            });
+          });
         }}
       />
 
@@ -198,10 +222,10 @@ export const LoginScreen: React.FC = () => {
           textStyles.link,
           marginStyles.mt4,
           textStyles.center,
-          customFonts.medium,
+          customFonts.medium
         ]}
         onPress={() => {
-          console.log('Forgot password clicked');
+          console.log("Forgot password clicked");
         }}>
         Quên mật khẩu?
       </Text>
@@ -214,13 +238,13 @@ export const LoginScreen: React.FC = () => {
           textStyles.secondary,
           marginStyles.mt8,
           marginStyles.mh24,
-          textStyles.center,
+          textStyles.center
         ]}>
-        Chưa có tài khoản?{' '}
+        Chưa có tài khoản?{" "}
         <Text
           style={[textStyles.h6, textStyles.primary]}
           onPress={() => {
-            navigation.navigate('RegisterScreen');
+            navigation.navigate("RegisterScreen");
           }}>
           Đăng ký
         </Text>
@@ -232,25 +256,26 @@ export const LoginScreen: React.FC = () => {
 
 function phoneValidator(phoneNumber: string) {
   if (!phoneNumber) {
-    return 'Số điện thoại không được để trống';
+    return "Số điện thoại không được để trống";
   }
-  if (phoneNumber.substring(0, 1) !== '0') {
-    return 'Số điện thoại phải bắt đầu bằng 0';
+  if (phoneNumber.substring(0, 1) !== "0") {
+    return "Số điện thoại phải bắt đầu bằng 0";
   }
   if (phoneNumber.length < 12) {
-    return 'Số điện thoại không được nhỏ hơn 10 số';
+    return "Số điện thoại không được nhỏ hơn 10 số";
   }
-  return ' ';
+  return " ";
 }
 
 function passwordValidator(password: string) {
   if (!password) {
-    return 'Mật khẩu không được để trống';
+    return "Mật khẩu không được để trống";
   }
-  if (password.length < 6) {
-    return 'Mật khẩu phải có ít nhất 6 ký tự';
+  if (password.length < 8) {
+    return "Mật khẩu phải có ít nhất 8 ký tự";
   }
-  return ' ';
+  return " ";
 }
+
 
 export default LoginScreen;

@@ -8,17 +8,17 @@ import { styles } from "./assets/styles/MyStyles.tsx";
 
 const App = () => {
   useEffect(() => {
-    StatusBar.setBarStyle('dark-content');
-    if (Platform.OS === 'android') {
-      StatusBar.setBackgroundColor('transparent');
+    StatusBar.setBarStyle("dark-content");
+    if (Platform.OS === "android") {
+      StatusBar.setBackgroundColor("transparent");
       StatusBar.setTranslucent(true);
     }
   }, []);
   return (
     <SafeAreaView style={styles.container}>
-    <NavigationContainer>
-      <RootStackNavigator />
-    </NavigationContainer>
+      <NavigationContainer>
+        <RootStackNavigator />
+      </NavigationContainer>
     </SafeAreaView>
   );
 };

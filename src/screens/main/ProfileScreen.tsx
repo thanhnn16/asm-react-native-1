@@ -61,12 +61,11 @@ const ProfileScreen = () => {
         onOkPress={() => {
           setModalVisible(false);
           try {
-            AsyncStorage.removeItem('isLoggedIn').then(() => {
+            AsyncStorage.multiRemove(['isLoggedIn', 'token', 'uid']).then(() => {
               navigation.reset({
                 index: 0,
                 routes: [{ name: "LoginScreen" }]
               });
-              console.log('Logged out');
             });
           } catch (e) {
             console.error('Error: ', e);

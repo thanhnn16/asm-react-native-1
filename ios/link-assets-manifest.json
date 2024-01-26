@@ -2,12 +2,8 @@
   "migIndex": 1,
   "data": [
     {
-      "path": "src/assets/fonts/Faustina-Italic-VariableFont_wght.ttf",
-      "sha1": "cab47ee4a0c2739a380ab2e6aa02e40ac696e922"
-    },
-    {
-      "path": "src/assets/fonts/Faustina-VariableFont_wght.ttf",
-      "sha1": "0268b228fa203c1126fc4a2b8f37040d192708f6"
+      "path": "src/assets/fonts/Inter-VariableFont_slnt,wght.ttf",
+      "sha1": "26752c31bd3be24b0608ee27ac8c9a9a27245268"
     }
   ]
 }

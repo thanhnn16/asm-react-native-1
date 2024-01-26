@@ -42,13 +42,13 @@ export const PasswordInputField = (props: PasswordInputFieldProps) => {
 
 export const SearchField = (props: SearchFieldProps) => {
     return (
-        <View style={[inputStyles.inputContainer, marginStyles.mt8]}>
+        <View style={[inputStyles.searchContainer, marginStyles.mt8]}>
             <Image
                 source={require('../../src/assets/images/icons/input_field_icons/search-normal.png')}
                 style={inputStyles.icon}
             />
             <TextInput
-                style={inputStyles.input}
+                style={inputStyles.searchInput}
                 placeholder="Tìm kiếm"
                 placeholderTextColor="#9CA3AF"
                 value={props.search}

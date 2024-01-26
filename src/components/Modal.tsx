@@ -16,7 +16,6 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
 }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
-      console.log('Load done');
     }, 3000);
     return () => clearTimeout(timer);
   });
@@ -74,13 +73,20 @@ export const MyLogoutModal: React.FC<LogoutModalProps> = ({
     </Modal>
   );
 };
-export const MyLoadingModal = () => {
+
+type LoadingModalProps = {
+  isVisible: boolean;
+  title?: string;
+};
+
+export const LoadingModal = ({ isVisible, title }: LoadingModalProps) => {
   return (
-    <Modal animationType="fade" visible={true} onRequestClose={() => {
+    <Modal animationType="fade" visible={isVisible} transparent={true} onRequestClose={() => {
     }}>
       <View style={modalStyles.modalContainer}>
-        <View style={modalStyles.modalContent}>
-          <ActivityIndicator size="large" />
+        <View style={[modalStyles.modalContent, marginStyles.mv24]}>
+          <ActivityIndicator size="large" style={marginStyles.mt32} />
+          <Text style={[modalStyles.modalText, marginStyles.mt16, marginStyles.mb24]}>{title}</Text>
         </View>
       </View>
     </Modal>

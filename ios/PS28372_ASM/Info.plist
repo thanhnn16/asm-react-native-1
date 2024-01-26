@@ -35,8 +35,7 @@
 	<string></string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Faustina-Italic-VariableFont_wght.ttf</string>
-		<string>Faustina-VariableFont_wght.ttf</string>
+		<string>Inter-VariableFont_slnt,wght.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>BootSplash.storyboard</string>

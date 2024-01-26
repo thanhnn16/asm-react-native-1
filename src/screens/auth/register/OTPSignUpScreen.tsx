@@ -3,15 +3,16 @@ import { SafeAreaView, Text, TextInput, View } from "react-native";
 import { alignStyles, inputStyles, marginStyles, styles, textStyles } from "../../../assets/styles/MyStyles.tsx";
 import { TopLogo } from "../../../components/Logo.tsx";
 import { PrimaryButton } from "../../../components/Button.tsx";
-import { SuccessModal } from "../../../components/Modal.tsx";
+import { LoadingModal, SuccessModal } from "../../../components/Modal.tsx";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import RootStackParamList from "../../../navigation/NavigationTypes.tsx";
 
-export const OTPSignUpScreen = () => {
+export const OTPSignUpScreen = ({ route }) => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [error, setError] = useState(' ');
   const [visible, setVisible] = useState(false);
   const [otp, setOtp] = useState('');
+  const phoneNumber: string = route.params.phoneNumber;
   const otpInputs = Array(6)
     .fill(0)
     .map(() => createRef<TextInput>());
@@ -54,8 +55,10 @@ export const OTPSignUpScreen = () => {
           marginStyles.mh24,
           textStyles.center,
         ]}>
-        Vui lòng nhập mã mà chúng tôi đã gửi tới Số điện thoại của bạn. Vui lòng
-        không cung cấp mà cho bất kỳ ai!
+        Nhập mã OTP. Vui lòng không cung cấp OTP cho bất kỳ ai! (OTP: 123456)
+      </Text>
+      <Text style={[textStyles.h6, marginStyles.mt8, marginStyles.mh24, textStyles.center]}>
+        {phoneNumber}
       </Text>
       <View style={[marginStyles.mt32, inputStyles.otpInputContainer]}>
         {otpInputs.map((input, i) => (
@@ -104,9 +107,10 @@ export const OTPSignUpScreen = () => {
             setVisible(true);
             setTimeout(() => {
               setVisible(false);
-              // navigation.navigate("BottomTabNavigator");
-              navigation.navigate('CreatePassword');
-            }, 3000);
+              navigation.navigate('CreatePassword', {
+                phoneNumber: phoneNumber,
+              });
+            }, 1000);
           }
         }}
       />
@@ -117,9 +121,7 @@ export const OTPSignUpScreen = () => {
         </Text>
         <Text style={[textStyles.h6, textStyles.link]}>Gửi lại</Text>
       </View>
-      <SuccessModal
-        isVisible={visible}
-        message={'Bạn đã tạo tài khoản thành công. Hãy tận hưởng những ưu đãi và dịch vụ mà Bông Tuyết Trắng mang tới cho bạn...'} title={'Đăng ký thành công'}      />
+      <LoadingModal isVisible={visible} title={'Đang xác nhận...'} />
     </SafeAreaView>
   );
 };
