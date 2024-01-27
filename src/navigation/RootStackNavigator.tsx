@@ -1,15 +1,13 @@
-import { NavigationContainer } from "@react-navigation/native";
 import LoginScreen from "../screens/auth/login/LoginScreen";
 import { OTPSignUpScreen } from "../screens/auth/register/OTPSignUpScreen";
 import { RegisterScreen } from "../screens/auth/register/RegisterScreen";
-import HomeScreen from "../screens/main/HomeScreen";
-import ProfileScreen from "../screens/main/ProfileScreen";
 import { Onboarding } from "../screens/welcome/OnboardingScreen";
 import SplashScreen from "../screens/welcome/SplashScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import BottomTabNavigator from "./BottomTabNavigator";
 import ForgotPasswordScreen from "../screens/auth/forgot_password/ForgotPasswordScreen";
 import { CreatePassword } from "../screens/auth/register/CreatePassword.tsx";
+import BookAppointment from "../screens/service/BookAppointment.tsx";
 
 const Stack = createNativeStackNavigator();
 
@@ -75,6 +73,18 @@ const RootStackNavigator = () => {
           headerShown: false
         }}
       />
+      <Stack.Screen
+        key="BookAppointment"
+        name="BookAppointment"
+        component={BookAppointment}
+        options={{
+          title: "Đặt lịch hẹn",
+          headerTransparent: true,
+          headerBackTitleVisible: false,
+          headerTintColor: "#374151",
+          headerBackVisible: true,
+          headerBackImageSource: require("../../src/assets/images/icons/arrow-left.png")
+        }} />
     </Stack.Navigator>
   );
 };

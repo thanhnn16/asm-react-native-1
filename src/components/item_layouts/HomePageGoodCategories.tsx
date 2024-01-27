@@ -20,6 +20,7 @@ const HomePageGoodCategories = () => {
 const HomePageGoodCategoriesItem = ({ id, image, title }: HomePageGoodCategoriesProps) => {
   return (
     <Pressable
+      key={id}
       style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
       onPress={() => {
         console.log("ID pressed: " + id);

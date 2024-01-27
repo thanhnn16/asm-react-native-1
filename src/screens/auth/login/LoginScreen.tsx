@@ -16,6 +16,7 @@ import RootStackParamList from "../../../navigation/NavigationTypes.tsx";
 import { login } from "../../../api/services/authService";
 import { setAuthToken } from "../../../api/apiConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { PasswordInputField } from "../../../components/InputField.tsx";
 
 export const LoginScreen: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -24,7 +25,6 @@ export const LoginScreen: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigation: NavigationProp<RootStackParamList> = useNavigation();
-
 
   const handleLogin = async (phone_number: string, password: string) => {
     try {
@@ -35,8 +35,10 @@ export const LoginScreen: React.FC = () => {
 
       const response = await login(data);
       console.log("Login response: ", response);
+      console.log("Login data: ", data);
 
-      await AsyncStorage.multiSet([['token', response.token], ['isLoggedIn', 'true'], ['uid', response.userId.toString()]]);
+      const uid = response.userId;
+      await AsyncStorage.multiSet([['token', response.token], ['isLoggedIn', 'true'], ['uid', String(uid)]]);
 
       setAuthToken(response.token);
 
@@ -107,25 +109,10 @@ export const LoginScreen: React.FC = () => {
           maxLength={12}
         />
       </View>
-      <View style={[inputStyles.inputContainer, marginStyles.mt24]}>
-        <Image
-          source={require("../../../assets/images/icons/lock.png")}
-          style={inputStyles.icon}
-        />
-        <TextInput
-          style={inputStyles.input}
-          placeholder="******"
-          keyboardType="default"
-          placeholderTextColor="#9CA3AF"
-          secureTextEntry={true}
-          value={password}
-          onChangeText={text => {
-            setError(passwordValidator(text));
-            setPassword(text);
-          }}
-          maxLength={50}
-        />
-      </View>
+      <View style={marginStyles.mt4} />
+
+      <PasswordInputField password={password} placeholder={'********'} setPassword={setPassword} setError={setError} />
+
       <Text
         style={[
           textStyles.h6,
@@ -135,7 +122,6 @@ export const LoginScreen: React.FC = () => {
         ]}>
         {error}
       </Text>
-      <View style={marginStyles.mt4} />
       <PrimaryButton
         btnText="Đăng nhập"
         onPress={() => {

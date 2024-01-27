@@ -1,20 +1,36 @@
-import React, { useState } from "react";
-import { FlatList, Image, Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { alignStyles, customWidth, marginStyles, styles, textStyles } from "../../assets/styles/MyStyles.tsx";
 import { SearchField } from "../../components/InputField.tsx";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import HomePageGoodCategories from "../../components/item_layouts/HomePageGoodCategories.tsx";
+import { log } from "react-native-bootsplash/dist/typescript/generate";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import RootStackParamList from "../../navigation/NavigationTypes.tsx";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import HomepaceServiceCategories from "../../components/item_layouts/HomepaceServiceCategories.tsx";
 
 const HomeScreen: React.FC = () => {
   const insets = useSafeAreaInsets();
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
+  const navigation: NavigationProp<RootStackParamList> = useNavigation();
+  const [isShowBanner, setIsShowBanner] = useState(true);
+  useEffect(() => {
+    AsyncStorage.getItem("isShowBanner").then((value) => {
+      if (value === "false") {
+        setIsShowBanner(false);
+      } else {
+        setIsShowBanner(true);
+      }
+    });
+  }, [AsyncStorage.getItem("isShowBanner")]);
   return (
     <View
       style={[
         styles.container,
         customWidth.w100,
         { paddingTop: insets.top },
-        { paddingBottom: insets.bottom}
+        { paddingBottom: insets.bottom }
       ]}>
       <View style={[homeStyles.headerContainer]}>
         <View style={[alignStyles.left, { flexDirection: "column" }]}>
@@ -48,58 +64,70 @@ const HomeScreen: React.FC = () => {
 
       <SearchField search={search} setSearch={setSearch} />
 
-      <View style={[marginStyles.mt8, marginStyles.mh24]}>
-        <FlatList
-          pagingEnabled={true}
-
-          data={
-          [
-            {
-              id: 1,
-              image: require("../../assets/images/banner/1.png")
-            },
-            {
-              id: 2,
-              image: require("../../assets/images/banner/2.png")
-            },
-            {
-              id: 3,
-              image: require("../../assets/images/banner/3.png")
-            },
-            {
-              id: 4,
-              image: require("../../assets/images/banner/4.png")
-            },
-          ]
-        } keyExtractor={(item) => item.id.toString()
-        } renderItem={
-          ({ item }) => (
-            <View style={alignStyles.center}>
-              <Image
-                style={[homeStyles.bannerImage]}
-                source={item.image}
-              />
-            </View>
-          )
-        } horizontal={true} showsHorizontalScrollIndicator={false} />
-      </View>
-
-      <View style={[marginStyles.mt16, marginStyles.mh24]}>
-        <View style={[alignStyles.rowSpaceBetween]}>
-          <Text style={[textStyles.h5, textStyles.black, textStyles.bold]}>Danh mục hàng hoá</Text>
-          <Pressable><Text style={[textStyles.h6, textStyles.secondary]}>Xem tất cả</Text></Pressable>
+      {isShowBanner &&
+        <View style={[marginStyles.mt8, { position: "relative" }]}>
+          <FlatList
+            pagingEnabled={true}
+            data={
+              [
+                {
+                  id: 1,
+                  image: require("../../assets/images/banner/1.png")
+                },
+                {
+                  id: 2,
+                  image: require("../../assets/images/banner/2.png")
+                },
+                {
+                  id: 3,
+                  image: require("../../assets/images/banner/3.png")
+                },
+                {
+                  id: 4,
+                  image: require("../../assets/images/banner/4.png")
+                }
+              ]
+            } keyExtractor={(item) => item.id.toString()
+          } renderItem={
+            ({ item }) => (
+              <View>
+                <Image
+                  style={[homeStyles.bannerImage]}
+                  source={item.image}
+                />
+              </View>
+            )
+          } horizontal={true} showsHorizontalScrollIndicator={false} />
+          <Pressable style={homeStyles.closeContainer} onPress={() => {
+            AsyncStorage.setItem("isShowBanner", "false");
+          }}>
+            <Image style={homeStyles.closeImage} source={require("../../assets/images/banner/close.png")} />
+          </Pressable>
         </View>
-        <HomePageGoodCategories />
-      </View>
+      }
+      <ScrollView>
 
-      <View style={[marginStyles.mt24, marginStyles.mh24]}>
-        <View style={[alignStyles.rowSpaceBetween]}>
-          <Text style={[textStyles.h5, textStyles.black, textStyles.bold]}>Danh mục dịch vụ</Text>
-          <Pressable><Text style={[textStyles.h6, textStyles.secondary]}>Xem tất cả</Text></Pressable>
+        <View style={[marginStyles.mt16, marginStyles.mh24]}>
+          <View style={[alignStyles.rowSpaceBetween]}>
+            <Text style={[textStyles.h5, textStyles.black, textStyles.bold]}>Danh mục hàng hoá</Text>
+            <Pressable><Text style={[textStyles.h6, textStyles.secondary]}>Xem tất cả</Text></Pressable>
+          </View>
+          <HomePageGoodCategories />
         </View>
-        <HomePageGoodCategories />
-      </View>
 
+        <View style={[marginStyles.mt24, marginStyles.mh24, marginStyles.mb64]}>
+          <View style={[alignStyles.rowSpaceBetween]}>
+            <Text style={[textStyles.h5, textStyles.black, textStyles.bold]}>Danh mục dịch vụ</Text>
+            <Pressable
+              onPress={() => {
+                navigation.navigate("BookAppointment");
+              }}
+            ><Text style={[textStyles.h6, textStyles.secondary]}>Xem tất cả</Text></Pressable>
+          </View>
+          <HomepaceServiceCategories />
+        </View>
+
+      </ScrollView>
     </View>
   );
 };
@@ -143,9 +171,19 @@ const homeStyles = StyleSheet.create({
   },
   bannerImage: {
     ...customWidth.screenWidth,
-    height: 140,
-    objectFit: "contain",
+    height: 164,
+    objectFit: "contain"
   },
+  closeContainer: {
+    position: "absolute",
+    top: 0,
+    right: 24,
+    zIndex: 5
+  },
+  closeImage: {
+    width: 20,
+    height: 20
+  }
 });
 
 export default HomeScreen;

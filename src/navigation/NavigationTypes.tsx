@@ -1,4 +1,5 @@
 import { CreatePassword } from "../screens/auth/register/CreatePassword.tsx";
+import BookAppointment from "../screens/service/BookAppointment.tsx";
 
 type RootStackParamList = {
   SplashScreen: undefined;
@@ -17,6 +18,7 @@ type RootStackParamList = {
   Support: undefined;
   Terms: undefined;
   BottomTabNavigator: undefined;
+  BookAppointment: undefined;
 };
 
 export default RootStackParamList;

@@ -28,7 +28,7 @@ const ProfileScreen = () => {
       <Text style={profileStyles.phoneNumber}>034 654 2636</Text>
       <View style={profileStyles.itemsContainer}>
         {menuItems.map(item => (
-          <>
+          <View key={item.id}>
             <MenuItem
               id={item.id}
               key={item.id}
@@ -36,11 +36,11 @@ const ProfileScreen = () => {
               title={item.title}
               route={item.route}
             />
-            <View style={profileStyles.itemDivider} />
-          </>
+            <View style={profileStyles.itemDivider} key={`divider + ${item.id}`} />
+          </View>
         ))}
         <Pressable
-          key={'logout'}
+          key='logout'
           onPress={() => {
             setModalVisible(true);
           }}

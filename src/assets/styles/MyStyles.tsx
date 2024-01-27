@@ -243,6 +243,9 @@ export const inputStyles = StyleSheet.create({
   }
 });
 export const marginStyles = StyleSheet.create({
+  mt64: {
+    marginTop: 64
+  },
   mt32: {
     marginTop: 32
   },
@@ -288,6 +291,9 @@ export const marginStyles = StyleSheet.create({
   mv4: {
     marginVertical: 4
   },
+  mb64: {
+    marginBottom: 64
+  },
   mb32: {
     marginBottom: 32
   },
@@ -302,6 +308,33 @@ export const marginStyles = StyleSheet.create({
   },
   mb4: {
     marginBottom: 4
+  },
+  ph32: {
+    paddingHorizontal: 32
+  },
+  ph24: {
+    paddingHorizontal: 24
+  },
+  ph16: {
+    paddingHorizontal: 16
+  },
+  ph8: {
+    paddingHorizontal: 8
+  },
+  pv32: {
+    paddingVertical: 32
+  },
+  pv24: {
+    paddingVertical: 24
+  },
+  pv16: {
+    paddingVertical: 16
+  },
+  pv8: {
+    paddingVertical: 8
+  },
+  pt64: {
+    paddingTop: 64
   },
 });
 
@@ -329,8 +362,8 @@ export const alignStyles = StyleSheet.create({
   rowSpaceBetween: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: 'center'
-  },
+    alignItems: "center"
+  }
 });
 
 export const onboardingStyles = StyleSheet.create({
@@ -593,7 +626,7 @@ export const modalStyles = StyleSheet.create({
     fontSize: 16,
     color: "#1C2A3A",
     textAlign: "center"
-  },
+  }
 });
 
 export const customWidth = StyleSheet.create({
@@ -630,6 +663,9 @@ export const customWidth = StyleSheet.create({
   screenWidth: {
     width: screenWidth
   },
+  screenWidthM24: {
+    width: screenWidth - 48
+  }
 });
 
 export const profileStyles = StyleSheet.create({
