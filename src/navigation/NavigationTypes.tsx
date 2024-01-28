@@ -11,10 +11,10 @@ type RootStackParamList = {
   HomeScreen: undefined;
   ProfileScreen: undefined;
   EditProfile: undefined;
-  Favorite: undefined;
+  Favorites: undefined;
   OrderHistory: undefined;
-  Notification: undefined;
-  Setting: undefined;
+  Notifications: undefined;
+  Settings: undefined;
   Support: undefined;
   Terms: undefined;
   BottomTabNavigator: undefined;

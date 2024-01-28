@@ -24,14 +24,14 @@ export const MenuItem: React.FC<MenuItemProps> = ({icon, title, route}) => {
       </Pressable>
     );
   };
-  
+
   type MenuItemProps = {
     id: string;
     icon: string;
     title: string;
     route: any;
   };
-  
+
 export const menuItems = [
     {
       id: '1',
@@ -43,7 +43,7 @@ export const menuItems = [
       id: '2',
       icon: require('../../assets/images/icons/heart.png'),
       title: 'Mục yêu thích',
-      route: 'Favorite',
+      route: 'Favorites',
     },
     {
       id: '3',
@@ -55,13 +55,13 @@ export const menuItems = [
       id: '4',
       icon: require('../../assets/images/icons/notification.png'),
       title: 'Thông báo',
-      route: 'Notification',
+      route: 'Notifications',
     },
     {
       id: '5',
       icon: require('../../assets/images/icons/setting-2.png'),
       title: 'Cài đặt',
-      route: 'Setting',
+      route: 'Settings',
     },
     {
       id: '6',
@@ -76,4 +76,3 @@ export const menuItems = [
       route: 'Terms',
     },
   ];
-  

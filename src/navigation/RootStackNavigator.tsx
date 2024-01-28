@@ -8,6 +8,12 @@ import BottomTabNavigator from "./BottomTabNavigator";
 import ForgotPasswordScreen from "../screens/auth/forgot_password/ForgotPasswordScreen";
 import { CreatePassword } from "../screens/auth/register/CreatePassword.tsx";
 import BookAppointment from "../screens/service/BookAppointment.tsx";
+import NotificationScreen from "../screens/main/NotificationScreen.tsx";
+import ProfileNavigator from "./ProfileNavigator.tsx";
+import EditProfileScreen from "../screens/main/profile_screens/EditProfileScreen.tsx";
+import FavoritesScreen from "../screens/main/profile_screens/FavoritesScreen.tsx";
+import OrderHistoryScreen from "../screens/main/profile_screens/OrderHistoryScreen.tsx";
+import SettingsScreen from "../screens/main/profile_screens/SettingsScreen.tsx";
 
 const Stack = createNativeStackNavigator();
 
@@ -79,6 +85,62 @@ const RootStackNavigator = () => {
         component={BookAppointment}
         options={{
           title: "Đặt lịch hẹn",
+          headerTransparent: true,
+          headerBackTitleVisible: false,
+          headerTintColor: "#374151",
+          headerBackVisible: true,
+          headerBackImageSource: require("../../src/assets/images/icons/arrow-left.png")
+        }} />
+      <Stack.Screen
+        name="Notifications"
+        component={NotificationScreen}
+        options={{
+          title: "Thông báo",
+          headerTransparent: true,
+          headerBackTitleVisible: false,
+          headerTintColor: "#374151",
+          headerBackVisible: true,
+          headerBackImageSource: require("../../src/assets/images/icons/arrow-left.png")
+        }}
+      />
+      <Stack.Screen
+        name="EditProfile"
+        component={EditProfileScreen}
+        options={{
+          title: "Sửa hồ sơ",
+          headerTransparent: true,
+          headerBackTitleVisible: false,
+          headerTintColor: "#374151",
+          headerBackVisible: true,
+          headerBackImageSource: require("../../src/assets/images/icons/arrow-left.png")        }}
+      />
+      <Stack.Screen
+        name="Favorites"
+        component={FavoritesScreen}
+        options={{
+          title: "Mục yêu thích",
+          headerTransparent: true,
+          headerBackTitleVisible: false,
+          headerTintColor: "#374151",
+          headerBackVisible: true,
+          headerBackImageSource: require("../../src/assets/images/icons/arrow-left.png")        }}
+      />
+      <Stack.Screen
+        name="OrderHistory"
+        component={OrderHistoryScreen}
+        options={{
+          title: "Lịch sử đặt hàng",
+          headerTransparent: true,
+          headerBackTitleVisible: false,
+          headerTintColor: "#374151",
+          headerBackVisible: true,
+          headerBackImageSource: require("../../src/assets/images/icons/arrow-left.png")        }}
+      />
+      <Stack.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          title: "Cài đặt",
           headerTransparent: true,
           headerBackTitleVisible: false,
           headerTintColor: "#374151",

@@ -34,8 +34,6 @@ export const LoginScreen: React.FC = () => {
       };
 
       const response = await login(data);
-      console.log("Login response: ", response);
-      console.log("Login data: ", data);
 
       const uid = response.userId;
       await AsyncStorage.multiSet([['token', response.token], ['isLoggedIn', 'true'], ['uid', String(uid)]]);
@@ -47,7 +45,10 @@ export const LoginScreen: React.FC = () => {
         routes: [{ name: "BottomTabNavigator" }]
       });
     } catch (error) {
-      console.error(error);
+      // @ts-ignore
+      if (error.response.status === 401) {
+        setError("Số điện thoại hoặc mật khẩu không đúng");
+      }
     }
   };
 
@@ -134,7 +135,7 @@ export const LoginScreen: React.FC = () => {
             setLoading(true);
             timeoutId.current = setTimeout(() => {
               setLoading(false);
-            }, 3000);
+            }, 1000);
           }).catch((error) => {
             console.log(error);
           });

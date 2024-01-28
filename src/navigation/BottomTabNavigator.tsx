@@ -15,6 +15,7 @@ import ShopIcon from "../assets/images/icons/bottom_navigation/shop.svg";
 import AppointmentIcon from "../assets/images/icons/bottom_navigation/appointment.svg";
 // @ts-ignore
 import ProfileIcon from "../assets/images/icons/bottom_navigation/profile.svg";
+import ProfileNavigator from "./ProfileNavigator.tsx";
 
 const Tab = createBottomTabNavigator();
 

@@ -56,10 +56,15 @@ const HomeScreen: React.FC = () => {
             </View>
           </Pressable>
         </View>
-        <Image
-          style={[homeStyles.image]}
-          source={require("../../assets/images/icons/homepage/has_notification.png")}
-        />
+        <Pressable
+          onPress={() => {
+            navigation.navigate("Notifications");
+          }}>
+          <Image
+            style={[homeStyles.image]}
+            source={require("../../assets/images/icons/homepage/has_notification.png")}
+          />
+        </Pressable>
       </View>
 
       <SearchField search={search} setSearch={setSearch} />
@@ -90,7 +95,7 @@ const HomeScreen: React.FC = () => {
             } keyExtractor={(item) => item.id.toString()
           } renderItem={
             ({ item }) => (
-              <View>
+              <View key={item.id}>
                 <Image
                   style={[homeStyles.bannerImage]}
                   source={item.image}
@@ -109,7 +114,7 @@ const HomeScreen: React.FC = () => {
 
         <View style={[marginStyles.mt16, marginStyles.mh24]}>
           <View style={[alignStyles.rowSpaceBetween]}>
-            <Text style={[textStyles.h5, textStyles.black, textStyles.bold]}>Danh mục hàng hoá</Text>
+            <Text style={[textStyles.h5, textStyles.black, textStyles.bold]}>Sản phẩm bán chạy</Text>
             <Pressable><Text style={[textStyles.h6, textStyles.secondary]}>Xem tất cả</Text></Pressable>
           </View>
           <HomePageGoodCategories />
@@ -117,7 +122,7 @@ const HomeScreen: React.FC = () => {
 
         <View style={[marginStyles.mt24, marginStyles.mh24, marginStyles.mb64]}>
           <View style={[alignStyles.rowSpaceBetween]}>
-            <Text style={[textStyles.h5, textStyles.black, textStyles.bold]}>Danh mục dịch vụ</Text>
+            <Text style={[textStyles.h5, textStyles.black, textStyles.bold]}>Dịch vụ nổi bật</Text>
             <Pressable
               onPress={() => {
                 navigation.navigate("BookAppointment");

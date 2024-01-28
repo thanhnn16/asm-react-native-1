@@ -276,6 +276,9 @@ export const marginStyles = StyleSheet.create({
   mh8: {
     marginHorizontal: 8
   },
+  mh4: {
+    marginHorizontal: 4
+  },
   mv32: {
     marginVertical: 32
   },

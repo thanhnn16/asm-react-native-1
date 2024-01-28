@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { FlatList, Image, ImageBackground, ImageSourcePropType, Pressable, StyleSheet, Text, View } from "react-native";
 import { alignStyles, customWidth, marginStyles, textStyles } from "../../assets/styles/MyStyles.tsx";
 
 
@@ -15,7 +15,7 @@ const HomepaceServiceCategories: React.FC = () => {
             title={item.title}
             price={item.price}
             isLTR={item.isLTR}
-            background={item.background}
+            backgroundImage={item.backgroundImage}
             onPress={() => {
               console.log("Pressed");
             }}
@@ -34,7 +34,7 @@ type ServiceCategoryItemProps = {
   title: string;
   price: string;
   isLTR: boolean;
-  background: string;
+  backgroundImage: ImageSourcePropType;
   onPress: () => void;
 }
 
@@ -42,23 +42,28 @@ const ServiceCategoryItem: React.FC<ServiceCategoryItemProps> = ({
                                                                    title,
                                                                    price,
                                                                    isLTR,
-                                                                   background,
+                                                                   backgroundImage,
                                                                    onPress
                                                                  }) => {
   return (
-    <View style={[styles.serviceCategoryItemContainer, { backgroundColor: background }]}>
-      <Pressable onPress={onPress}>
-        <View style={[alignStyles.row, alignStyles.center]}>
-          <View style={[alignStyles.center, { flex: 1 }]}>
-            <Text style={[textStyles.h6, textStyles.bold, textStyles.white]}>{title}</Text>
-            <Text style={[textStyles.h6, textStyles.white]}>{price}</Text>
+    <View style={[styles.serviceCategoryItemContainer]}>
+      <ImageBackground source={backgroundImage} resizeMode="contain" style={[styles.serviceCategoryItemContainer]}>
+        <Pressable onPress={onPress} style={styles.contentContainer}>
+          <View>
+            <View>
+              <Text style={[textStyles.h6, textStyles.bold, textStyles.white, isLTR ? styles.textLTR : styles.textRTL]}>{title}</Text>
+            </View>
+            <View style={styles.divider} />
+            <View style={[isLTR ? alignStyles.left : alignStyles.right, alignStyles.row]}>
+              <Image
+                style={[styles.serviceCategoryItemIcon]}
+                source={require("../../../src/assets/images/homepage/dollar-square.png")}
+              />
+              <Text style={[textStyles.h6, textStyles.white, marginStyles.mh4]}>{price}</Text>
+            </View>
           </View>
-          <Image
-            style={[styles.serviceCategoryItemIcon]}
-            source={require("../../../src/assets/images/icons/homepage/has_notification.png")}
-          />
-        </View>
-      </Pressable>
+        </Pressable>
+      </ImageBackground>
     </View>
   );
 };
@@ -69,6 +74,17 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     ...customWidth.screenWidthM24,
     height: 110,
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowColor: "#000",
+    shadowOpacity: 0.25,
+    shadowRadius: 0.5
+  },
+  contentContainer: {
+    marginTop: 8,
+    marginHorizontal: 12,
   },
   serviceCategoryItemIcon: {
     width: 24,
@@ -77,38 +93,50 @@ const styles = StyleSheet.create({
   serviceCategoriesContainer: {
     flexWrap: "wrap",
     justifyContent: "center",
-    alignItems: "center",
-  }
+    alignItems: "center"
+  },
+  divider: {
+    width: "100%",
+    height: 1,
+    backgroundColor: "#E5E7EB",
+    marginVertical: 4,
+  },
+  textLTR: {
+    textAlign: "left"
+  },
+  textRTL: {
+    textAlign: "right"
+  },
 });
 
 const data = [
   {
     id: 1,
-    title: "Dịch vụ 1",
+    title: "Tháo & lắp Máy lạnh",
     price: "100.000đ",
     isLTR: true,
-    background: "#FFC107"
+    backgroundImage: require("../../../src/assets/images/homepage/services/thao_lap.png"),
   },
   {
     id: 2,
-    title: "Dịch vụ 2",
+    title: "Vệ sinh máy lạnh",
     price: "100.000đ",
     isLTR: false,
-    background: "#FF5722"
+    backgroundImage: require("../../../src/assets/images/homepage/services/ve_sinh.png"),
   },
   {
     id: 3,
-    title: "Dịch vụ 3",
+    title: "Tháo & lắp Máy lạnh",
     price: "100.000đ",
     isLTR: true,
-    background: "#FFC107"
+    backgroundImage: require("../../../src/assets/images/homepage/services/thao_lap.png"),
   },
   {
     id: 4,
-    title: "Dịch vụ 4",
+    title: "Vệ sinh máy lạnh",
     price: "100.000đ",
     isLTR: false,
-    background: "#FF5722"
+    backgroundImage: require("../../../src/assets/images/homepage/services/ve_sinh.png"),
   }
 ];
 
