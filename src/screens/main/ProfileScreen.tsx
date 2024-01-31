@@ -1,15 +1,56 @@
-import React, { useState } from "react";
-import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Alert, Image, Pressable, ScrollView, Text, View } from "react-native";
 import { profileStyles } from "../../assets/styles/MyStyles";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { MenuItem, menuItems } from "../../components/item_layouts/ProfileItem";
 import RootStackParamList from "../../navigation/NavigationTypes";
 import { MyLogoutModal } from "../../components/Modal.tsx";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import api, { setAuthToken } from "../../api/apiConfig.ts";
+import { getUser } from "../../api/services/userService.ts";
 
 const ProfileScreen = () => {
   const navigation: NavigationProp<RootStackParamList> = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
+  const [userName, setUserName] = useState('Khách');
+  const [phoneNumber, setPhoneNumber] = useState('000 0000 000');
+
+  useEffect(() => {
+    AsyncStorage.multiGet(['uid', 'token']).then((response) => {
+      const uid = response[0][1];
+      const token = response[1][1];
+      if (uid === null || token === null) {
+        Alert.alert('Chưa đăng nhập', 'Vui lòng đăng nhập để sử dụng chức năng này',[
+          {
+            text: 'Đồng ý',
+            onPress: () => {
+              navigation.navigate('LoginScreen');
+            }
+          },
+          {
+            text: 'Để sau',
+            style: 'cancel'
+          }
+        ]);
+        return;
+      }
+      setAuthToken(token);
+      getUser(uid).then((res) => {
+        const user = res.user;
+        setUserName(user.full_name);
+        setPhoneNumber(user.phone_number);
+      }).catch((err) => {
+        console.log('Error:', err);
+      });
+      // api.get(`/user/${uid}`).then((res) => {
+      //   const user = res.data.user;
+      //   setUserName(user.full_name);
+      //   setPhoneNumber(user.phone_number);
+      // }).catch((err) => {
+      //   console.log('Error:', err);
+      // });
+    });
+  }, []);
   return (
     <ScrollView style={profileStyles.container}>
       <View style={profileStyles.avatar}>
@@ -24,8 +65,8 @@ const ProfileScreen = () => {
           />
         </Pressable>
       </View>
-      <Text style={profileStyles.userName}>Nông Nguyễn Thành</Text>
-      <Text style={profileStyles.phoneNumber}>034 654 2636</Text>
+      <Text style={profileStyles.userName}>Chào, {userName}</Text>
+      <Text style={profileStyles.phoneNumber}>{phoneNumber}</Text>
       <View style={profileStyles.itemsContainer}>
         {menuItems.map(item => (
           <View key={item.id}>

@@ -11,14 +11,15 @@ const config = {
   },
 };
 
+const api = axios.create(config);
+
+
 export function setAuthToken(token: string | null) {
   if (token) {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   } else {
-    delete axios.defaults.headers.common["Authorization"];
+    delete api.defaults.headers.common["Authorization"];
   }
 }
-
-const api = axios.create(config);
 
 export default api;

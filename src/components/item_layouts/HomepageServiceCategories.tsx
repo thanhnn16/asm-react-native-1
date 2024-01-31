@@ -3,7 +3,7 @@ import { FlatList, Image, ImageBackground, ImageSourcePropType, Pressable, Style
 import { alignStyles, customWidth, marginStyles, textStyles } from "../../assets/styles/MyStyles.tsx";
 
 
-const HomepaceServiceCategories: React.FC = () => {
+const HomepageServiceCategories: React.FC = () => {
   return (
     <View style={[alignStyles.row, alignStyles.center, styles.serviceCategoriesContainer]}>
       <FlatList
@@ -11,13 +11,14 @@ const HomepaceServiceCategories: React.FC = () => {
         data={data}
         renderItem={({ item }) => (
           <ServiceCategoryItem
+            key={item.id}
             id={item.id}
             title={item.title}
             price={item.price}
             isLTR={item.isLTR}
             backgroundImage={item.backgroundImage}
             onPress={() => {
-              console.log("Pressed");
+              console.log(`Item with id: ${item.id} pressed`);
             }}
           />
         )}
@@ -39,6 +40,7 @@ type ServiceCategoryItemProps = {
 }
 
 const ServiceCategoryItem: React.FC<ServiceCategoryItemProps> = ({
+                                                                   id,
                                                                    title,
                                                                    price,
                                                                    isLTR,
@@ -46,12 +48,15 @@ const ServiceCategoryItem: React.FC<ServiceCategoryItemProps> = ({
                                                                    onPress
                                                                  }) => {
   return (
-    <View style={[styles.serviceCategoryItemContainer]}>
+    <View style={[styles.serviceCategoryItemContainer]}
+          key={id}
+    >
       <ImageBackground source={backgroundImage} resizeMode="contain" style={[styles.serviceCategoryItemContainer]}>
         <Pressable onPress={onPress} style={styles.contentContainer}>
           <View>
             <View>
-              <Text style={[textStyles.h6, textStyles.bold, textStyles.white, isLTR ? styles.textLTR : styles.textRTL]}>{title}</Text>
+              <Text
+                style={[textStyles.h6, textStyles.bold, textStyles.white, isLTR ? styles.textLTR : styles.textRTL]}>{title}</Text>
             </View>
             <View style={styles.divider} />
             <View style={[isLTR ? alignStyles.left : alignStyles.right, alignStyles.row]}>
@@ -83,8 +88,9 @@ const styles = StyleSheet.create({
     shadowRadius: 0.5
   },
   contentContainer: {
-    marginTop: 8,
-    marginHorizontal: 12,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    flex: 1
   },
   serviceCategoryItemIcon: {
     width: 24,
@@ -99,45 +105,45 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 1,
     backgroundColor: "#E5E7EB",
-    marginVertical: 4,
+    marginVertical: 4
   },
   textLTR: {
     textAlign: "left"
   },
   textRTL: {
     textAlign: "right"
-  },
+  }
 });
 
 const data = [
   {
     id: 1,
-    title: "Tháo & lắp Máy lạnh",
+    title: "Tháo & lắp máy lạnh",
     price: "100.000đ",
     isLTR: true,
-    backgroundImage: require("../../../src/assets/images/homepage/services/thao_lap.png"),
+    backgroundImage: require("../../../src/assets/images/homepage/services/thao_lap.png")
   },
   {
     id: 2,
     title: "Vệ sinh máy lạnh",
     price: "100.000đ",
     isLTR: false,
-    backgroundImage: require("../../../src/assets/images/homepage/services/ve_sinh.png"),
+    backgroundImage: require("../../../src/assets/images/homepage/services/ve_sinh.png")
   },
   {
     id: 3,
-    title: "Tháo & lắp Máy lạnh",
+    title: "Sửa chữa giá rẻ",
     price: "100.000đ",
     isLTR: true,
-    backgroundImage: require("../../../src/assets/images/homepage/services/thao_lap.png"),
+    backgroundImage: require("../../../src/assets/images/homepage/services/sua_chua.png")
   },
   {
     id: 4,
-    title: "Vệ sinh máy lạnh",
+    title: "Bơm gas máy lạnh",
     price: "100.000đ",
     isLTR: false,
-    backgroundImage: require("../../../src/assets/images/homepage/services/ve_sinh.png"),
+    backgroundImage: require("../../../src/assets/images/homepage/services/bom_gas.png")
   }
 ];
 
-export default HomepaceServiceCategories;
+export default HomepageServiceCategories;

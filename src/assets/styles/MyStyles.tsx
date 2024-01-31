@@ -699,7 +699,7 @@ export const profileStyles = StyleSheet.create({
   },
   userName: {
     ...textStyles.bold,
-    fontSize: 24,
+    fontSize: 20,
     color: "#1F2A37",
     textAlign: "center",
     marginTop: 16
@@ -753,7 +753,7 @@ export const splashStyles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F5FCFF"
+    backgroundColor: "#FFFFFF"
   },
   textBrand: {
     ...textStyles.regular,

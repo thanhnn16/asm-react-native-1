@@ -5,25 +5,25 @@ import { SearchField } from "../../components/InputField.tsx";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import HomePageGoodCategories from "../../components/item_layouts/HomePageGoodCategories.tsx";
 import { log } from "react-native-bootsplash/dist/typescript/generate";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { NavigationProp, useFocusEffect, useNavigation } from "@react-navigation/native";
 import RootStackParamList from "../../navigation/NavigationTypes.tsx";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import HomepaceServiceCategories from "../../components/item_layouts/HomepaceServiceCategories.tsx";
+import HomepageServiceCategories from "../../components/item_layouts/HomepageServiceCategories.tsx";
 
 const HomeScreen: React.FC = () => {
   const insets = useSafeAreaInsets();
   const [search, setSearch] = useState("");
   const navigation: NavigationProp<RootStackParamList> = useNavigation();
   const [isShowBanner, setIsShowBanner] = useState(true);
-  useEffect(() => {
-    AsyncStorage.getItem("isShowBanner").then((value) => {
-      if (value === "false") {
-        setIsShowBanner(false);
-      } else {
-        setIsShowBanner(true);
-      }
-    });
-  }, [AsyncStorage.getItem("isShowBanner")]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchBannerStatus = async () => {
+        const value = await AsyncStorage.getItem("isShowBanner");
+        setIsShowBanner(value !== "false");
+      };
+      fetchBannerStatus().then(r => console.log(r));
+    }, []));
   return (
     <View
       style={[
@@ -35,7 +35,7 @@ const HomeScreen: React.FC = () => {
       <View style={[homeStyles.headerContainer]}>
         <View style={[alignStyles.left, { flexDirection: "column" }]}>
 
-          <Text style={[textStyles.h6, textStyles.secondary]}>Địa điểm</Text>
+          <Text style={[textStyles.h6, textStyles.secondary]}>Khu vực</Text>
           <Pressable
             onPress={() => {
               console.log("Pressed");
@@ -68,49 +68,50 @@ const HomeScreen: React.FC = () => {
       </View>
 
       <SearchField search={search} setSearch={setSearch} />
-
-      {isShowBanner &&
-        <View style={[marginStyles.mt8, { position: "relative" }]}>
-          <FlatList
-            pagingEnabled={true}
-            data={
-              [
-                {
-                  id: 1,
-                  image: require("../../assets/images/banner/1.png")
-                },
-                {
-                  id: 2,
-                  image: require("../../assets/images/banner/2.png")
-                },
-                {
-                  id: 3,
-                  image: require("../../assets/images/banner/3.png")
-                },
-                {
-                  id: 4,
-                  image: require("../../assets/images/banner/4.png")
-                }
-              ]
-            } keyExtractor={(item) => item.id.toString()
-          } renderItem={
-            ({ item }) => (
-              <View key={item.id}>
-                <Image
-                  style={[homeStyles.bannerImage]}
-                  source={item.image}
-                />
-              </View>
-            )
-          } horizontal={true} showsHorizontalScrollIndicator={false} />
-          <Pressable style={homeStyles.closeContainer} onPress={() => {
-            AsyncStorage.setItem("isShowBanner", "false");
-          }}>
-            <Image style={homeStyles.closeImage} source={require("../../assets/images/banner/close.png")} />
-          </Pressable>
-        </View>
-      }
       <ScrollView>
+        {isShowBanner &&
+          <View style={[marginStyles.mt8, { position: "relative" }]}>
+            <FlatList
+              pagingEnabled={true}
+              data={
+                [
+                  {
+                    id: 1,
+                    image: require("../../assets/images/banner/1.png")
+                  },
+                  {
+                    id: 2,
+                    image: require("../../assets/images/banner/2.png")
+                  },
+                  {
+                    id: 3,
+                    image: require("../../assets/images/banner/3.png")
+                  },
+                  {
+                    id: 4,
+                    image: require("../../assets/images/banner/4.png")
+                  }
+                ]
+              } keyExtractor={(item) => item.id.toString()
+            } renderItem={
+              ({ item }) => (
+                <View key={item.id}>
+                  <Image
+                    style={[homeStyles.bannerImage]}
+                    source={item.image}
+                  />
+                </View>
+              )
+            } horizontal={true} showsHorizontalScrollIndicator={false} />
+            <Pressable style={homeStyles.closeContainer} onPress={() => {
+              AsyncStorage.setItem("isShowBanner", "false").then(() => {
+                setIsShowBanner(false);
+              });
+            }}>
+              <Image style={homeStyles.closeImage} source={require("../../assets/images/banner/close.png")} />
+            </Pressable>
+          </View>
+        }
 
         <View style={[marginStyles.mt16, marginStyles.mh24]}>
           <View style={[alignStyles.rowSpaceBetween]}>
@@ -129,7 +130,7 @@ const HomeScreen: React.FC = () => {
               }}
             ><Text style={[textStyles.h6, textStyles.secondary]}>Xem tất cả</Text></Pressable>
           </View>
-          <HomepaceServiceCategories />
+          <HomepageServiceCategories />
         </View>
 
       </ScrollView>
