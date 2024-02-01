@@ -1,10 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { View, Text, FlatList, Alert } from "react-native";
-import { marginStyles, styles } from "../../assets/styles/MyStyles.tsx";
+import { View, Text, FlatList, Alert, ScrollView, Pressable } from "react-native";
+import { buttonType, marginStyles, styles } from "../../assets/styles/MyStyles.tsx";
 import { SearchField } from "../../components/InputField.tsx";
 import { useFocusEffect } from "@react-navigation/native";
-import { getAllProducts, searchProduct } from "../../api/services/productService.ts";
-import { ProductResponse } from "../../api/types/productTypes.ts";
+import {
+  getAllProducts,
+  getProductsByCategory,
+  getProductTypes,
+  searchProduct
+} from "../../api/services/productService.ts";
+import { ProductResponse, ProductType } from "../../api/types/productTypes.ts";
 import ProductItem from "../../components/item_layouts/ProductItem.tsx";
 import { productItem } from "../../components/item_layouts/ProductItem.tsx";
 import { LoadingModal } from "../../components/Modal.tsx";
@@ -17,7 +22,7 @@ const ShopScreen = ({ navigation, route }) => {
 
   const [searchResults, setSearchResults] = useState<ProductResponse[]>([]);
 
-  const [types, setTypes] = useState([]);
+  const [types, setTypes] = useState<ProductType[]>([]);
 
   const [loading, setLoading] = useState(false);
 
@@ -26,6 +31,8 @@ const ShopScreen = ({ navigation, route }) => {
   const [loadingMore, setLoadingMore] = useState(false);
 
   const [page, setPage] = useState(1);
+
+  const [selectedType, setSelectedType] = useState(0);
 
   const handlerSearch = () => {
     setLoading(true);
@@ -45,18 +52,19 @@ const ShopScreen = ({ navigation, route }) => {
       } else {
         Alert.alert("Lỗi", "Vui lòng thử lại", [
           {
-            text: "OK",
+            text: "OK"
           }]);
       }
     });
   };
 
   const loadMoreProducts = () => {
-    if (search) {
+    if (search || selectedType) {
       return;
     }
     setLoadingMore(true);
     getAllProducts(page + 1).then((res) => {
+      // @ts-ignore
       const newProducts: ProductResponse[] = res.data;
       if (newProducts.length === 0) {
         setLoadingMore(false);
@@ -73,50 +81,85 @@ const ShopScreen = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-    getAllProducts().then((res) => {
-      const products: ProductResponse[] = res.data;
-      setProducts(products);
-      setFirstLoad(false);
-    }).catch((err) => {
-      console.log(err);
-      setFirstLoad(false);
-      Alert.alert("Lỗi", "Vui lòng thử lại");
-    });
-  }, [types]);
+    if (selectedType === 0) {
+      getAllProducts().then((res) => {
+        // @ts-ignore
+        const products: ProductResponse[] = res.data;
+        setProducts(products);
+        setFirstLoad(false);
+      }).catch((err) => {
+        setFirstLoad(false);
+        Alert.alert("Lỗi", "Vui lòng thử lại");
+      });
+    } else {
+      getProductsByCategory(String(selectedType)).then((res) => {
+        const products: ProductResponse[] = res;
+        setProducts(products);
+      }).catch((err) => {
+        console.log(err);
+        setFirstLoad(false);
+        Alert.alert("Lỗi", "Vui lòng thử lại");
+      });
+    }
+  }, [selectedType]);
 
   useFocusEffect(
     useCallback(() => {
       setSearch(route.params === undefined ? "" : route.params.search);
-      console.log(search);
       if (search !== "") {
         handlerSearch();
       } else {
-        console.log("Empty search");
       }
       return () => {
-        console.log("Unfocused");
-        //   clear route.params
         route.params = { search: "" };
       };
     }, [route.params === undefined ? "" : route.params.search])
   );
 
+  useEffect(() => {
+    getProductTypes().then((res) => {
+      setTypes(res);
+    });
+  }, []);
+
   const renderFooter = () => {
     if (!loadingMore) return null;
-    return <LoadingModal isVisible={loadingMore} title="Loading more products..." />;
+    return <LoadingModal isVisible={loadingMore} title="Đang tải thêm sản phẩm..." />;
   };
 
+  // @ts-ignore
   return (
     <View style={styles.container}>
       <SearchField search={search} setSearch={setSearch} handleSearch={handlerSearch} />
       <View style={marginStyles.ph24}>
         <View style={marginStyles.mt16} />
-        <Text>Tab to select type of products</Text>
-
-        <Text>End of flat list</Text>
+        <ScrollView
+          horizontal={true}
+          style={marginStyles.mb16}
+          showsHorizontalScrollIndicator={false}
+        >
+          <Pressable
+            style={selectedType === 0 ? buttonType.selectedContainer : buttonType.container}
+            key={0}
+            onPress={() => {
+              setSelectedType(0);
+            }}>
+            <Text style={selectedType === 0 ? buttonType.selectedText : buttonType.text}>Tất cả</Text>
+          </Pressable>
+          {types.map((type) => (
+            <Pressable
+              key={type.id}
+              style={selectedType === type.id ? buttonType.selectedContainer : buttonType.container}
+              onPress={() => {
+                setSelectedType(type.id);
+              }}>
+              <Text style={selectedType === type.id ? buttonType.selectedText : buttonType.text}>{type.name}</Text>
+            </Pressable>
+          ))}
+        </ScrollView>
       </View>
       <FlatList data={search ? searchResults : products}
-                renderItem={({ item }) => <ProductItem {...item} />}
+                renderItem={({ item }) => <ProductItem {...item} navigation={navigation} />}
                 keyExtractor={(item) => String(item.id)}
                 showsVerticalScrollIndicator={false}
                 style={productItem.flatListStyle}

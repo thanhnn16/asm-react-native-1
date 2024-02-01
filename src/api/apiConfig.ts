@@ -2,7 +2,7 @@ import axios from "axios";
 import { Platform } from "react-native";
 
 const config = {
-  baseURL: "http://192.168.1.15:8000/api",
+  baseURL: "http://localhost:8000/api",
   timeout: 30000,
   headers: {
     "Content-Type": "application/json",

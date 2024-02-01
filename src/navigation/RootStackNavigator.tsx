@@ -14,6 +14,8 @@ import EditProfileScreen from "../screens/main/profile_screens/EditProfileScreen
 import FavoritesScreen from "../screens/main/profile_screens/FavoritesScreen.tsx";
 import OrderHistoryScreen from "../screens/main/profile_screens/OrderHistoryScreen.tsx";
 import SettingsScreen from "../screens/main/profile_screens/SettingsScreen.tsx";
+import ProductDetail from "../screens/product/ProductDetail.tsx";
+import { Image, View } from "react-native";
 
 const Stack = createNativeStackNavigator();
 
@@ -145,8 +147,19 @@ const RootStackNavigator = () => {
           headerBackTitleVisible: false,
           headerTintColor: "#374151",
           headerBackVisible: true,
-          headerBackImageSource: require("../../src/assets/images/icons/arrow-left.png")
+          headerBackImageSource: require("../../src/assets/images/icons/arrow-left.png"),
         }} />
+        <Stack.Screen
+          name="ProductDetail"
+          component={ProductDetail}
+          options={{
+              title: "Chi tiết sản phẩm",
+              headerTransparent: true,
+              headerBackTitleVisible: false,
+              headerTintColor: "#374151",
+              headerBackVisible: true,
+              headerBackImageSource: require("../../src/assets/images/icons/arrow-left.png")
+          }} />
     </Stack.Navigator>
   );
 };

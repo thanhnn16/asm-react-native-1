@@ -3,7 +3,8 @@ import { Image, ImageSourcePropType, Pressable, StyleSheet, Text, View } from "r
 import { styles } from "../../assets/styles/MyStyles.tsx";
 import React from "react";
 
-const ProductItem = React.memo((item: ProductResponse) => {
+// @ts-ignore
+const ProductItem = React.memo(({navigation, ...item}: ProductResponse & {navigation: any}) => {
   const image = item.product_images && item.product_images.length > 0
     ? { uri: item.product_images[0].images }
     : require("../../assets/images/logo.png");
@@ -17,7 +18,7 @@ const ProductItem = React.memo((item: ProductResponse) => {
     <Pressable
       key={item.id}
       onPress={() => {
-        console.log("Pressed: ", item.id);
+        navigation.navigate("ProductDetail", { product: item.id })
       }}
       style={productItem.container}>
       <Image

@@ -798,3 +798,36 @@ export const bottomTabBarStyles = StyleSheet.create({
     justifyContent: "center"
   }
 });
+
+export const buttonType = StyleSheet.create({
+  container:{
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: "#FFF",
+    borderRadius: 60,
+    borderColor: "#1C2A3A",
+    borderWidth: 1,
+    marginHorizontal: 4,
+  },
+  text:{
+    fontSize: 14,
+    color: "#1C2A3A",
+    textAlign: "center",
+    alignSelf: "center",
+  },
+  selectedContainer:{
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: "#1C2A3A",
+    borderRadius: 60,
+    borderColor: "#1C2A3A",
+    borderWidth: 1,
+    marginHorizontal: 4,
+  },
+  selectedText:{
+    fontSize: 14,
+    color: "#FFF",
+    textAlign: "center",
+    alignSelf: "center",
+  },
+});

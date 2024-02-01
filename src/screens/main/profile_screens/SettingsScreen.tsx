@@ -9,12 +9,20 @@ const SettingsScreen = () => {
   const insets = useSafeAreaInsets();
 
   const [isShowBanner, setIsShowBanner] = useState(false);
+  const [isShowOnboarding, setIsShowOnboarding] = useState(false);
   useEffect(() => {
     AsyncStorage.getItem("isShowBanner").then((value) => {
       if (value === null) {
         setIsShowBanner(true);
       } else {
         setIsShowBanner(value === "true");
+      }
+    });
+    AsyncStorage.getItem("onboarding").then((value) => {
+      if (value === null) {
+        setIsShowOnboarding(true);
+      } else {
+        setIsShowOnboarding(value === "true");
       }
     });
   }, []);
@@ -26,8 +34,15 @@ const SettingsScreen = () => {
     });
   };
 
+  const showOnboardingToggle = () => {
+    const newState = !isShowOnboarding;
+    AsyncStorage.setItem("onboarding", newState ? "true" : "false").then(r => {
+      setIsShowOnboarding(newState);
+    });
+  };
+
   return (
-    <SafeAreaView style={[styles.container, {paddingTop: insets.top + 64}, {paddingBottom: insets.bottom}]}>
+    <SafeAreaView style={[styles.container, { paddingTop: insets.top + 64 }, { paddingBottom: insets.bottom }]}>
       <View style={marginStyles.mh32}>
         <View style={marginStyles.mt8} />
         <Text style={[textStyles.h4, textStyles.bold]}>Cài đặt chung</Text>
@@ -35,6 +50,10 @@ const SettingsScreen = () => {
         <View style={[alignStyles.rowSpaceBetween]}>
           <Text style={textStyles.h5}>Hiển thị Banner</Text>
           <Switch value={isShowBanner} onValueChange={toggleSwitch} />
+        </View>
+        <View style={[alignStyles.rowSpaceBetween]}>
+          <Text style={textStyles.h5}>Hiển thị Onboarding</Text>
+          <Switch value={isShowOnboarding} onValueChange={showOnboardingToggle} />
         </View>
         <View style={marginStyles.mt16} />
         <View style={alignStyles.rowSpaceBetween}>
