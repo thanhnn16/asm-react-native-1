@@ -2,8 +2,12 @@ import { Alert, SafeAreaView, Switch, Text, View } from "react-native";
 import { alignStyles, marginStyles, styles, textStyles } from "../../../assets/styles/MyStyles.tsx";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useHeaderHeight } from "react-native-screens/native-stack";
 
 const SettingsScreen = () => {
+  const insets = useSafeAreaInsets();
+
   const [isShowBanner, setIsShowBanner] = useState(false);
   useEffect(() => {
     AsyncStorage.getItem("isShowBanner").then((value) => {
@@ -23,7 +27,7 @@ const SettingsScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, {paddingTop: insets.top + 64}, {paddingBottom: insets.bottom}]}>
       <View style={marginStyles.mh32}>
         <View style={marginStyles.mt8} />
         <Text style={[textStyles.h4, textStyles.bold]}>Cài đặt chung</Text>

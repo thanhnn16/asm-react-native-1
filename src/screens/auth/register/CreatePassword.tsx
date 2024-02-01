@@ -28,8 +28,8 @@ export const CreatePassword = ({ route }) => {
       setError(" ");
       setConfirmError(" ");
     } else {
-      if (password.length < 6) {
-        setError("Mật khẩu phải có ít nhất 6 ký tự");
+      if (password.length < 8) {
+        setError("Mật khẩu phải có ít nhất 8 ký tự");
       }
       setConfirmError("Mật khẩu không khớp");
     }
@@ -60,7 +60,7 @@ export const CreatePassword = ({ route }) => {
       <Text style={
         [textStyles.center,
           textStyles.secondary]
-      }>Mật khẩu phải có ít nhất 6 ký tự</Text>
+      }>Mật khẩu phải có ít nhất 8 ký tự</Text>
 
       <View style={marginStyles.mv8} />
 

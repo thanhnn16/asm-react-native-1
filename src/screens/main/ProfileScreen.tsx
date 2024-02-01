@@ -6,49 +6,49 @@ import { MenuItem, menuItems } from "../../components/item_layouts/ProfileItem";
 import RootStackParamList from "../../navigation/NavigationTypes";
 import { MyLogoutModal } from "../../components/Modal.tsx";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import api, { setAuthToken } from "../../api/apiConfig.ts";
+import api, { avatarUrl, avtApi, setAuthToken } from "../../api/apiConfig.ts";
 import { getUser } from "../../api/services/userService.ts";
+import { useHeaderHeight } from "react-native-screens/native-stack";
 
 const ProfileScreen = () => {
   const navigation: NavigationProp<RootStackParamList> = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
-  const [userName, setUserName] = useState('Khách');
-  const [phoneNumber, setPhoneNumber] = useState('000 0000 000');
+  const [userName, setUserName] = useState("Khách");
+  const [phoneNumber, setPhoneNumber] = useState("000 0000 000");
+  const [avatar, setAvatar] = useState("");
 
   useEffect(() => {
-    AsyncStorage.multiGet(['uid', 'token']).then((response) => {
+    AsyncStorage.multiGet(["uid", "token"]).then((response) => {
       const uid = response[0][1];
       const token = response[1][1];
       if (uid === null || token === null) {
-        Alert.alert('Chưa đăng nhập', 'Vui lòng đăng nhập để sử dụng chức năng này',[
+        Alert.alert("Chưa đăng nhập", "Vui lòng đăng nhập để sử dụng chức năng này", [
           {
-            text: 'Đồng ý',
+            text: "Đồng ý",
             onPress: () => {
-              navigation.navigate('LoginScreen');
+              navigation.navigate("LoginScreen");
             }
           },
           {
-            text: 'Để sau',
-            style: 'cancel'
+            text: "Để sau",
+            style: "cancel"
           }
         ]);
         return;
       }
       setAuthToken(token);
+
       getUser(uid).then((res) => {
         const user = res.user;
         setUserName(user.full_name);
         setPhoneNumber(user.phone_number);
+        if (user.avatar) {
+          setAvatar(avatarUrl(user.avatar));
+        }
+
       }).catch((err) => {
-        console.log('Error:', err);
+        console.log("Error:", err);
       });
-      // api.get(`/user/${uid}`).then((res) => {
-      //   const user = res.data.user;
-      //   setUserName(user.full_name);
-      //   setPhoneNumber(user.phone_number);
-      // }).catch((err) => {
-      //   console.log('Error:', err);
-      // });
     });
   }, []);
   return (
@@ -56,12 +56,13 @@ const ProfileScreen = () => {
       <View style={profileStyles.avatar}>
         <Image
           style={profileStyles.avatarImage}
-          source={require('../../assets/images/icons/congrats.png')}
+          source={avatar ? { uri: avatar } : require("../../assets/images/icons/congrats.png")}
+          defaultSource={require("../../assets/images/icons/congrats.png")}
         />
         <Pressable>
           <Image
             style={profileStyles.iconEditAvatar}
-            source={require('../../assets/images/icons/pencil-edit.png')}
+            source={require("../../assets/images/icons/pencil-edit.png")}
           />
         </Pressable>
       </View>
@@ -81,19 +82,19 @@ const ProfileScreen = () => {
           </View>
         ))}
         <Pressable
-          key='logout'
+          key="logout"
           onPress={() => {
             setModalVisible(true);
           }}
           style={profileStyles.item}>
           <Image
             style={profileStyles.itemIcon}
-            source={require('../../../src/assets/images/icons/logout.png')}
+            source={require("../../../src/assets/images/icons/logout.png")}
           />
           <Text style={profileStyles.itemTitle}>Đăng xuất</Text>
           <Image
             style={profileStyles.itemIconArrow}
-            source={require('../../assets/images/icons/arrow-right.png')}
+            source={require("../../assets/images/icons/arrow-right.png")}
           />
         </Pressable>
       </View>
@@ -102,14 +103,14 @@ const ProfileScreen = () => {
         onOkPress={() => {
           setModalVisible(false);
           try {
-            AsyncStorage.multiRemove(['isLoggedIn', 'token', 'uid']).then(() => {
+            AsyncStorage.multiRemove(["isLoggedIn", "token", "uid"]).then(() => {
               navigation.reset({
                 index: 0,
                 routes: [{ name: "LoginScreen" }]
               });
             });
           } catch (e) {
-            console.error('Error: ', e);
+            console.error("Error: ", e);
           }
         }}
         onCancelPress={() => {

@@ -19,6 +19,7 @@ type RootStackParamList = {
   Terms: undefined;
   BottomTabNavigator: undefined;
   BookAppointment: undefined;
+  ShopScreen: { search: string };
 };
 
 export default RootStackParamList;

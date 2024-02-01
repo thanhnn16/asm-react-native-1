@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { alignStyles, customWidth, marginStyles, styles, textStyles } from "../../assets/styles/MyStyles.tsx";
 import { SearchField } from "../../components/InputField.tsx";
@@ -16,13 +16,18 @@ const HomeScreen: React.FC = () => {
   const navigation: NavigationProp<RootStackParamList> = useNavigation();
   const [isShowBanner, setIsShowBanner] = useState(true);
 
+  const handleSearch = () => {
+    navigation.navigate("ShopScreen", { search: search });
+    setSearch("")
+  }
+
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       const fetchBannerStatus = async () => {
         const value = await AsyncStorage.getItem("isShowBanner");
         setIsShowBanner(value !== "false");
       };
-      fetchBannerStatus().then(r => console.log(r));
+      fetchBannerStatus().then();
     }, []));
   return (
     <View
@@ -67,7 +72,7 @@ const HomeScreen: React.FC = () => {
         </Pressable>
       </View>
 
-      <SearchField search={search} setSearch={setSearch} />
+      <SearchField search={search} setSearch={setSearch} handleSearch={handleSearch}/>
       <ScrollView>
         {isShowBanner &&
           <View style={[marginStyles.mt8, { position: "relative" }]}>

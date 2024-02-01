@@ -79,13 +79,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     ...customWidth.screenWidthM24,
     height: 110,
-    shadowOffset: {
-      width: 0,
-      height: 1
-    },
-    shadowColor: "#000",
-    shadowOpacity: 0.25,
-    shadowRadius: 0.5
+
   },
   contentContainer: {
     paddingVertical: 8,

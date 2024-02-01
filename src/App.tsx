@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import RootStackNavigator from "./navigation/RootStackNavigator.tsx";
 import { styles } from "./assets/styles/MyStyles.tsx";
+import { useHeaderHeight } from "react-native-screens/native-stack";
 
 const App = () => {
   useEffect(() => {
@@ -14,6 +15,7 @@ const App = () => {
       StatusBar.setTranslucent(true);
     }
   }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <NavigationContainer>

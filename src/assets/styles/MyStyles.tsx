@@ -1,4 +1,5 @@
 import { Dimensions, StyleSheet } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -504,7 +505,8 @@ export const imageStyles = StyleSheet.create({
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    width: screenWidth,
   },
   text: {
     ...textStyles.regular,

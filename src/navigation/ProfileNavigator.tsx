@@ -47,7 +47,7 @@ const ProfileNavigator = () => {
         component={SettingsScreen}
         options={{
           title: "Cài đặt",
-          headerTransparent: true,
+          headerTransparent: false,
           headerBackTitleVisible: false,
           headerTintColor: "#374151",
           headerBackVisible: true,
