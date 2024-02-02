@@ -6,9 +6,10 @@ import { MenuItem, menuItems } from "../../components/item_layouts/ProfileItem";
 import RootStackParamList from "../../navigation/NavigationTypes";
 import { MyLogoutModal } from "../../components/Modal.tsx";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import api, { avatarUrl, avtApi, setAuthToken } from "../../api/apiConfig.ts";
+import api, { API_URL, avatarUrl, setAuthToken } from "../../api/apiConfig.ts";
 import { getUser } from "../../api/services/userService.ts";
-import { useHeaderHeight } from "react-native-screens/native-stack";
+import ImagePicker from "react-native-image-crop-picker";
+import axios from "axios";
 
 const ProfileScreen = () => {
   const navigation: NavigationProp<RootStackParamList> = useNavigation();
@@ -16,28 +17,33 @@ const ProfileScreen = () => {
   const [userName, setUserName] = useState("Khách");
   const [phoneNumber, setPhoneNumber] = useState("000 0000 000");
   const [avatar, setAvatar] = useState("");
+  const [isLogin, setIsLogin] = useState(true);
+
+  const loginWarning = () => {
+    Alert.alert("Chưa đăng nhập", "Vui lòng đăng nhập để sử dụng chức năng này", [
+      {
+        text: "Đồng ý",
+        onPress: () => {
+          navigation.navigate("LoginScreen");
+        }
+      },
+      {
+        text: "Để sau",
+        style: "cancel"
+      }
+    ]);
+  };
 
   useEffect(() => {
     AsyncStorage.multiGet(["uid", "token"]).then((response) => {
       const uid = response[0][1];
       const token = response[1][1];
       if (uid === null || token === null) {
-        Alert.alert("Chưa đăng nhập", "Vui lòng đăng nhập để sử dụng chức năng này", [
-          {
-            text: "Đồng ý",
-            onPress: () => {
-              navigation.navigate("LoginScreen");
-            }
-          },
-          {
-            text: "Để sau",
-            style: "cancel"
-          }
-        ]);
+        setIsLogin(false);
+        loginWarning();
         return;
       }
       setAuthToken(token);
-
       getUser(uid).then((res) => {
         const user = res.user;
         setUserName(user.full_name);
@@ -45,7 +51,6 @@ const ProfileScreen = () => {
         if (user.avatar) {
           setAvatar(avatarUrl(user.avatar));
         }
-
       }).catch((err) => {
         console.log("Error:", err);
       });
@@ -59,7 +64,40 @@ const ProfileScreen = () => {
           source={avatar ? { uri: avatar } : require("../../assets/images/icons/congrats.png")}
           defaultSource={require("../../assets/images/icons/congrats.png")}
         />
-        <Pressable>
+        <Pressable
+          onPress={() => {
+            console.log("Edit avatar");
+            if (!isLogin) {
+              loginWarning();
+              return;
+            }
+            ImagePicker.openPicker({
+              width: 300,
+              height: 400,
+              cropping: true
+            }).then((image) => {
+              const formData = new FormData();
+              const fileName = image.path.split("/").pop();
+              formData.append("avatar", {
+                uri: image.path,
+                type: image.mime,
+                name: fileName
+              });
+              axios.post(API_URL + "/user/upload-avatar", formData, {
+                headers: {
+                  "Content-Type": "multipart/form-data"
+                }
+              }).then((res) => {
+                console.log("Upload avatar success: ", res.data);
+                setAvatar(avatarUrl(res.data.avatar));
+              }).catch((err) => {
+                console.log("Upload avatar error: ", err);
+              });
+            }).catch((err) => {
+              console.log("Error: ", err);
+              Alert.alert("Hủy", "Không chọn ảnh nào");
+            });
+          }}>
           <Image
             style={profileStyles.iconEditAvatar}
             source={require("../../assets/images/icons/pencil-edit.png")}

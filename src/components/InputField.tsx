@@ -20,7 +20,6 @@ export const PasswordInputField = (props: PasswordInputFieldProps) => {
         value={props.password}
         onChangeText={text => {
           props.setPassword(text);
-          console.log(props.password);
           props.setError(passwordValidator(text));
         }}
       />
@@ -64,6 +63,27 @@ export const SearchField = (props: SearchFieldProps) => {
   );
 };
 
+export const InputWithIcon = (props: InputWithIconProps) => {
+  return (
+    <View style={[inputStyles.inputContainer, marginStyles.mt16]}>
+      <Image
+        source={props.icon}
+        style={inputStyles.icon}
+      />
+      <TextInput
+        style={inputStyles.input}
+        placeholder={props.placeholder}
+        placeholderTextColor="#9CA3AF"
+        value={props.value}
+        onChangeText={text => {
+          props.setValue(text);
+        }}
+        editable={props.editable}
+      />
+    </View>
+  );
+}
+
 type SearchFieldProps = {
   search: string,
   setSearch: (search: string) => void,
@@ -75,6 +95,14 @@ type PasswordInputFieldProps = {
   placeholder: string,
   setPassword: (password: string) => void,
   setError: (error: string) => void,
+}
+
+type InputWithIconProps = {
+  icon: any,
+  placeholder: string,
+  value: string,
+  setValue: (value: string) => void,
+  editable: boolean,
 }
 
 const passwordValidator = (password: string) => {

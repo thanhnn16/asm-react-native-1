@@ -17,6 +17,12 @@ import { marginStyles, styles } from "../../assets/styles/MyStyles.tsx";
 import ImageView from "react-native-image-viewing";
 import ImageList from "../../components/ImageList.tsx";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { LoadingModal } from "../../components/Modal.tsx";
+import {
+  addProductToFavorites,
+  getFavoriteProducts,
+  removeProductFromFavorites
+} from "../../utils/FavoriteController.ts";
 
 // @ts-ignore
 const ProductDetail = ({ navigation, route }) => {
@@ -27,6 +33,7 @@ const ProductDetail = ({ navigation, route }) => {
   const [visible, setIsVisible] = useState(false);
   const [productImages, setProductImages] = useState([]);
   const [product, setProduct] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -35,6 +42,8 @@ const ProductDetail = ({ navigation, route }) => {
     currency: "VND"
   }).format(Number(product.price));
 
+  console.log('Route recieved: ', route.params.product);
+
   const onSelect = (images, index) => {
     setImageIndex(index);
     setImages(images);
@@ -42,31 +51,47 @@ const ProductDetail = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-    AsyncStorage.getItem("favorites" + productId).then((res) => {
-      if (res !== null) {
-        setIsFavorite(true);
-      }
-    });
-
     showProduct(productId).then((res) => {
-
-      res.product_images.map((image) => {
-        const uri = image.images;
-        const imageObject = {
-          uri: uri
-        };
-        setProductImages((productImages) => [...productImages, imageObject]);
-
+      if (res === null) {
+        setIsLoading(false);
+        Alert.alert("Lỗi", "Không tìm thấy sản phẩm");
+        return;
+      } else {
+        getFavoriteProducts().then((favoriteIds) => {
+          if (favoriteIds.includes(productId)) {
+            setIsFavorite(true);
+          } else {
+            setIsFavorite(false);
+          }
+        });
         const product = res;
         setProduct(product);
+        if (product.product_images.length > 0) {
+          res.product_images.map((image) => {
+            const uri = image.images;
+            const imageObject = {
+              uri: uri
+            };
+            setProductImages((productImages) => [...productImages, imageObject]);
+          });
+        } else {
+          setProductImages([
+            {
+              uri: "https://th.bing.com/th/id/OIG4.rlOdtWSBfQVcm7FvZRwD?w=1024&h=1024&rs=1&pid=ImgDetMain"
+            }
+          ]);
+        }
+      }
+      setIsLoading(false);
 
-      });
     }).catch((err) => {
+      setIsLoading(false);
+      Alert.alert("Lỗi", "Không thể tải dữ liệu sản phẩm");
       console.log(err);
     });
     return () => {
       // setProductImages([]);
-
+      // setIsLoading(true);
     };
   }, [productId]);
   return (
@@ -146,22 +171,21 @@ const ProductDetail = ({ navigation, route }) => {
             alignItems: "center",
             borderRadius: 8
           }}
-          onPress={() => {
+          onPress={async () => {
             console.log("is favarite", isFavorite);
             if (isFavorite) {
               console.log("deleting");
-              AsyncStorage.removeItem("favorites" + product.id).then(() => {
-                setIsFavorite(false);
-              });
+              await removeProductFromFavorites(String(product.id));
+              setIsFavorite(false);
             } else {
-              AsyncStorage.setItem("favorites" + product.id, "true").then(() => {
-                setIsFavorite(true);
-              });
+              await addProductToFavorites(String(product.id));
+              setIsFavorite(true);
             }
           }}
         >
           <Image
             source={isFavorite ? require("../../assets/images/icons/heart-filled.png") : require("../../assets/images/icons/heart.png")}
+            defaultSource={require("../../assets/images/icons/heart.png")}
             style={{
               width: 24, height: 24, objectFit: "contain"
             }}
@@ -190,6 +214,7 @@ const ProductDetail = ({ navigation, route }) => {
         visible={visible}
         onRequestClose={() => setIsVisible(false)}
       />
+      <LoadingModal isVisible={isLoading} title={"Đang tải dữ liệu"} />
     </SafeAreaView>
   );
 };

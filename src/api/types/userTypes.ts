@@ -13,3 +13,17 @@ export interface UserResponse {
     updated_at: string;
   }
 }
+
+export interface UserRequest {
+  uid: number;
+  full_name: string;
+  email: string | null;
+  dob: string | null;
+  address: string | null;
+  gender: string | null;
+}
+
+export interface UserUpdateResponse {
+  message: string;
+  status: number;
+}

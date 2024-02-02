@@ -22,6 +22,7 @@ const Tab = createBottomTabNavigator();
 const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
+      key="BottomTabNavigator"
       initialRouteName="HomeScreen"
       backBehavior="none"
       tabBar={props => <BottomTabBar {...props} />}>

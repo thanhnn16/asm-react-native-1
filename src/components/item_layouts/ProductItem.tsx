@@ -18,6 +18,7 @@ const ProductItem = React.memo(({navigation, ...item}: ProductResponse & {naviga
     <Pressable
       key={item.id}
       onPress={() => {
+        console.log('Product id: ', item.id);
         navigation.navigate("ProductDetail", { product: item.id })
       }}
       style={productItem.container}>

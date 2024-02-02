@@ -39,7 +39,6 @@ const HomeScreen: React.FC = () => {
       ]}>
       <View style={[homeStyles.headerContainer]}>
         <View style={[alignStyles.left, { flexDirection: "column" }]}>
-
           <Text style={[textStyles.h6, textStyles.secondary]}>Khu vực</Text>
           <Pressable
             onPress={() => {
@@ -51,9 +50,7 @@ const HomeScreen: React.FC = () => {
                 style={[homeStyles.locationIcon]}
                 source={require("../../assets/images/icons/homepage/location.png")}
               />
-
               <Text style={[textStyles.h6, textStyles.black, textStyles.bold]}>Gò Vấp, HCM</Text>
-
               <Image
                 style={[homeStyles.arrowIcon]}
                 source={require("../../assets/images/icons/homepage/arrow-down.png")}

@@ -1,9 +1,10 @@
 import axios from "axios";
 import { Platform } from "react-native";
 
+export const API_URL = "http://localhost:8000/api";
 const config = {
-  baseURL: "http://localhost:8000/api",
-  timeout: 30000,
+  baseURL: API_URL,
+  timeout: 10000,
   headers: {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -17,8 +18,10 @@ const api = axios.create(config);
 export function setAuthToken(token: string | null) {
   if (token) {
     api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   } else {
     delete api.defaults.headers.common["Authorization"];
+    delete axios.defaults.headers.common["Authorization"];
   }
 }
 

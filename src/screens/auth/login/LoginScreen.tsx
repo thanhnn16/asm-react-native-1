@@ -135,7 +135,7 @@ export const LoginScreen: React.FC = () => {
             setLoading(true);
             timeoutId.current = setTimeout(() => {
               setLoading(false);
-            }, 1000);
+            }, 2500);
           }).catch((error) => {
             console.log(error);
           });
