@@ -1,27 +1,30 @@
-import React, { useEffect } from "react";
-import { Platform, SafeAreaView, StatusBar } from "react-native";
+import React, {useEffect} from 'react';
+import {Platform, SafeAreaView, StatusBar} from 'react-native';
 
-import { NavigationContainer } from "@react-navigation/native";
+import {NavigationContainer} from '@react-navigation/native';
 
-import RootStackNavigator from "./navigation/RootStackNavigator.tsx";
-import { styles } from "./assets/styles/MyStyles.tsx";
-import { useHeaderHeight } from "react-native-screens/native-stack";
+import RootStackNavigator from './navigation/RootStackNavigator.tsx';
+import {styles} from './assets/styles/MyStyles.tsx';
+import {Provider} from 'react-redux';
+import {store} from './store/store.ts';
 
 const App = () => {
   useEffect(() => {
-    StatusBar.setBarStyle("dark-content");
-    if (Platform.OS === "android") {
-      StatusBar.setBackgroundColor("transparent");
+    StatusBar.setBarStyle('dark-content');
+    if (Platform.OS === 'android') {
+      StatusBar.setBackgroundColor('transparent');
       StatusBar.setTranslucent(true);
     }
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <NavigationContainer>
-        <RootStackNavigator />
-      </NavigationContainer>
-    </SafeAreaView>
+    <Provider store={store}>
+      <SafeAreaView style={styles.container}>
+        <NavigationContainer>
+          <RootStackNavigator />
+        </NavigationContainer>
+      </SafeAreaView>
+    </Provider>
   );
 };
 

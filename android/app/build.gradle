@@ -74,9 +74,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.ps28372_asm"
+    namespace "com.thanhnn16.bong_tuyet_trang"
     defaultConfig {
-        applicationId "com.ps28372_asm"
+        applicationId "com.thanhnn16.bong_tuyet_trang"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
