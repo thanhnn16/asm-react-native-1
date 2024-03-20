@@ -25,7 +25,7 @@ export const LoginScreen = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [login, {data, error, isFetching}] = useLoginMutation();
+  const [login, {data, isFetching}] = useLoginMutation();
 
   const handleLogin = async (phone_number: string, password: string) => {
     try {
