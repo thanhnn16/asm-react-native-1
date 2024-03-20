@@ -1,15 +1,13 @@
-import { View, Image, TextInput, Pressable } from "react-native";
-import { inputStyles, marginStyles } from "../assets/styles/MyStyles";
-import { log } from "react-native-bootsplash/dist/typescript/generate";
-import { useState } from "react";
-
+import {Image, Pressable, TextInput, View} from 'react-native';
+import {inputStyles, marginStyles} from '../assets/styles/MyStyles';
+import {useState} from 'react';
 
 export const PasswordInputField = (props: PasswordInputFieldProps) => {
   const [showPassword, setShowPassword] = useState(true);
   return (
     <View style={[inputStyles.inputContainer, marginStyles.mt8]}>
       <Image
-        source={require("../../src/assets/images/icons/lock.png")}
+        source={require('../../src/assets/images/icons/lock.png')}
         style={inputStyles.icon}
       />
       <TextInput
@@ -27,11 +25,13 @@ export const PasswordInputField = (props: PasswordInputFieldProps) => {
         style={inputStyles.endIcon}
         onPress={() => {
           setShowPassword(!showPassword);
-        }
-        }
-      >
+        }}>
         <Image
-          source={showPassword ? require("../../src/assets/images/icons/input_field_icons/eye.png") : require("../../src/assets/images/icons/input_field_icons/eye-slash.png")}
+          source={
+            showPassword
+              ? require('../../src/assets/images/icons/input_field_icons/eye.png')
+              : require('../../src/assets/images/icons/input_field_icons/eye-slash.png')
+          }
           style={inputStyles.icon}
         />
       </Pressable>
@@ -43,7 +43,7 @@ export const SearchField = (props: SearchFieldProps) => {
   return (
     <View style={[inputStyles.searchContainer, marginStyles.mt8]}>
       <Image
-        source={require("../../src/assets/images/icons/input_field_icons/search-normal.png")}
+        source={require('../../src/assets/images/icons/input_field_icons/search-normal.png')}
         style={inputStyles.icon}
       />
       <TextInput
@@ -55,7 +55,7 @@ export const SearchField = (props: SearchFieldProps) => {
           props.setSearch(text);
         }}
         onSubmitEditing={props.handleSearch}
-        inputMode={"search"}
+        inputMode={'search'}
         maxLength={255}
         multiline={false}
       />
@@ -66,10 +66,7 @@ export const SearchField = (props: SearchFieldProps) => {
 export const InputWithIcon = (props: InputWithIconProps) => {
   return (
     <View style={[inputStyles.inputContainer, marginStyles.mt16]}>
-      <Image
-        source={props.icon}
-        style={inputStyles.icon}
-      />
+      <Image source={props.icon} style={inputStyles.icon} />
       <TextInput
         style={inputStyles.input}
         placeholder={props.placeholder}
@@ -82,32 +79,32 @@ export const InputWithIcon = (props: InputWithIconProps) => {
       />
     </View>
   );
-}
+};
 
 type SearchFieldProps = {
-  search: string,
-  setSearch: (search: string) => void,
-  handleSearch: () => void,
-}
+  search: string;
+  setSearch: (search: string) => void;
+  handleSearch: () => void;
+};
 
 type PasswordInputFieldProps = {
-  password: string,
-  placeholder: string,
-  setPassword: (password: string) => void,
-  setError: (error: string) => void,
-}
+  password: string;
+  placeholder: string;
+  setPassword: (password: string) => void;
+  setError: (error: string) => void;
+};
 
 type InputWithIconProps = {
-  icon: any,
-  placeholder: string,
-  value: string,
-  setValue: (value: string) => void,
-  editable: boolean,
-}
+  icon: any;
+  placeholder: string;
+  value: string;
+  setValue: (value: string) => void;
+  editable: boolean;
+};
 
 const passwordValidator = (password: string) => {
   if (password.length < 6) {
-    return "Mật khẩu phải có ít nhất 6 ký tự";
+    return 'Mật khẩu phải có ít nhất 6 ký tự';
   }
-  return " ";
+  return ' ';
 };

@@ -6,7 +6,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import RootStackNavigator from './navigation/RootStackNavigator.tsx';
 import {styles} from './assets/styles/MyStyles.tsx';
 import {Provider} from 'react-redux';
-import {store} from './store/store.ts';
+import {persistor, store} from './store/store.ts';
+import {PersistGate} from 'redux-persist/integration/react';
 
 const App = () => {
   useEffect(() => {
@@ -19,11 +20,13 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <SafeAreaView style={styles.container}>
-        <NavigationContainer>
-          <RootStackNavigator />
-        </NavigationContainer>
-      </SafeAreaView>
+      <PersistGate persistor={persistor} loading={null}>
+        <SafeAreaView style={styles.container}>
+          <NavigationContainer>
+            <RootStackNavigator />
+          </NavigationContainer>
+        </SafeAreaView>
+      </PersistGate>
     </Provider>
   );
 };

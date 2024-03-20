@@ -1,14 +1,17 @@
-import React, { createRef, useState } from "react";
-import { SafeAreaView, Text, TextInput, View } from "react-native";
-import { alignStyles, inputStyles, marginStyles, styles, textStyles } from "../../../assets/styles/MyStyles.tsx";
-import { TopLogo } from "../../../components/Logo.tsx";
-import { PrimaryButton } from "../../../components/Button.tsx";
-import { LoadingModal, SuccessModal } from "../../../components/Modal.tsx";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
-import RootStackParamList from "../../../navigation/NavigationTypes.tsx";
+import React, {createRef, useState} from 'react';
+import {SafeAreaView, Text, TextInput, View} from 'react-native';
+import {
+  alignStyles,
+  inputStyles,
+  marginStyles,
+  styles,
+  textStyles,
+} from '../../../assets/styles/MyStyles.tsx';
+import {TopLogo} from '../../../components/Logo.tsx';
+import {PrimaryButton} from '../../../components/Button.tsx';
+import {LoadingModal} from '../../../components/Modal.tsx';
 
-export const OTPSignUpScreen = ({ route }) => {
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+export const OTPSignUpScreen = ({route, navigation}) => {
   const [error, setError] = useState(' ');
   const [visible, setVisible] = useState(false);
   const [otp, setOtp] = useState('');
@@ -57,7 +60,13 @@ export const OTPSignUpScreen = ({ route }) => {
         ]}>
         Nhập mã OTP. Vui lòng không cung cấp OTP cho bất kỳ ai! (OTP: 123456)
       </Text>
-      <Text style={[textStyles.h6, marginStyles.mt8, marginStyles.mh24, textStyles.center]}>
+      <Text
+        style={[
+          textStyles.h6,
+          marginStyles.mt8,
+          marginStyles.mh24,
+          textStyles.center,
+        ]}>
         {phoneNumber}
       </Text>
       <View style={[marginStyles.mt32, inputStyles.otpInputContainer]}>
@@ -74,14 +83,14 @@ export const OTPSignUpScreen = ({ route }) => {
             maxLength={1}
             keyboardType="number-pad"
             numberOfLines={1}
-            inputMode={"numeric"}
+            inputMode={'numeric'}
             onChangeText={text => {
               if (text) {
                 focusNextField(i);
                 setOtp(otp + text);
               }
             }}
-            onKeyPress={({ nativeEvent }) => {
+            onKeyPress={({nativeEvent}) => {
               if (nativeEvent.key === 'Backspace') {
                 focusPrevField(i);
                 setOtp(otp.slice(0, -1));
@@ -115,7 +124,7 @@ export const OTPSignUpScreen = ({ route }) => {
         }}
       />
       <View
-        style={[{ flexDirection: 'row' }, alignStyles.center, marginStyles.mt24]}>
+        style={[{flexDirection: 'row'}, alignStyles.center, marginStyles.mt24]}>
         <Text style={[textStyles.h6, textStyles.secondary]}>
           Không nhận được mã?{' '}
         </Text>

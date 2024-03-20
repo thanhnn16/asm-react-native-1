@@ -1,7 +1,7 @@
-interface Auth {
+import {User} from '../user.type.ts';
+
+export type Auth = {
   status: string;
   message: string;
-  token: string;
-}
-
-export default Auth;
+  user: User;
+};

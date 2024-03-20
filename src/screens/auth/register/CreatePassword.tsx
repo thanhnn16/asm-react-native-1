@@ -1,4 +1,3 @@
-import {NavigationProp, useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {SafeAreaView, Text, View} from 'react-native';
 import {
@@ -8,13 +7,13 @@ import {
   textStyles,
 } from '../../../assets/styles/MyStyles';
 import {TopLogo} from '../../../components/Logo';
-import RootStackParamList from '../../../navigation/NavigationTypes';
 import {PasswordInputField} from '../../../components/InputField';
 import {PrimaryButton} from '../../../components/Button';
 // import { register } from "../../../api/services/authService.ts";
 import {SuccessModal} from '../../../components/Modal.tsx';
+import {useUserRegisterMutation} from '../../../api/user/auth/auth.service.ts';
 
-export const CreatePassword = ({route}) => {
+export const CreatePassword = ({route, navigation}) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState(' ');
@@ -22,11 +21,10 @@ export const CreatePassword = ({route}) => {
   const [modalVisiable, setModalVisiable] = useState(false);
   const phoneNumber: string = route.params.phoneNumber;
 
-  const navigation: NavigationProp<RootStackParamList> = useNavigation();
+  const [register] = useUserRegisterMutation();
 
   const handleCreatePassword = () => {
     if (password === confirmPassword) {
-      console.log('Match');
       setError(' ');
       setConfirmError(' ');
     } else {
@@ -104,31 +102,25 @@ export const CreatePassword = ({route}) => {
         onPress={async () => {
           handleCreatePassword();
           if (error === ' ' && confirmError === ' ') {
-            // try {
-            //   const data = {
-            //     phone_number: phoneNumber,
-            //     password: password,
-            //   };
-            //   console.log('Data: ', data);
-            //   const response = await register(data);
-            //   console.log('Response: ', response);
-            //
-            //   const token = response.token;
-            //   const uid = response.userId.toString();
-            //
-            //   await AsyncStorage.multiSet([
-            //     ['isLoggedIn', 'true'],
-            //     ['token', token],
-            //     ['uid', uid],
-            //   ]);
-            //
-            //   navigation.reset({
-            //     index: 0,
-            //     routes: [{name: 'BottomTabNavigator'}],
-            //   });
-            // } catch (e) {
-            //   console.error('Error: ', e);
-            // }
+            try {
+              const response = await register({
+                phoneNumber: phoneNumber,
+                password: password,
+              });
+
+              if ('data' in response) {
+                const {status, message, token} = response.data;
+                console.log(status, message, token);
+                setModalVisiable(true);
+              }
+
+              navigation.reset({
+                index: 0,
+                routes: [{name: 'BottomTabNavigator'}],
+              });
+            } catch (e) {
+              console.error('Error: ', e);
+            }
           }
         }}
       />

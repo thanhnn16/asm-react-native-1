@@ -1,7 +1,11 @@
-import React, { useEffect } from "react";
-import { ActivityIndicator, Image, Modal, Text, View } from "react-native";
-import { marginStyles, modalStyles, profileStyles } from "../assets/styles/MyStyles.tsx";
-import { ModalCancelButton, ModalOkButton } from "./Button.tsx";
+import React, {useEffect} from 'react';
+import {ActivityIndicator, Image, Modal, Text, View} from 'react-native';
+import {
+  marginStyles,
+  modalStyles,
+  profileStyles,
+} from '../assets/styles/MyStyles.tsx';
+import {ModalCancelButton, ModalOkButton} from './Button.tsx';
 
 type SuccessModalProps = {
   isVisible: boolean;
@@ -15,14 +19,16 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
   message: message,
 }) => {
   useEffect(() => {
-    const timer = setTimeout(() => {
-    }, 3000);
+    const timer = setTimeout(() => {}, 3000);
     return () => clearTimeout(timer);
   });
 
   return (
-    <Modal animationType="fade" visible={isVisible} transparent={true} onRequestClose={() => {
-    }}>
+    <Modal
+      animationType="fade"
+      visible={isVisible}
+      transparent={true}
+      onRequestClose={() => {}}>
       <View style={modalStyles.modalContainer}>
         <View style={modalStyles.modalContent}>
           <Image
@@ -44,13 +50,16 @@ type LogoutModalProps = {
   onCancelPress: () => void;
 };
 export const MyLogoutModal: React.FC<LogoutModalProps> = ({
-                                                            isVisible,
-                                                            onOkPress,
-                                                            onCancelPress
-                                                          }) => {
+  isVisible,
+  onOkPress,
+  onCancelPress,
+}) => {
   return (
-    <Modal animationType="fade" transparent={true} visible={isVisible} onRequestClose={() => {
-    }}>
+    <Modal
+      animationType="fade"
+      transparent={true}
+      visible={isVisible}
+      onRequestClose={() => {}}>
       <View style={modalStyles.bottomModalContainer}>
         <View style={modalStyles.bottomModal}>
           <Text style={modalStyles.modalTitle}>Đăng xuất</Text>
@@ -79,14 +88,24 @@ type LoadingModalProps = {
   title?: string;
 };
 
-export const LoadingModal = ({ isVisible, title }: LoadingModalProps) => {
+export const LoadingModal = ({isVisible, title}: LoadingModalProps) => {
   return (
-    <Modal animationType="fade" visible={isVisible} transparent={true} onRequestClose={() => {
-    }}>
+    <Modal
+      animationType="fade"
+      visible={isVisible}
+      transparent={true}
+      onRequestClose={() => {}}>
       <View style={modalStyles.modalContainer}>
         <View style={[modalStyles.modalContent, marginStyles.mv24]}>
           <ActivityIndicator size="large" style={marginStyles.mt32} />
-          <Text style={[modalStyles.modalText, marginStyles.mt16, marginStyles.mb24]}>{title}</Text>
+          <Text
+            style={[
+              modalStyles.modalText,
+              marginStyles.mt16,
+              marginStyles.mb24,
+            ]}>
+            {title}
+          </Text>
         </View>
       </View>
     </Modal>
