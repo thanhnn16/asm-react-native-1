@@ -5,15 +5,17 @@ interface UserState {
   currentUser: User | null;
   error: string | null;
   loading: boolean;
+  token: string | null;
 }
 
 const initialState: UserState = {
   currentUser: null,
   error: null,
   loading: false,
+  token: null,
 };
 
-const userSlice = createSlice({
+export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
@@ -22,6 +24,12 @@ const userSlice = createSlice({
     },
     removeCurrentUser: state => {
       state.currentUser = null;
+    },
+    setToken(state, action: PayloadAction<string>) {
+      state.token = action.payload;
+    },
+    removeToken(state) {
+      state.token = null;
     },
     setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
@@ -32,7 +40,13 @@ const userSlice = createSlice({
   },
 });
 
-export const {setCurrentUser, removeCurrentUser, setError, setLoading} =
-  userSlice.actions;
+export const {
+  setCurrentUser,
+  removeCurrentUser,
+  setToken,
+  removeToken,
+  setError,
+  setLoading,
+} = userSlice.actions;
 
 export default userSlice.reducer;

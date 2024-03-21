@@ -4,11 +4,12 @@ import {Animated, Text, View} from 'react-native';
 import {splashStyles} from '../../assets/styles/MyStyles';
 import RootStackParamList from '../../navigation/NavigationTypes';
 import BootSplash from 'react-native-bootsplash';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store/store.ts';
 
 const useGetData = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  // const token = useSelector((state: RootState) => state.token.token);
-
+  const token = useSelector((state: RootState) => state.user);
   return async () => {
     try {
       let isLoggedIn = false;

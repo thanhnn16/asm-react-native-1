@@ -28,7 +28,8 @@ import {LoadingModal, SuccessModal} from '../../../components/Modal.tsx';
 import {PasswordInputField} from '../../../components/InputField.tsx';
 import {useUserLoginMutation} from '../../../api/user/auth/auth.service.ts';
 import {Auth} from '../../../api/user/auth/auth.type.ts';
-import {setCurrentUser} from '../../../api/user/user.slice.ts';
+import {setCurrentUser, setToken} from '../../../api/user/user.slice.ts';
+import {useDispatch} from 'react-redux';
 
 export const LoginScreen = ({navigation}: any) => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -37,6 +38,8 @@ export const LoginScreen = ({navigation}: any) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const dispatch = useDispatch();
+
   const [login] = useUserLoginMutation();
 
   const handleLogin = async (phoneNumber: string, password: string) => {
@@ -44,8 +47,7 @@ export const LoginScreen = ({navigation}: any) => {
     try {
       const result = await login({phoneNumber, password});
       if ('data' in result) {
-        const {status, message, user} = result.data as Auth;
-        console.log(status, message, user);
+        const {status, user} = result.data as Auth;
         if (status === 'not_found') {
           setError('Số điện thoại không tồn tại');
           return;
@@ -53,7 +55,8 @@ export const LoginScreen = ({navigation}: any) => {
           setError('Mật khẩu không đúng');
           return;
         } else if (status === 'success') {
-          setCurrentUser(user);
+          dispatch(setCurrentUser(user));
+          dispatch(setToken(user.token));
           setLoading(false);
           setModalVisible(true);
           navigation.reset({

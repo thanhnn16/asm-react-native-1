@@ -15,11 +15,6 @@ import React, {useState} from 'react';
 import {marginStyles, styles} from '../../assets/styles/MyStyles.tsx';
 import ImageView from 'react-native-image-viewing';
 import {LoadingModal} from '../../components/Modal.tsx';
-// import {
-//   addProductToFavorites,
-//   getFavoriteProducts,
-//   removeProductFromFavorites
-// } from "../../utils/FavoriteController.ts";
 
 // @ts-ignore
 const ProductDetail = ({route}) => {

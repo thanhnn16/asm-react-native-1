@@ -117,11 +117,12 @@ export const RegisterScreen = ({navigation}) => {
                       setModalVisible(false);
                       setError('Số điện thoại đã được đăng ký');
                       return;
+                    } else {
+                      setModalVisible(false);
+                      navigation.navigate('OTPSignUpScreen', {
+                        phoneNumber: originalPhoneNum,
+                      });
                     }
-                    setModalVisible(false);
-                    navigation.navigate('OTPSignUpScreen', {
-                      phoneNumber: originalPhoneNum,
-                    });
                   }
                 } catch (e: any) {
                   setModalVisible(false);

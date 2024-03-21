@@ -1,5 +1,12 @@
 import React, {useEffect} from 'react';
-import {Platform, SafeAreaView, StatusBar} from 'react-native';
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  StatusBar,
+  TouchableWithoutFeedback,
+} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 
@@ -21,11 +28,17 @@ const App = () => {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={null}>
-        <SafeAreaView style={styles.container}>
-          <NavigationContainer>
-            <RootStackNavigator />
-          </NavigationContainer>
-        </SafeAreaView>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.container}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <SafeAreaView style={styles.container}>
+              <NavigationContainer>
+                <RootStackNavigator />
+              </NavigationContainer>
+            </SafeAreaView>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
       </PersistGate>
     </Provider>
   );

@@ -1,21 +1,15 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "../screens/main/HomeScreen";
-import ProfileScreen from "../screens/main/ProfileScreen";
-import AppointmentScreen from "../screens/main/AppointmentScreen";
-import ShopScreen from "../screens/main/ShopScreen";
-import BottomTabBar from "../components/BottomTabBar";
-import { View } from "react-native";
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import HomeScreen from '../screens/main/HomeScreen';
+import ProfileScreen from '../screens/main/ProfileScreen';
+import AppointmentScreen from '../screens/main/AppointmentScreen';
+import ShopScreen from '../screens/main/ShopScreen';
+import BottomTabBar from '../components/BottomTabBar';
+import {View} from 'react-native';
 
-
-// @ts-ignore
-import HomeIcon from "../assets/images/icons/bottom_navigation/home.svg";
-// @ts-ignore
-import ShopIcon from "../assets/images/icons/bottom_navigation/shop.svg";
-// @ts-ignore
-import AppointmentIcon from "../assets/images/icons/bottom_navigation/appointment.svg";
-// @ts-ignore
-import ProfileIcon from "../assets/images/icons/bottom_navigation/profile.svg";
-import ProfileNavigator from "./ProfileNavigator.tsx";
+import HomeIcon from '../assets/images/icons/bottom_navigation/home.svg';
+import ShopIcon from '../assets/images/icons/bottom_navigation/shop.svg';
+import AppointmentIcon from '../assets/images/icons/bottom_navigation/appointment.svg';
+import ProfileIcon from '../assets/images/icons/bottom_navigation/profile.svg';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,17 +26,17 @@ const BottomTabNavigator = () => {
         component={HomeScreen}
         options={{
           headerShown: false,
-          title: "Trang chủ",
+          title: 'Trang chủ',
           tabBarShowLabel: false,
-          tabBarIcon: ({ focused }) => (
-            <View style={{ alignItems: "center" }}>
+          tabBarIcon: ({focused}) => (
+            <View style={{alignItems: 'center'}}>
               <HomeIcon
                 width={24}
                 height={24}
-                fill={focused ? "#4B5563" : "#FFF"}
+                fill={focused ? '#4B5563' : '#FFF'}
               />
             </View>
-          )
+          ),
         }}
       />
       <Tab.Screen
@@ -51,18 +45,18 @@ const BottomTabNavigator = () => {
         component={ShopScreen}
         options={{
           headerShown: true,
-          headerTitleAlign: "center",
-          title: "Cửa hàng",
+          headerTitleAlign: 'center',
+          title: 'Cửa hàng',
           headerShadowVisible: false,
-          tabBarIcon: ({ focused }) => (
-            <View style={{ alignItems: "center" }}>
+          tabBarIcon: ({focused}) => (
+            <View style={{alignItems: 'center'}}>
               <ShopIcon
                 width={24}
                 height={24}
-                fill={focused ? "#4B5563" : "#FFF"}
+                fill={focused ? '#4B5563' : '#FFF'}
               />
             </View>
-          )
+          ),
         }}
       />
       <Tab.Screen
@@ -71,18 +65,18 @@ const BottomTabNavigator = () => {
         component={AppointmentScreen}
         options={{
           headerShown: true,
-          headerTitleAlign: "center",
-          title: "Lịch hẹn",
+          headerTitleAlign: 'center',
+          title: 'Lịch hẹn',
           headerShadowVisible: false,
-          tabBarIcon: ({ focused }) => (
-            <View style={{ alignItems: "center" }}>
+          tabBarIcon: ({focused}) => (
+            <View style={{alignItems: 'center'}}>
               <AppointmentIcon
                 width={24}
                 height={24}
-                fill={focused ? "#4B5563" : "#FFF"}
+                fill={focused ? '#4B5563' : '#FFF'}
               />
             </View>
-          )
+          ),
         }}
       />
       <Tab.Screen
@@ -91,18 +85,18 @@ const BottomTabNavigator = () => {
         component={ProfileScreen}
         options={{
           headerShown: true,
-          headerTitleAlign: "center",
-          title: "Hồ sơ",
+          headerTitleAlign: 'center',
+          title: 'Hồ sơ',
           headerShadowVisible: false,
-          tabBarIcon: ({ focused }) => (
-            <View style={{ alignItems: "center" }}>
+          tabBarIcon: ({focused}) => (
+            <View style={{alignItems: 'center'}}>
               <ProfileIcon
                 width={24}
                 height={24}
-                fill={focused ? "#4B5563" : "#FFF"}
+                fill={focused ? '#4B5563' : '#FFF'}
               />
             </View>
-          )
+          ),
         }}
       />
     </Tab.Navigator>

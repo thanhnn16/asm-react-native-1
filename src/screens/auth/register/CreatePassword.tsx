@@ -12,6 +12,7 @@ import {PrimaryButton} from '../../../components/Button';
 // import { register } from "../../../api/services/authService.ts";
 import {SuccessModal} from '../../../components/Modal.tsx';
 import {useUserRegisterMutation} from '../../../api/user/auth/auth.service.ts';
+import {setCurrentUser, setToken} from '../../../api/user/user.slice.ts';
 
 export const CreatePassword = ({route, navigation}) => {
   const [password, setPassword] = useState('');
@@ -104,16 +105,16 @@ export const CreatePassword = ({route, navigation}) => {
           if (error === ' ' && confirmError === ' ') {
             try {
               const response = await register({
-                phoneNumber: phoneNumber,
-                password: password,
+                phoneNumber,
+                password,
               });
-
               if ('data' in response) {
-                const {status, message, token} = response.data;
-                console.log(status, message, token);
+                const {status, message, user} = response.data;
+                console.log(status, message, user);
+                setCurrentUser(user);
+                setToken(user.token);
                 setModalVisiable(true);
               }
-
               navigation.reset({
                 index: 0,
                 routes: [{name: 'BottomTabNavigator'}],

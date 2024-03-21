@@ -6,8 +6,8 @@ export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({baseUrl: USER_URL}),
   endpoints: builder => ({
-    getUser: builder.query<User, void>({
-      query: () => '',
+    getUser: builder.query<User, string>({
+      query: id => `/${id}`,
     }),
     updateUser: builder.mutation<User, Partial<User>>({
       query: (body: Partial<User>) => ({

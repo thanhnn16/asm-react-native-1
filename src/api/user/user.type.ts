@@ -4,6 +4,7 @@ interface User {
   role: string;
   password: string;
   token: string;
+  avatar: string;
   info: {
     fullName: string;
     dob: string;

@@ -15,7 +15,6 @@ import {
   styles,
   textStyles,
 } from '../../assets/styles/MyStyles.tsx';
-import {SearchField} from '../../components/InputField.tsx';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import HomePageGoodCategories from '../../components/item_layouts/HomePageGoodCategories.tsx';
 import {
@@ -29,14 +28,14 @@ import HomepageServiceCategories from '../../components/item_layouts/HomepageSer
 
 const HomeScreen: React.FC = () => {
   const insets = useSafeAreaInsets();
-  const [search, setSearch] = useState('');
+  // const [search, setSearch] = useState('');
   const navigation: NavigationProp<RootStackParamList> = useNavigation();
   const [isShowBanner, setIsShowBanner] = useState(true);
 
-  const handleSearch = () => {
-    navigation.navigate('ShopScreen', {search: search});
-    setSearch('');
-  };
+  // const handleSearch = () => {
+  //   navigation.navigate('ShopScreen', {search: search});
+  //   setSearch('');
+  // };
 
   useFocusEffect(
     useCallback(() => {
@@ -88,11 +87,11 @@ const HomeScreen: React.FC = () => {
         </Pressable>
       </View>
 
-      <SearchField
-        search={search}
-        setSearch={setSearch}
-        handleSearch={handleSearch}
-      />
+      {/*<SearchField*/}
+      {/*  search={search}*/}
+      {/*  setSearch={setSearch}*/}
+      {/*  handleSearch={handleSearch}*/}
+      {/*/>*/}
       <ScrollView>
         {isShowBanner && (
           <View style={[marginStyles.mt8, {position: 'relative'}]}>
@@ -145,7 +144,7 @@ const HomeScreen: React.FC = () => {
             <Text style={[textStyles.h5, textStyles.black, textStyles.bold]}>
               Sản phẩm bán chạy
             </Text>
-            <Pressable>
+            <Pressable onPress={() => navigation.navigate('ShopScreen')}>
               <Text style={[textStyles.h6, textStyles.secondary]}>
                 Xem tất cả
               </Text>
