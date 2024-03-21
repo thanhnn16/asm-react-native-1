@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Alert,
   Image,
@@ -14,47 +14,34 @@ import ImagePicker from 'react-native-image-crop-picker';
 // import api, { API_URL, avatarUrl, setAuthToken } from "../../../api/apiConfig.ts";
 import DatePicker from 'react-native-date-picker';
 import {LoadingModal} from '../../../components/Modal.tsx';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../../store/store.ts';
 
-const EditProfileScreen = ({route}) => {
-  const uid = route.params.uid;
-  console.log('uid: ', uid);
+const EditProfileScreen = () => {
   const [isEditing, setIsEditing] = React.useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
   const [dob, setDob] = useState('');
-  const [gender, setGender] = useState('');
+  const [gender, setGender] = useState(3);
   const [avatar, setAvatar] = useState('');
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState(new Date());
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  // useEffect(() => {
-  //   getUser(uid)
-  //     .then(res => {
-  //       const user = res.user;
-  //       if (user.dob) {
-  //         let formattedDate = user.dob.split('T')[0];
-  //         setDob(formattedDate);
-  //       } else {
-  //         setDob('');
-  //       }
-  //       setName(user.full_name);
-  //       setEmail(user.email || '');
-  //       setAddress(user.address || '');
-  //       setGender(user.gender || '');
-  //       // if (user.avatar) {
-  //       //   setAvatar(avatarUrl(user.avatar));
-  //       // }
-  //       setIsLoading(false);
-  //     })
-  //     .catch(err => {
-  //       setIsLoading(false);
-  //       Alert.alert('Lỗi', 'Không thể tải thông tin người dùng');
-  //       console.log('Error:', err);
-  //     });
-  // }, []);
+  const user = useSelector((state: RootState) => state.user.currentUser);
+
+  useEffect(() => {
+    if (user) {
+      setDob(user.info.dob || '');
+      setName(user.info.fullName);
+      setEmail('');
+      setAddress(user.info.address || '');
+      setGender(user.info.gender);
+      setLoading(false);
+    }
+  }, [user]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -152,9 +139,7 @@ const EditProfileScreen = ({route}) => {
           <InputWithIcon
             icon={require('../../../assets/images/icons/input_field_icons/aquarius.png')}
             placeholder={'Giới tính'}
-            value={
-              gender === 'male' ? 'Nam' : gender === 'female' ? 'Nữ' : 'Khác'
-            }
+            value={gender === 1 ? 'Nam' : gender === 0 ? 'Nữ' : 'Khác'}
             setValue={setGender}
             editable={false}
           />
@@ -201,7 +186,7 @@ const EditProfileScreen = ({route}) => {
           setOpen(false);
         }}
       />
-      <LoadingModal isVisible={isLoading} title={'Đang tải thông tin'} />
+      <LoadingModal isVisible={loading} title={'Đang tải thông tin'} />
     </SafeAreaView>
   );
 };

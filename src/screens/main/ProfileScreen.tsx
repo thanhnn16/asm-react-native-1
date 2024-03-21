@@ -109,19 +109,6 @@ const ProfileScreen = () => {
                 style: 'cancel',
               },
             ]);
-            // axios
-            //   .post(API_URL + '/user/upload-avatar', formData, {
-            //     headers: {
-            //       'Content-Type': 'multipart/form-data',
-            //     },
-            //   })
-            //   .then(res => {
-            //     console.log('Upload avatar success: ', res.data);
-            //     setAvatar(avatarUrl(res.data.avatar));
-            //   })
-            //   .catch(err => {
-            //     console.log('Upload avatar error: ', err);
-            //   });
           }}>
           <Image
             style={profileStyles.iconEditAvatar}

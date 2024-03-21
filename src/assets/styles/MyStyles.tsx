@@ -522,16 +522,16 @@ export const styles = StyleSheet.create({
 export const modalStyles = StyleSheet.create({
   modalContainer: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0,0,0,0.7)',
     justifyContent: 'center',
     paddingHorizontal: 24,
     paddingTop: 24,
   },
   modalContent: {
-    backgroundColor: '#fff',
-    padding: 32,
-    borderRadius: 48,
-    width: screenWidth - 48,
+    backgroundColor: 'rgb(255,255,255)',
+    padding: 8,
+    borderRadius: 32,
+    width: screenWidth - 96,
     alignSelf: 'center',
   },
   modalImage: {
@@ -566,8 +566,8 @@ export const modalStyles = StyleSheet.create({
     textAlign: 'center',
   },
   loadingAnimation: {
-    width: 56,
-    height: 56,
+    width: 48,
+    height: 48,
     alignSelf: 'center',
   },
   bottomModalContainer: {
@@ -678,24 +678,24 @@ export const profileStyles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   avatar: {
-    width: 168,
-    height: 168,
+    width: 148,
+    height: 148,
     backgroundColor: '#fff',
     alignSelf: 'center',
     marginTop: 32,
     position: 'relative',
   },
   avatarImage: {
-    width: 168,
-    height: 168,
-    borderRadius: 168 / 2,
+    width: 148,
+    height: 148,
+    borderRadius: 148 / 2,
   },
   iconEditAvatar: {
-    width: 32,
-    height: 32,
+    width: 28,
+    height: 28,
     position: 'absolute',
-    bottom: 2,
-    right: 0,
+    bottom: 4,
+    right: 14,
     zIndex: 1,
   },
   userName: {
