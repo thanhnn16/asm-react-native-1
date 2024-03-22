@@ -9,7 +9,9 @@ import {RootState} from '../../store/store.ts';
 
 const useGetData = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const token = useSelector((state: RootState) => state.user);
+  const token = useSelector((state: RootState) =>
+    state.user.currentUser ? state.user.currentUser.token : null,
+  );
   return async () => {
     try {
       let isLoggedIn = false;

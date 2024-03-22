@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {ActivityIndicator, Image, Modal, Text, View} from 'react-native';
 import {
   marginStyles,
@@ -18,11 +18,6 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
   title,
   message: message,
 }) => {
-  useEffect(() => {
-    const timer = setTimeout(() => {}, 3000);
-    return () => clearTimeout(timer);
-  });
-
   return (
     <Modal
       animationType="fade"

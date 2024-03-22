@@ -1,6 +1,6 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {USER_URL} from '../../utils/apiUrl.ts';
-import {User} from './user.type.ts';
+import {AvatarResponse, User} from './user.type.ts';
 
 export const userApi = createApi({
   reducerPath: 'userApi',
@@ -10,10 +10,20 @@ export const userApi = createApi({
       query: id => `/${id}`,
     }),
     updateUser: builder.mutation<User, Partial<User>>({
-      query: (body: Partial<User>) => ({
-        url: '',
+      query: ({id, ...body}: Partial<User> & {id: string}) => ({
+        url: `/${id}`,
         method: 'PUT',
         body,
+      }),
+    }),
+    uploadAvatar: builder.mutation<AvatarResponse, FormData>({
+      query: body => ({
+        url: '/upload-avatar',
+        method: 'POST',
+        body,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       }),
     }),
     deleteUser: builder.mutation<User, string>({
@@ -25,5 +35,9 @@ export const userApi = createApi({
   }),
 });
 
-export const {useGetUserQuery, useUpdateUserMutation, useDeleteUserMutation} =
-  userApi;
+export const {
+  useGetUserQuery,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+  useUploadAvatarMutation,
+} = userApi;

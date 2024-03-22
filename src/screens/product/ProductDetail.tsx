@@ -11,10 +11,11 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {marginStyles, styles} from '../../assets/styles/MyStyles.tsx';
 import ImageView from 'react-native-image-viewing';
 import {LoadingModal} from '../../components/Modal.tsx';
+import {useGetProductQuery} from '../../api/products/product.service.ts';
 
 // @ts-ignore
 const ProductDetail = ({route}) => {
@@ -25,16 +26,15 @@ const ProductDetail = ({route}) => {
   const [visible, setIsVisible] = useState(false);
   const [productImages, setProductImages] = useState([]);
   const [product, setProduct] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
 
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const formattedPrice = new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: 'VND',
-  }).format(Number(product.price));
+  const {data, error, isFetching} = useGetProductQuery(productId);
 
-  console.log('Route recieved: ', route.params.product);
+  // const formattedPrice = new Intl.NumberFormat('vi-VN', {
+  //   style: 'currency',
+  //   currency: 'VND',
+  // }).format(Number(product.price));
 
   const onSelect = (images, index) => {
     setImageIndex(index);
@@ -42,50 +42,20 @@ const ProductDetail = ({route}) => {
     setIsVisible(true);
   };
 
-  // useEffect(() => {
-  //   showProduct(productId).then((res) => {
-  //     if (res === null) {
-  //       setIsLoading(false);
-  //       Alert.alert("Lỗi", "Không tìm thấy sản phẩm");
-  //       return;
-  //     } else {
-  //       // getFavoriteProducts().then((favoriteIds) => {
-  //       //   if (favoriteIds.includes(productId)) {
-  //       //     setIsFavorite(true);
-  //       //   } else {
-  //       //     setIsFavorite(false);
-  //       //   }
-  //       // });
-  //       const product = res;
-  //       setProduct(product);
-  //       if (product.product_images.length > 0) {
-  //         res.product_images.map((image) => {
-  //           const uri = image.images;
-  //           const imageObject = {
-  //             uri: uri
-  //           };
-  //           setProductImages((productImages) => [...productImages, imageObject]);
-  //         });
-  //       } else {
-  //         setProductImages([
-  //           {
-  //             uri: "https://th.bing.com/th/id/OIG4.rlOdtWSBfQVcm7FvZRwD?w=1024&h=1024&rs=1&pid=ImgDetMain"
-  //           }
-  //         ]);
-  //       }
-  //     }
-  //     setIsLoading(false);
-  //
-  //   }).catch((err) => {
-  //     setIsLoading(false);
-  //     Alert.alert("Lỗi", "Không thể tải dữ liệu sản phẩm");
-  //     console.log(err);
-  //   });
-  //   return () => {
-  //     // setProductImages([]);
-  //     // setIsLoading(true);
-  //   };
-  // }, [productId]);
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+      setProduct(data);
+      const images = data.images.map(image => {
+        return {
+          uri: image,
+        };
+      });
+      // @ts-ignore
+      setProductImages(images);
+    }
+  }, [data]);
+
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -113,7 +83,7 @@ const ProductDetail = ({route}) => {
                 onSelect(productImages, index);
               }}>
               <Image
-                // source={{ uri: item.uri }}
+                source={{uri: item.uri}}
                 defaultSource={require('../../assets/images/logo.png')}
                 style={{
                   width: '100%',
@@ -131,7 +101,7 @@ const ProductDetail = ({route}) => {
       </View>
 
       <View style={prodDetail.infoContainer}>
-        <Text style={prodDetail.name}>{/*{product.name}*/}</Text>
+        <Text style={prodDetail.name}>{product.name}</Text>
         <View
           style={{
             height: 1,
@@ -139,13 +109,13 @@ const ProductDetail = ({route}) => {
             marginVertical: 8,
           }}
         />
-        <Text style={prodDetail.price}>{formattedPrice}</Text>
-        <Text style={prodDetail.price}>{/*Tình trạng: {product.status}*/}</Text>
+        <Text style={prodDetail.price}>Gia</Text>
+        <Text style={prodDetail.price}>Tình trạng: </Text>
       </View>
       <ScrollView>
         <View style={marginStyles.mh24}>
           <Text style={prodDetail.title}>Mô tả sản phẩm</Text>
-          <Text style={prodDetail.price}>{/*{product.description}*/}</Text>
+          <Text style={prodDetail.price}>{product.description}</Text>
           <Text style={prodDetail.title}>Thông tin bảo hành</Text>
           <Text style={prodDetail.price}>
             Sản phẩm được bảo hành 1 năm từ ngày mua hàng. Bảo hành theo hóa đơn
@@ -167,10 +137,8 @@ const ProductDetail = ({route}) => {
             console.log('is favarite', isFavorite);
             if (isFavorite) {
               console.log('deleting');
-              // await removeProductFromFavorites(String(product.id));
               setIsFavorite(false);
             } else {
-              // await addProductToFavorites(String(product.id));
               setIsFavorite(true);
             }
           }}>
@@ -210,7 +178,7 @@ const ProductDetail = ({route}) => {
         visible={visible}
         onRequestClose={() => setIsVisible(false)}
       />
-      <LoadingModal isVisible={isLoading} title={'Đang tải dữ liệu'} />
+      <LoadingModal isVisible={isFetching} title={'Đang tải dữ liệu'} />
     </SafeAreaView>
   );
 };

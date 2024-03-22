@@ -6,11 +6,13 @@ import userSlice from '../api/user/user.slice.ts';
 import {authApi} from '../api/user/auth/auth.service.ts';
 import {productApi} from '../api/products/product.service.ts';
 import {productTypeApi} from '../api/products/productTypes/productType.service.ts';
+import {userApi} from '../api/user/user.service.ts';
 
 const rootReducer = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
   [productApi.reducerPath]: productApi.reducer,
   [productTypeApi.reducerPath]: productTypeApi.reducer,
+  [userApi.reducerPath]: userApi.reducer,
   user: userSlice,
 });
 
@@ -33,6 +35,7 @@ export const store = configureStore({
       authApi.middleware,
       productApi.middleware,
       productTypeApi.middleware,
+      userApi.middleware,
     ),
 });
 

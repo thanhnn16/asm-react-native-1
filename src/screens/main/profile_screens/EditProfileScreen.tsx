@@ -9,13 +9,23 @@ import {
   View,
 } from 'react-native';
 import {InputWithIcon} from '../../../components/InputField.tsx';
-import {profileStyles} from '../../../assets/styles/MyStyles.tsx';
+import {
+  marginStyles,
+  profileStyles,
+  textStyles,
+} from '../../../assets/styles/MyStyles.tsx';
 import ImagePicker from 'react-native-image-crop-picker';
 // import api, { API_URL, avatarUrl, setAuthToken } from "../../../api/apiConfig.ts";
 import DatePicker from 'react-native-date-picker';
 import {LoadingModal} from '../../../components/Modal.tsx';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../store/store.ts';
+import {
+  useUpdateUserMutation,
+  useUploadAvatarMutation,
+} from '../../../api/user/user.service.ts';
+import {WEB_URL} from '../../../utils/apiUrl.ts';
+import {setCurrentUser, setEditAvatar} from '../../../api/user/user.slice.ts';
 
 const EditProfileScreen = () => {
   const [isEditing, setIsEditing] = React.useState(false);
@@ -32,14 +42,22 @@ const EditProfileScreen = () => {
 
   const user = useSelector((state: RootState) => state.user.currentUser);
 
+  const [uploadAvatar] = useUploadAvatarMutation();
+
+  const [updateUser] = useUpdateUserMutation();
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (user) {
       setDob(user.info.dob || '');
       setName(user.info.fullName);
-      setEmail('');
+      setEmail(user.email || '');
       setAddress(user.info.address || '');
       setGender(user.info.gender);
       setLoading(false);
+      const avatarUrl = WEB_URL + 'uploads/avatar/' + user.avatar;
+      setAvatar(avatarUrl);
     }
   }, [user]);
 
@@ -61,7 +79,36 @@ const EditProfileScreen = () => {
               width: 300,
               height: 400,
               cropping: true,
-            });
+            })
+              .then(r => {
+                setAvatar(r.path);
+                console.log(r.path);
+                let formData = new FormData();
+                // @ts-ignore
+                formData.append('userId', user._id);
+                formData.append('avatar', {
+                  uri: r.path,
+                  type: r.mime,
+                  name: r.path.split('/').pop(),
+                });
+                console.log('Form data', formData);
+                uploadAvatar(formData)
+                  .then(result => {
+                    console.log(result);
+                    if ('data' in result) {
+                      result.data.status === 'success'
+                        ? dispatch(setEditAvatar(result.data.avatar))
+                        : Alert.alert('Lỗi', result.data.message);
+                    }
+                  })
+                  .catch(err => {
+                    console.log(err);
+                  });
+              })
+              .catch(err => {
+                Alert.alert('Lỗi', 'Không thể tải ảnh lên');
+                console.error(err);
+              });
           }}>
           <Image
             style={profileStyles.iconEditAvatar}
@@ -94,7 +141,15 @@ const EditProfileScreen = () => {
           editable={isEditing}
         />
 
+        {isEditing && (
+          <Text
+            style={[textStyles.secondary, marginStyles.mt4, marginStyles.mh24]}>
+            Nhập đúng địa chỉ để được hỗ trợ tốt nhất
+          </Text>
+        )}
+
         <Pressable
+          style={{width: '100%', zIndex: 2}}
           onPress={() => {
             setOpen(true);
             console.log('Date of birth');
@@ -106,6 +161,16 @@ const EditProfileScreen = () => {
             setValue={setDob}
             editable={false}
           />
+          {isEditing && (
+            <Text
+              style={[
+                textStyles.secondary,
+                marginStyles.mt4,
+                marginStyles.mh24,
+              ]}>
+              Chạm vào icon để chọn ngày
+            </Text>
+          )}
         </Pressable>
         <Pressable
           onPress={() => {
@@ -113,19 +178,19 @@ const EditProfileScreen = () => {
               {
                 text: 'Nam',
                 onPress: () => {
-                  setGender('male');
+                  setGender(1);
                 },
               },
               {
                 text: 'Nữ',
                 onPress: () => {
-                  setGender('female');
+                  setGender(2);
                 },
               },
               {
                 text: 'Khác',
                 onPress: () => {
-                  setGender('other');
+                  setGender(3);
                 },
               },
               {
@@ -139,36 +204,60 @@ const EditProfileScreen = () => {
           <InputWithIcon
             icon={require('../../../assets/images/icons/input_field_icons/aquarius.png')}
             placeholder={'Giới tính'}
-            value={gender === 1 ? 'Nam' : gender === 0 ? 'Nữ' : 'Khác'}
-            setValue={setGender}
+            value={gender === 1 ? 'Nam' : gender === 2 ? 'Nữ' : 'Khác'}
             editable={false}
+            setValue={setGender}
           />
         </Pressable>
+        {isEditing && (
+          <Text
+            style={[textStyles.secondary, marginStyles.mt4, marginStyles.mh24]}>
+            Chạm vào icon để chọn giới tính
+          </Text>
+        )}
         <Pressable
           style={styles.button}
-          // onPress={() => {
-          //   if (isEditing) {
-          //     updateUser({
-          //       uid: uid,
-          //       full_name: name,
-          //       email: email,
-          //       address: address,
-          //       dob: dob,
-          //       gender: gender,
-          //     })
-          //       .then(res => {
-          //         Alert.alert('Thành công', 'Cập nhật thông tin thành công');
-          //         setIsEditing(!isEditing);
-          //       })
-          //       .catch(err => {
-          //         Alert.alert('Lỗi', 'Cập nhật thông tin thất bại');
-          //         console.log('Update user error: ', err);
-          //       });
-          //   } else {
-          //     setIsEditing(!isEditing);
-          //   }
-          // }}
-        >
+          onPress={() => {
+            if (isEditing) {
+              setLoading(true);
+              const info = {
+                fullName: name,
+                dob,
+                gender,
+                address,
+              };
+              updateUser({
+                // @ts-ignore
+                id: user._id,
+                email: email,
+                info,
+              })
+                .then(res => {
+                  console.log(res);
+                  if ('data' in res) {
+                    // @ts-ignore
+                    if (res.data.status === 'success') {
+                      dispatch(setCurrentUser(res.data.user));
+                      setLoading(false);
+                      Alert.alert(
+                        'Thành công',
+                        'Cập nhật thông tin thành công',
+                      );
+                    } else {
+                      setLoading(false);
+                      // @ts-ignore
+                      Alert.alert('Lỗi', res.data.message);
+                    }
+                  }
+                })
+                .catch(err => {
+                  console.log(err);
+                });
+              setIsEditing(!isEditing);
+            } else {
+              setIsEditing(!isEditing);
+            }
+          }}>
           <Text style={styles.text}>{isEditing ? 'Lưu' : 'Chỉnh sửa'}</Text>
         </Pressable>
       </View>
@@ -178,7 +267,11 @@ const EditProfileScreen = () => {
         open={open}
         date={date}
         onConfirm={date => {
-          let formattedDate = date.toISOString().split('T')[0];
+          let formattedDate = date.toLocaleDateString('vi-VN', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          });
           setOpen(false);
           setDob(formattedDate);
         }}

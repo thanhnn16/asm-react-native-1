@@ -186,12 +186,21 @@ export const inputStyles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F9FAFB',
     borderWidth: 1,
     borderColor: '#D1D5DB',
     borderRadius: 8,
     height: 48,
     marginHorizontal: 24,
+  },
+  enabledBackground: {
+    backgroundColor: '#F9FAFB',
+  },
+  disabledBackground: {
+    backgroundColor: 'rgba(180,180,180,0.49)',
+  },
+  onFocus: {
+    borderColor: '#769cf6',
+    borderWidth: 1.3,
   },
   searchContainer: {
     flexDirection: 'row',
@@ -676,14 +685,18 @@ export const profileStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    width: screenWidth,
+    flexDirection: 'column',
+  },
+  infoContainer: {
+    width: '100%',
+    height: 'auto',
   },
   avatar: {
     width: 148,
-    height: 148,
     backgroundColor: '#fff',
     alignSelf: 'center',
-    marginTop: 32,
-    position: 'relative',
+    marginTop: 8,
   },
   avatarImage: {
     width: 148,

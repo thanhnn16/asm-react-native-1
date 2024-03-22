@@ -5,6 +5,7 @@ interface User {
   password: string;
   token: string;
   avatar: string;
+  email: string;
   info: {
     fullName: string;
     dob: string;
@@ -14,5 +15,11 @@ interface User {
   createdAt: string;
   updatedAt: string;
 }
+
+export type AvatarResponse = {
+  avatar: string;
+  message: string;
+  status: string;
+};
 
 export type {User};

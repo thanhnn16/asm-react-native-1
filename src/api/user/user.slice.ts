@@ -25,6 +25,13 @@ export const userSlice = createSlice({
     removeCurrentUser: state => {
       state.currentUser = null;
     },
+    setEditAvatar: (state, action: PayloadAction<string>) => {
+      if (state.currentUser) {
+        state.currentUser.avatar = action.payload;
+      } else {
+        state.currentUser = null;
+      }
+    },
     setToken(state, action: PayloadAction<string>) {
       state.token = action.payload;
     },
@@ -47,6 +54,7 @@ export const {
   removeToken,
   setError,
   setLoading,
+  setEditAvatar,
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -64,14 +64,29 @@ export const SearchField = (props: SearchFieldProps) => {
 };
 
 export const InputWithIcon = (props: InputWithIconProps) => {
+  const [isFocus, setIsFocus] = useState(false);
   return (
-    <View style={[inputStyles.inputContainer, marginStyles.mt16]}>
+    <View
+      style={[
+        inputStyles.inputContainer,
+        marginStyles.mt8,
+        props.editable
+          ? inputStyles.enabledBackground
+          : inputStyles.disabledBackground,
+        isFocus ? inputStyles.onFocus : {},
+      ]}>
       <Image source={props.icon} style={inputStyles.icon} />
       <TextInput
         style={inputStyles.input}
         placeholder={props.placeholder}
         placeholderTextColor="#9CA3AF"
         value={props.value}
+        onFocus={() => {
+          setIsFocus(true);
+        }}
+        onBlur={() => {
+          setIsFocus(false);
+        }}
         onChangeText={text => {
           props.setValue(text);
         }}
@@ -97,8 +112,8 @@ type PasswordInputFieldProps = {
 type InputWithIconProps = {
   icon: any;
   placeholder: string;
-  value: string;
-  setValue: (value: string) => void;
+  value: any;
+  setValue: (value: any) => void;
   editable: boolean;
 };
 

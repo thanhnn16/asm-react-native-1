@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   Keyboard,
@@ -24,7 +24,7 @@ import {
   GuestButton,
   PrimaryButton,
 } from '../../../components/Button';
-import {LoadingModal, SuccessModal} from '../../../components/Modal.tsx';
+import {LoadingModal} from '../../../components/Modal.tsx';
 import {PasswordInputField} from '../../../components/InputField.tsx';
 import {useUserLoginMutation} from '../../../api/user/auth/auth.service.ts';
 import {Auth} from '../../../api/user/auth/auth.type.ts';
@@ -35,7 +35,6 @@ export const LoginScreen = ({navigation}: any) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(' ');
-  const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
@@ -58,7 +57,6 @@ export const LoginScreen = ({navigation}: any) => {
           dispatch(setCurrentUser(user));
           dispatch(setToken(user.token));
           setLoading(false);
-          setModalVisible(true);
           navigation.reset({
             index: 0,
             routes: [{name: 'BottomTabNavigator'}],
@@ -72,6 +70,10 @@ export const LoginScreen = ({navigation}: any) => {
       console.log(e);
     }
   };
+
+  useEffect(() => {
+    console.log('Mounted login');
+  }, []);
 
   return (
     <KeyboardAvoidingView
@@ -160,13 +162,7 @@ export const LoginScreen = ({navigation}: any) => {
               );
             }}
           />
-          <SuccessModal
-            isVisible={modalVisible}
-            title={'Đăng nhập thành công'}
-            message={
-              'Vui lòng chờ giay lát, hệ thống sẽ chuyển hướng sau 3s...'
-            }
-          />
+
           <LoadingModal isVisible={loading} title={'Đang đăng nhập...'} />
           <View
             style={[
