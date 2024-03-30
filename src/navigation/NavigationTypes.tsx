@@ -1,6 +1,3 @@
-import { CreatePassword } from "../screens/auth/register/CreatePassword.tsx";
-import BookAppointment from "../screens/service/BookAppointment.tsx";
-
 type RootStackParamList = {
   SplashScreen: undefined;
   RegisterScreen: undefined;
@@ -18,8 +15,9 @@ type RootStackParamList = {
   Support: undefined;
   Terms: undefined;
   BottomTabNavigator: undefined;
-  BookAppointment: undefined;
-  ShopScreen: { search: string };
+  BookAppointment: {serviceId: string};
+  ShopScreen: {search: string};
+  ServiceCategory: {_id: string};
 };
 
 export default RootStackParamList;

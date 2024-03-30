@@ -1,15 +1,20 @@
-import React, { useState, Fragment, useCallback, useMemo, useRef } from "react";
-import { StyleSheet, View, ScrollView, Text, TouchableOpacity } from "react-native";
-import { Calendar, CalendarUtils } from "react-native-calendars";
+import React, {Fragment, useCallback, useMemo, useRef, useState} from 'react';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {Calendar, CalendarUtils} from 'react-native-calendars';
 
 const currentDay = new Date().toISOString().slice(0, 10);
 
 const INITIAL_DATE = currentDay;
 
-
 const CalendarScreen = () => {
   const [selected, setSelected] = useState(INITIAL_DATE);
-  const [currentMonth, setCurrentMonth] = useState(INITIAL_DATE);
+  const [currentMonth, setCurrentMonth] = useState(INITIAL_DATE.slice(5, 7));
   const currentYear = new Date().getFullYear();
 
   const customHeaderProps: any = useRef();
@@ -19,7 +24,7 @@ const CalendarScreen = () => {
     const month = new Date(customHeaderProps?.current?.month);
     const newMonth = new Date(month.setMonth(month.getMonth() + add));
     customHeaderProps?.current?.addMonth(add);
-    setCurrentMonth(newMonth.toISOString().split("T")[0]);
+    setCurrentMonth(newMonth.toISOString().slice(5, 7));
   };
   const moveNext = () => {
     setCustomHeaderNewMonth(true);
@@ -33,12 +38,14 @@ const CalendarScreen = () => {
     return (
       // @ts-expect-error
       <View ref={ref} {...props} style={styles.customHeader}>
-        <Text>Tháng {currentMonth}, {currentYear}</Text>
+        <Text>
+          Tháng {currentMonth}, {currentYear}
+        </Text>
         <TouchableOpacity onPress={movePrevious}>
-          <Text>Previous</Text>
+          <Text>{'<<'}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={moveNext}>
-          <Text>Next</Text>
+          <Text>{'>>'}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -50,22 +57,22 @@ const CalendarScreen = () => {
     return CalendarUtils.getCalendarDateString(newDate);
   };
 
-  const onDayPress = useCallback((day) => {
+  const onDayPress = useCallback(day => {
     setSelected(day.dateString);
   }, []);
 
   const marked = useMemo(() => {
     return {
       [getDate(-1)]: {
-        dotColor: "red",
-        marked: true
+        dotColor: 'red',
+        marked: true,
       },
       [selected]: {
         selected: true,
         disableTouchEvent: true,
-        selectedColor: "#1C2A3A",
-        selectedTextColor: "white"
-      }
+        selectedColor: '#1C2A3A',
+        selectedTextColor: 'white',
+      },
     };
   }, [selected]);
 
@@ -84,13 +91,8 @@ const CalendarScreen = () => {
     );
   };
 
-
   const renderExamples = () => {
-    return (
-      <Fragment>
-        {renderCalendarWithSelectableDate()}
-      </Fragment>
-    );
+    return <Fragment>{renderCalendarWithSelectableDate()}</Fragment>;
   };
 
   return (
@@ -104,52 +106,52 @@ export default CalendarScreen;
 
 const styles = StyleSheet.create({
   calendar: {
-    marginBottom: 10
+    marginBottom: 10,
   },
   switchContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     margin: 10,
-    alignItems: "center"
+    alignItems: 'center',
   },
   switchText: {
     margin: 10,
-    fontSize: 16
+    fontSize: 16,
   },
   text: {
-    textAlign: "center",
+    textAlign: 'center',
     padding: 10,
-    backgroundColor: "lightgrey",
+    backgroundColor: 'lightgrey',
     fontSize: 16,
-    color: "#111928"
+    color: '#111928',
   },
   disabledText: {
-    color: "grey"
+    color: 'grey',
   },
   defaultText: {
-    color: "purple"
+    color: 'purple',
   },
   customCalendar: {
     height: 250,
     borderBottomWidth: 1,
-    borderBottomColor: "lightgrey"
+    borderBottomColor: 'lightgrey',
   },
   customDay: {
-    textAlign: "center"
+    textAlign: 'center',
   },
   customHeader: {
-    flexDirection: "row",
-    justifyContent: "space-around",
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     marginHorizontal: 0,
-    padding: 8
+    padding: 8,
   },
   customTitleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 10
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
   },
   customTitle: {
     fontSize: 16,
-    fontWeight: "bold",
-    color: "#00BBF2"
-  }
+    fontWeight: 'bold',
+    color: '#00BBF2',
+  },
 });

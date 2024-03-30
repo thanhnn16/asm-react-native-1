@@ -14,6 +14,7 @@ import FavoritesScreen from '../screens/main/profile_screens/FavoritesScreen.tsx
 import OrderHistoryScreen from '../screens/main/profile_screens/OrderHistoryScreen.tsx';
 import SettingsScreen from '../screens/main/profile_screens/SettingsScreen.tsx';
 import ProductDetail from '../screens/product/ProductDetail.tsx';
+import ServiceCategory from '../screens/service/ServiceCategory.tsx';
 
 const Stack = createNativeStackNavigator();
 
@@ -80,19 +81,7 @@ const RootStackNavigator = () => {
           headerShown: false,
         }}
       />
-      <Stack.Screen
-        key="BookAppointment"
-        name="BookAppointment"
-        component={BookAppointment}
-        options={{
-          title: 'Đặt lịch hẹn',
-          headerTransparent: true,
-          headerBackTitleVisible: false,
-          headerTintColor: '#374151',
-          headerBackVisible: true,
-          headerBackImageSource: require('../../src/assets/images/icons/arrow-left.png'),
-        }}
-      />
+
       <Stack.Screen
         name="Notifications"
         component={NotificationScreen}
@@ -158,6 +147,33 @@ const RootStackNavigator = () => {
         component={ProductDetail}
         options={{
           title: 'Chi tiết sản phẩm',
+          headerTransparent: true,
+          headerBackTitleVisible: false,
+          headerTintColor: '#374151',
+          headerBackVisible: true,
+          headerBackImageSource: require('../../src/assets/images/icons/arrow-left.png'),
+        }}
+      />
+
+      {/*    service*/}
+
+      <Stack.Screen
+        name="ServiceCategory"
+        component={ServiceCategory}
+        options={{
+          title: 'Chọn dịch vụ',
+          headerTransparent: true,
+          headerBackTitleVisible: false,
+          headerTintColor: '#374151',
+          headerBackVisible: true,
+          headerBackImageSource: require('../../src/assets/images/icons/arrow-left.png'),
+        }}
+      />
+      <Stack.Screen
+        name="BookAppointment"
+        component={BookAppointment}
+        options={{
+          title: 'Đặt lịch hẹn',
           headerTransparent: true,
           headerBackTitleVisible: false,
           headerTintColor: '#374151',

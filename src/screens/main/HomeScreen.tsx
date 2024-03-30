@@ -160,7 +160,7 @@ const HomeScreen: React.FC = () => {
             </Text>
             <Pressable
               onPress={() => {
-                navigation.navigate('BookAppointment');
+                navigation.navigate('ServiceCategory');
               }}>
               <Text style={[textStyles.h6, textStyles.secondary]}>
                 Xem tất cả

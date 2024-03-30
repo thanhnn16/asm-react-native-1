@@ -54,17 +54,17 @@ const ProfileScreen = () => {
 
       if (offsetY > 0) {
         const move = offsetY < avatarMoveRange ? offsetY : avatarMoveRange;
-        avatarPosition.value = withTiming(-move, {duration: 400}); // Adjust this value as needed
+        avatarPosition.value = withTiming(-move, {duration: 400});
 
         const scale = startScale - scaleRange;
         avatarScale.value = scale < endScale ? endScale : scale;
 
-        avatarTranslateX.value = withTiming(-100, {duration: 400}); // Adjust this value as needed
+        avatarTranslateX.value = withTiming(-100, {duration: 400});
 
         const nameMove = offsetY < nameMoveRange ? offsetY : nameMoveRange;
-        namePosition.value = withTiming(-nameMove, {duration: 400}); // Adjust this value as needed
+        namePosition.value = withTiming(-nameMove, {duration: 400});
 
-        nameTranslateX.value = withTiming(160, {duration: 400}); // Adjust this value as needed
+        nameTranslateX.value = withTiming(160, {duration: 400});
       } else {
         avatarScale.value = startScale;
         avatarPosition.value = 0;
@@ -171,6 +171,7 @@ const ProfileScreen = () => {
                     width: 300,
                     height: 400,
                     cropping: true,
+                    maxFiles: 1,
                   })
                     .then(r => {
                       let formData = new FormData();
@@ -195,6 +196,8 @@ const ProfileScreen = () => {
                     width: 300,
                     height: 400,
                     cropping: true,
+                    useFrontCamera: true,
+                    waitAnimationEnd: true,
                   })
                     .then(r => {
                       let formData = new FormData();

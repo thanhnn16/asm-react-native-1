@@ -501,9 +501,9 @@ export const onboardingStyles = StyleSheet.create({
 
 export const imageStyles = StyleSheet.create({
   topLogo: {
-    width: 180,
-    height: 110,
-    marginTop: 48,
+    width: 160,
+    height: 90,
+    marginTop: 24,
     marginBottom: 32,
     objectFit: 'contain',
     alignSelf: 'center',
@@ -515,6 +515,10 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     width: screenWidth,
+  },
+  contentContainer: {
+    marginHorizontal: 24,
+    marginTop: 24,
   },
   text: {
     ...textStyles.regular,
@@ -842,5 +846,60 @@ export const buttonType = StyleSheet.create({
     color: '#FFF',
     textAlign: 'center',
     alignSelf: 'center',
+  },
+});
+
+export const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    height: 48,
+    fontSize: 14,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    marginVertical: 8,
+    borderWidth: 1,
+    borderColor: '#D1D5DB',
+    backgroundColor: '#F9FAFB',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+    height: 48,
+    fontSize: 14,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: '#D1D5DB',
+    backgroundColor: '#F9FAFB',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+});
+
+export const bottomBooking = StyleSheet.create({
+  container: {
+    position: 'absolute',
+    height: 96,
+    bottom: 0,
+    width: '100%',
+    backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderTopColor: '#E5E7EB',
+    padding: 24,
+  },
+  buttonContainer: {
+    backgroundColor: '#1C2A3A',
+    borderRadius: 50,
+    height: 48,
+    width: '100%',
+  },
+  buttonText: {
+    ...textStyles.bold,
+    color: '#fff',
+    fontSize: 16,
+    textAlign: 'center',
+    lineHeight: 48,
+    textTransform: 'uppercase',
   },
 });

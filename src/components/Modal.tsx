@@ -99,7 +99,7 @@ export const LoadingModal = ({isVisible, title}: LoadingModalProps) => {
               marginStyles.mt16,
               marginStyles.mb24,
             ]}>
-            {title}
+            {title || 'Đang tải dữ liệu'}
           </Text>
         </View>
       </View>

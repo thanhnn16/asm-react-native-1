@@ -4,7 +4,9 @@ import {Product, ProductsResponse} from './product.type.ts';
 
 export const productApi = createApi({
   reducerPath: 'productApi',
-  baseQuery: fetchBaseQuery({baseUrl: PRODUCT_URL}),
+  baseQuery: fetchBaseQuery({
+    baseUrl: PRODUCT_URL,
+  }),
   endpoints: builder => ({
     getProducts: builder.query<ProductsResponse, number>({
       query: (page = 1) => ({
@@ -16,7 +18,24 @@ export const productApi = createApi({
         url: `/${id}`,
       }),
     }),
+    getProductsByIds: builder.query<Product[], string[]>({
+      query: ids => ({
+        url: 'ids',
+        method: 'POST',
+        body: ids,
+      }),
+    }),
+    searchProducts: builder.query<Product[], string>({
+      query: search => ({
+        url: `search?q=${search}`,
+      }),
+    }),
   }),
 });
 
-export const {useGetProductsQuery, useGetProductQuery} = productApi;
+export const {
+  useGetProductsQuery,
+  useGetProductQuery,
+  useGetProductsByIdsQuery,
+  useSearchProductsQuery,
+} = productApi;

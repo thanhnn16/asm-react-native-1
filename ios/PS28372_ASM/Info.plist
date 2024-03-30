@@ -36,9 +36,11 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Chúng tôi cần quyền vị trí để có thể hỗ trợ các dịch vụ và giao hàng một cách nhanh chóng và chính xác</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Tải lên avatar</string>
+	<string>Cấp quyền truy cập vào thư viện ảnh để có thể tải lên ảnh đại diện của bạn</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Cấp quyền camera để cho phép truy cập vào máy ảnh</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Inter-VariableFont_slnt,wght.ttf</string>

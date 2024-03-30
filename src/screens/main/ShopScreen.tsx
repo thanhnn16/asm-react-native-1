@@ -26,8 +26,12 @@ import {
   useGetProductTypesQuery,
 } from '../../api/products/productTypes/productType.service.ts';
 import {ProductType} from '../../api/products/productTypes/productType.type.ts';
-import {useGetProductsQuery} from '../../api/products/product.service.ts';
+import {
+  useGetProductsQuery,
+  useSearchProductsQuery,
+} from '../../api/products/product.service.ts';
 
+// @ts-ignore
 const ShopScreen = ({navigation}) => {
   const [search, setSearch] = useState('');
   const [products, setProducts] = useState<Product[]>([]);
@@ -42,6 +46,7 @@ const ShopScreen = ({navigation}) => {
   const getProductsData = useGetProductsQuery(page);
   const getProductTypesData = useGetProductTypesQuery();
   const getProductByType = useGetProductByTypeQuery(selectedType);
+  const searchProducts = useSearchProductsQuery(search);
 
   const scrollY = useSharedValue(0);
   const prevScrollY = useSharedValue(0);
@@ -98,9 +103,12 @@ const ShopScreen = ({navigation}) => {
   });
 
   const handlerSearch = () => {
-    setLoading(true);
-    setLoading(false);
-    if (false) {
+    const {data, isFetching} = searchProducts;
+    setLoading(isFetching);
+    if (data) {
+      setProducts(data);
+      setSearch('');
+    } else if (!data) {
       Alert.alert(
         'Không tìm thấy sản phẩm',
         'Vui lòng nhập lại tên hoặc loại sản phẩm để tìm kiếm',
@@ -119,24 +127,6 @@ const ShopScreen = ({navigation}) => {
       ]);
     }
   };
-
-  // const loadMoreProducts = async () => {
-  //   if (search || selectedType !== '') {
-  //     return;
-  //   }
-  //   setLoadingMore(true);
-  //   const {data, error, isFetching} = useGetProductsQuery();
-  //   if (res.data === undefined) {
-  //     return;
-  //   }
-  //   const data = res.data;
-  //   if (selectedType === '') {
-  //     setProducts(prevProducts => [...prevProducts, ...data.products]);
-  //   } else {
-  //     setProducts(data.products);
-  //   }
-  //   setLoadingMore(false);
-  // };
 
   useEffect(() => {
     if (getProductsData.data) {
@@ -168,7 +158,7 @@ const ShopScreen = ({navigation}) => {
     if (selectedType === '') {
       setProducts(getProductsData.data?.products || []);
     }
-  }, [selectedType]);
+  }, [getProductsData.data?.products, selectedType]);
 
   return (
     <View style={styles.container}>

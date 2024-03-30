@@ -1,21 +1,17 @@
-import {
-  FlatList,
-  Image,
-  Pressable,
-  SafeAreaView,
-  Text,
-  View,
-} from 'react-native';
-import {marginStyles, styles} from '../../../assets/styles/MyStyles.tsx';
+import {SafeAreaView, Text, View} from 'react-native';
+import {styles} from '../../../assets/styles/MyStyles.tsx';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {useEffect, useState} from 'react';
-import {getFavoriteProducts} from '../../../utils/FavoriteController.ts';
-import {log} from 'react-native-bootsplash/dist/typescript/generate';
 import {LoadingModal} from '../../../components/Modal.tsx';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../../store/store.ts';
+import {useGetProductsByIdsQuery} from '../../../api/products/product.service.ts';
+import {useEffect} from 'react';
 
 const Tab = createMaterialTopTabNavigator();
 
-const FavoritesScreen = ({navigation, route}) => {
+// @ts-ignore
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const FavoritesScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <Tab.Navigator>
@@ -38,30 +34,28 @@ const FavoritesScreen = ({navigation, route}) => {
   );
 };
 
-const ProductFavorites = ({navigation, route}) => {
-  const [favoriteProducts, setFavoriteProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+const ProductFavorites = () => {
+  const favoriteProducts = useSelector(
+    (state: RootState) => state.productFavorite,
+  );
+  console.log(favoriteProducts);
 
-  // useEffect(() => {
-  //   const fetchFavoriteProducts = async () => {
-  //     try {
-  //       const favoriteIds = await getFavoriteProducts();
-  //       let products = [];
-  //       (favoriteIds.map(id => showProduct(Number(id)).then(res => {
-  //         console.log('fetching: ', id);
-  //         products.push(res);
-  //       })));
-  //       setFavoriteProducts(products);
-  //       console.log('done');
-  //     } catch (error) {
-  //       console.error("Error fetching favorite products:", error);
-  //     }
-  //   };
-  //   fetchFavoriteProducts().then(() => setIsLoading(false));
-  // }, []);
+  const {data, error, isLoading} = useGetProductsByIdsQuery(favoriteProducts);
+  console.log(data, error, isLoading);
+
+  useEffect(() => {
+    if (error) {
+      console.log(error);
+    }
+  }, [error]);
 
   return (
     <View style={{flex: 1, padding: 10, backgroundColor: 'white'}}>
+      {data && data.length > 0 ? (
+        <Text>{data.length}</Text>
+      ) : (
+        <Text>Chưa có sản phẩm yêu thích nào</Text>
+      )}
       <LoadingModal isVisible={isLoading} title={'Đang tải dữ liệu'} />
     </View>
   );
